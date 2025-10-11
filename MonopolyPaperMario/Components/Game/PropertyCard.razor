@@ -1,0 +1,12 @@
+﻿@namespace MonopolyPaperMario.Components.Game.PropertyCard
+
+<div class="property-card">
+    <div class="property-card-border">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

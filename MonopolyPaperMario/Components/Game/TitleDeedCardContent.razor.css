@@ -1,0 +1,23 @@
+﻿h1 {
+    font-size: 32px;
+    color: white;
+}
+
+h2 {
+    font-size: 14px;
+    color: white;
+}
+
+div {
+    font-size: 24px;
+}
+
+.title-deed-body-title {
+    border-radius: 6px;
+    background-color: var(--color-2);
+}
+
+.title-deed-body {
+    padding: 16px;
+}
+
