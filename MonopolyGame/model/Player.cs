@@ -4,11 +4,11 @@ class Player
 
     private bool preso;
 
-    private double dinheiro;
+    private int dinheiro;
 
     private bool cego;
 
-    public Player(double dinheiroInicial)
+    public Player(int dinheiroInicial)
     {
         dinheiro = dinheiroInicial;
         falido = false;
@@ -26,7 +26,7 @@ class Player
         this.preso=preso;
     }
 
-    public void setDinheiro(double dinheiro)
+    public void setDinheiro(int dinheiro)
     {
         this.dinheiro=dinheiro;
     }
