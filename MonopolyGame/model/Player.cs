@@ -8,12 +8,15 @@ class Player
 
     private bool cego;
 
-    public Player(int dinheiroInicial)
+    private PlayerPosition posicao;
+
+    public Player(int dinheiroInicial,PlayerPosition posicao)
     {
         dinheiro = dinheiroInicial;
         falido = false;
         preso = false;
         cego = false;
+        posicao = this.posicao;
     }
 
     public void setFalido(bool falido)
@@ -35,4 +38,6 @@ class Player
     {
         this.cego = cego;
     }
+
+    public void setPosicao(Pla)
 }
