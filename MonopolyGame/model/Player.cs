@@ -10,7 +10,7 @@ class Player
 
     private PlayerPosition posicao;
 
-    public Player(int dinheiroInicial,PlayerPosition posicao)
+    public Player(int dinheiroInicial, PlayerPosition posicao)
     {
         dinheiro = dinheiroInicial;
         falido = false;
@@ -19,14 +19,29 @@ class Player
         posicao = this.posicao;
     }
 
+    public bool getFalido(bool falido)
+    {
+        return falido;
+    }
+
     public void setFalido(bool falido)
     {
-        this.falido=falido;
+        this.falido = falido;
+    }
+    
+    public bool getPreso(bool preso)
+    {
+        return preso;
     }
 
     public void setPreso(bool preso)
     {
-        this.preso=preso;
+        this.preso = preso;
+    }
+    
+    public int getDinheiro(int dinheiro)
+    {
+        return dinheiro;
     }
 
     public void setDinheiro(int dinheiro)
@@ -34,10 +49,23 @@ class Player
         this.dinheiro=dinheiro;
     }
 
+    public bool getCego(bool cego)
+    {
+        return cego;
+    }
+
     public void setCego(bool cego)
     {
         this.cego = cego;
     }
 
-    public void setPosicao(Pla)
+    public PlayerPosition getPosicao(PlayerPosition posicao)
+    {
+        return posicao;
+    }
+
+    public void setPosicao(PlayerPosition posicao)
+    {
+        this.posicao = posicao;
+    }
 }
