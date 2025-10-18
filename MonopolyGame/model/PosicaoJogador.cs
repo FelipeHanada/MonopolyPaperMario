@@ -1,6 +1,6 @@
 using System.Reflection.Metadata;
 
-class PlayerPosition
+class PosicaoJogador
 {
 
     private int position;
@@ -9,7 +9,7 @@ class PlayerPosition
 
     private Player jogador;
 
-    public PlayerPosition(int position, BlobReader tabuleiro, Player jogador)
+    public PosicaoJogador(int position, BlobReader tabuleiro, Player jogador)
     {
         this.position = position;
         this.tabuleiro = tabuleiro;

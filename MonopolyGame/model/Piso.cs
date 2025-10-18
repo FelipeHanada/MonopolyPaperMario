@@ -1,4 +1,4 @@
-class Floor
+class Piso
 {
     private string nome;
 
