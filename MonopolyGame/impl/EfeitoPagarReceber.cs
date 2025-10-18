@@ -1,7 +1,7 @@
 using MonopolyPaperMario.Model; 
 using MonopolyPaperMario.Interface; 
 
-public class EffectPayAndReceive : IPlayerEffect
+public class EfeitoPagarReceber : IEfeitoJogador
 {
 
     public void Execute(Player pagador, Player recebedor, double quantia) 

@@ -1,4 +1,4 @@
-public class EffectGoToJail : IPlayerEffect
+public class EfeitoIrParaCadeia : IEfeitoJogador
 {
     public void Execute(Player jogador) 
     {
