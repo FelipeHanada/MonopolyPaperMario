@@ -1,8 +1,13 @@
-public class EfeitoSairDaCadeia: IEfeitoJogador
+using MonopolyPaperMario.Interface;
+
+namespace MonopolyPaperMario.Impl
 {
-    public void Execute(Player jogador) 
+    public class EfeitoSairDaCadeia : IEfeitoJogador
     {
-        jogador.SetPreso(false);
-       
+        public void Execute(Player jogador)
+        {
+            jogador.SetPreso(false);
+
+        }
     }
 }

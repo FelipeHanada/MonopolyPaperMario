@@ -1,9 +1,14 @@
-public class EfeitoIrParaCadeia : IEfeitoJogador
+using MonopolyPaperMario.Interface;
+
+namespace MonopolyPaperMario.Impl
 {
-    public void Execute(Player jogador) 
+    public class EfeitoIrParaCadeia : IEfeitoJogador
     {
-        jogador.SetPreso(true);
-        // jogador.MoverParaPosicao(10); // posição da cadeia
+        public void Execute(Player jogador)
+        {
+            jogador.SetPreso(true);
+            // jogador.MoverParaPosicao(10); // posição da cadeia
+        }
+
     }
-    
 }

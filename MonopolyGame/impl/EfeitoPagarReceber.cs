@@ -1,18 +1,21 @@
 using MonopolyPaperMario.Model; 
-using MonopolyPaperMario.Interface; 
+using MonopolyPaperMario.Interface;
 
-public class EfeitoPagarReceber : IEfeitoJogador
+namespace MonopolyPaperMario.Impl
 {
-
-    public void Execute(Player pagador, Player recebedor, double quantia) 
+    public class EfeitoPagarReceber : IEfeitoJogador
     {
-        // 1. Calcular o novo dinheiro do pagador
-        double novoDinheiroPagador = pagador.getDinheiro() - quantia;
-        pagador.setDinheiro(novoDinheiroPagador);
 
-        // 2. Calcular o novo dinheiro do recebedor
-        double novoDinheiroRecebedor = recebedor.getDinheiro() + quantia;
-        recebedor.setDinheiro(novoDinheiroRecebedor);
+        public void Execute(Player pagador, Player recebedor, double quantia)
+        {
+            // 1. Calcular o novo dinheiro do pagador
+            double novoDinheiroPagador = pagador.getDinheiro() - quantia;
+            pagador.setDinheiro(novoDinheiroPagador);
+
+            // 2. Calcular o novo dinheiro do recebedor
+            double novoDinheiroRecebedor = recebedor.getDinheiro() + quantia;
+            recebedor.setDinheiro(novoDinheiroRecebedor);
+        }
+
     }
-
 }
