@@ -1,20 +1,23 @@
-class Piso
+namespace MonopolyPaperMario.model
 {
-    private string nome;
-
-    public Floor(string nome)
+    class Piso
     {
-        nome = nome;
-    }
+        private string nome;
 
-    public getNome(string nome)
-    {
-        return nome;
-    }
+        public Floor(string nome)
+        {
+            nome = nome;
+        }
 
-    public void setNome(string nome)
-    {
-        this.nome = nome;
-    }
+        public getNome(string nome)
+        {
+            return nome;
+        }
 
+        public void setNome(string nome)
+        {
+            this.nome = nome;
+        }
+
+    }
 }

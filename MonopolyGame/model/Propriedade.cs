@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonpolyMario.Components.Game.Model
+namespace MonopolyPaperMario.model
 {
     abstract class Propriedade:PosseJogador
     {
