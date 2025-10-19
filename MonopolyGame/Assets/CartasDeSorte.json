@@ -1,0 +1,117 @@
+[
+  {
+    "id": 1,
+    "nome": "Groove Guy Tonto",
+    "texto": "Groove Guy te deixou tonto. Agora você vai se mover pelo lado ao contrário no próximo turno.",
+    "tipo": "efeito",
+    "efeito": "movimentacao_reversa_1_turno"
+  },
+  {
+    "id": 2,
+    "nome": "Bowser!",
+    "texto": "Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.",
+    "tipo": "efeito",
+    "efeito": "evento_batalha_bowser"
+  },
+  {
+    "id": 3,
+    "nome": "Chill Out (Muskular)",
+    "texto": "Muskular ativou seu poder chill out. Durante 3 turnos todas as propriedades, custos de aluguéis, companhias e dívidas terão desconto de 30%.",
+    "tipo": "efeito_temporario",
+    "efeito": "desconto_30_3_turnos"
+  },
+  {
+    "id": 4,
+    "nome": "Timeout (Klevar)",
+    "texto": "Klevar ativou seu poder timeout. Se o dado do jogador for menor que um número (1 a 8), ele ficará 1 turno sem jogar.",
+    "tipo": "efeito",
+    "efeito": "rolagem_timeout_1_turno"
+  },
+  {
+    "id": 5,
+    "nome": "Star Beam",
+    "texto": "Você tem em mãos a Star Beam, use-a para derrotar o Bowser em uma batalha.",
+    "tipo": "efeito",
+    "efeito": "item_star_beam"
+  },
+  {
+    "id": 6,
+    "nome": "Spiny Tromp",
+    "texto": "Oh não, um Spiny Tromp. Fujam dele e parem na primeira ponta a frente (Início ou Passe Livre).",
+    "tipo": "movimento",
+    "efeito": "mover_para_proxima_ponta"
+  },
+  {
+    "id": 7,
+    "nome": "Tubo de Cano",
+    "texto": "Você encontrou uma passagem em um cano. Troque de lugar com outro jogador.",
+    "tipo": "movimento_jogador",
+    "efeito": "troca_posicao_jogador"
+  },
+  {
+    "id": 8,
+    "nome": "Sentinels",
+    "texto": "Os Sentinels pegaram todos os jogadores e os trocaram de lugar uns com os outros (primeiro com o segundo, segundo com o terceiro, ... e o último com o primeiro).",
+    "tipo": "movimento_global",
+    "efeito": "rotacao_posicao_jogadores"
+  },
+  {
+    "id": 9,
+    "nome": "Tinta Blooper",
+    "texto": "Blooper jogou tinta em você e você não pode ver nada. Fique 1 rodada sem comprar qualquer propriedade ou companhia.",
+    "tipo": "efeito_temporario",
+    "efeito": "nao_comprar_1_turno"
+  },
+  {
+    "id": 10,
+    "nome": "Duplighost",
+    "texto": "Duplighost apareceu e se transformou em um jogador. Ele pagará todas as suas despesas com propriedades e aluguéis no próximo turno.",
+    "tipo": "efeito_temporario",
+    "efeito": "despesas_pagas_1_turno"
+  },
+  {
+    "id": 11,
+    "nome": "Life Shroom",
+    "texto": "Você ganhou um Life Shroom. Caso você fique com 0 de dinheiro, ganhará 1000 extra.",
+    "tipo": "efeito_condicional",
+    "efeito": "bonus_falencia",
+    "valor": 1000
+  },
+  {
+    "id": 12,
+    "nome": "Red Magikoopa",
+    "texto": "Red Magikoopa te deu um boost e agora você pode jogar 2 vezes no mesmo turno.",
+    "tipo": "efeito",
+    "efeito": "jogar_2_vezes"
+  },
+  {
+    "id": 13,
+    "nome": "Lava do Vulcão",
+    "texto": "Você se queimou na lava do vulcão, volte 3 casas.",
+    "tipo": "movimento",
+    "efeito": "voltar_3_casas"
+  },
+  {
+    "id": 14,
+    "nome": "Martelo",
+    "texto": "Você encontrou o martelo e quebrou o bloco que bloqueava a passagem para Toad Town, avance 3 casas.",
+    "tipo": "movimento",
+    "efeito": "avancar_3_casas"
+  },
+  {
+    "id": 15,
+    "nome": "Yellow Magikoopa",
+    "texto": "Yellow Magikoopa ativou sua mágica e agora todos que passarem por você no próximo turno perderão 100 moedas.",
+    "tipo": "efeito_temporario",
+    "efeito": "penalidade_passagem_1_turno",
+    "valor_penalidade": -100
+  },
+  {
+    "id": 16,
+    "nome": "Pé de Feijão",
+    "texto": "Você plantou o pé de feijão que te levou até as nuvens. Ao sair, você retornou para Toad Town (pare na partida e ganhe 200).",
+    "tipo": "movimento_e_receber",
+    "efeito": "mover_para_inicio",
+    "valor": 200
+  }
+]

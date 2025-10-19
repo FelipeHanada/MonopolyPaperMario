@@ -2,9 +2,10 @@
 namespace MonopolyPaperMario.model
 {
 
-    class CartaSorte:CartaInstantanea
+    override
+    class CartaSorte : CartaInstantanea
     {
-        
+
     }
 
 }
