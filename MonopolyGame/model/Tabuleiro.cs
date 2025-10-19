@@ -1,8 +1,12 @@
-class Tabuleiro
+
+namespace MonopolyPaperMario.model
 {
-    private List<<PosicaoJogador> posicaoJogadores;
+    class Tabuleiro
+    {
+        private List<PosicaoJogador> posicaoJogadores;
 
-    private List<AsyncFlowControl> pisos;
+        private List<Piso> pisos;
 
 
+    }
 }

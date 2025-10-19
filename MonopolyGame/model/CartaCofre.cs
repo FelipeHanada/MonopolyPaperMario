@@ -1,9 +1,10 @@
-using MonopolyPaperMario.impl;
 
 namespace MonopolyPaperMario.model
 {
-    class Deck
+
+    class CartaCofre:CartaInstantanea
     {
         
     }
+
 }
