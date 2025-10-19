@@ -9,8 +9,13 @@ namespace MonopolyPaperMario.Impl
     private int quantidade = 1;
 
         private Propriedade propriedade;
+        private int valor = propriedade.getDinheiro;
 
-        
+        public void Execute(Jogador jogador)
+        {
+            jogador.transferirDinheiroPara(jogador, valor);
+        }
+
 }   
 
 }

@@ -7,7 +7,7 @@ namespace MonopolyPaperMario.model
         
 
 
-    public void QuandoPegada(Player jogador)
+    public abstract void QuandoPegada(Jogador jogador)
         {
             
         }      

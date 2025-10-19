@@ -45,13 +45,38 @@ namespace MonopolyPaperMario.model
         }
         public void transferirDinheiroPara(Jogador jogador, int valor)
         {
-            if (this.dinheiro<valor)
+            if (this.dinheiro < valor)
             {
                 throw new FundosInsuficientesException(this);
             }
             this.dinheiro -= valor;
-            jogador.setDinheiro(jogador.getDinheiro()+valor);
+            jogador.setDinheiro(jogador.getDinheiro() + valor);
         }
+        
+        public void mudarDinheiro(int valor)
+        {
+        // Se o valor for positivo, o jogador recebe dinheiro.
+        // Se o valor for negativo, o jogador paga dinheiro.
+    
+        // Verifica se a operação é um PAGAMENTO (valor negativo)
+            if (valor < 0) 
+            {
+                int valorAbsoluto = Math.Abs(valor);
+        
+            // Verifica se há fundos suficientes antes de pagar
+                if (this.dinheiro < valorAbsoluto)
+                {
+            // Você pode lançar uma exceção ou lidar com a falência aqui.
+            // Vou usar a mesma lógica que o seu transferirDinheiroPara faria.
+                    throw new FundosInsuficientesException(this);
+                }
+            }
+    
+        // Se for RECEBIMENTO (valor positivo) ou PAGAMENTO com fundos OK,
+        // o dinheiro é alterado.
+            this.dinheiro += valor;
+        }
+        
         public void setFalido(bool falido)
         {
             this.falido = falido;
