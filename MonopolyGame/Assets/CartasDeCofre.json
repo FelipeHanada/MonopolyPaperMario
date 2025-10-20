@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "nome": "Chuck Quizmo",
+    "texto": "Você acertou a questão do Chuck Quizmo!",
+    "valor": 50,
+    "tipo": "receber"
+  },
+  {
+    "id": 2,
+    "nome": "Bandits",
+    "texto": "Bandits roubaram parte das suas moedas.",
+    "valor": -50,
+    "tipo": "pagar"
+  },
+  {
+    "id": 3,
+    "nome": "Ketch'n Koopa",
+    "texto": "Ketch'n Koopa está bloqueando a sua passagem e você o subornou.",
+    "valor": -100,
+    "tipo": "pagar"
+  },
+  {
+    "id": 4,
+    "nome": "Playground",
+    "texto": "Você ganhou o jogo no playground.",
+    "valor": 100,
+    "tipo": "receber"
+  },
+  {
+    "id": 5,
+    "nome": "Shopping",
+    "texto": "Você está com HP baixo e precisou ir no shopping comprar itens para restaurar sua saúde.",
+    "valor": -80,
+    "tipo": "pagar"
+  },
+  {
+    "id": 6,
+    "nome": "Whacka",
+    "texto": "Você bateu no Whacka, recebeu um bump valioso e o vendeu na Toad's Town.",
+    "valor": 65,
+    "tipo": "receber"
+  },
+  {
+    "id": 7,
+    "nome": "Mistar",
+    "texto": "Você salvou a Mistar e com a ajuda dela você conseguiu vencer os inimigos.",
+    "valor": 200,
+    "tipo": "receber"
+  },
+  {
+    "id": 8,
+    "nome": "Ralph's Shop",
+    "texto": "Você foi na loja de badges do Ralph's Shop e gastou demais.",
+    "valor": -150,
+    "tipo": "pagar"
+  },
+  {
+    "id": 9,
+    "nome": "Mágica da Merlee",
+    "texto": "A mágica da Merlee foi ativada e você recebeu mais dinheiro que o previsto.",
+    "valor": 80,
+    "tipo": "receber"
+  },
+  {
+    "id": 10,
+    "nome": "Tayce.T",
+    "texto": "Você misturou na cozinha da Tayce.T um ultra shroom com uma stone cap e saiu um mistake.",
+    "valor": -80,
+    "tipo": "pagar"
+  },
+  {
+    "id": 11,
+    "nome": "Merluvelee",
+    "texto": "Você consultou Merluvelee e encontrou todas as Star Pieces do jogo. Parabéns.",
+    "valor": 80,
+    "tipo": "receber"
+  },
+  {
+    "id": 12,
+    "nome": "Koopa Koot",
+    "texto": "Você ajudou o Koopa Koot e ganhou acesso ao playground exclusivo.",
+    "valor": 100,
+    "tipo": "receber"
+  },
+  {
+    "id": 13,
+    "nome": "Chet Rippo",
+    "texto": "Seus stats estão desbalanceados e você pediu para Chet Rippo balanceá-los.",
+    "valor": -65,
+    "tipo": "pagar"
+  },
+  {
+    "id": 14,
+    "nome": "Yoshis Kids",
+    "texto": "Você conseguiu encontrar todos os Yoshis Kids perdidos na floresta. Parabéns.",
+    "valor": 120,
+    "tipo": "receber"
+  },
+  {
+    "id": 15,
+    "nome": "Anti-Guy Squad",
+    "texto": "Oh não, você errou 3 questões no castelo do Bowser e gastou todos os itens para derrotar o esquadrão Anti-Guy.",
+    "valor": -120,
+    "tipo": "pagar"
+  },
+  {
+    "id": 16,
+    "nome": "Rip Cheato",
+    "texto": "Você comprou um Dried Shroom com o Rip Cheato.",
+    "valor": -60,
+    "tipo": "pagar"
+  }
+]
