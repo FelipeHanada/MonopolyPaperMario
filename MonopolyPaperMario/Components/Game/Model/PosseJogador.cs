@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MonpolyMario.Components.Game.Model
 {
-    abstract class PosseJogador
+    public abstract class PosseJogador
     {
         private Jogador dono;
         private String nome;

@@ -20,7 +20,16 @@ namespace MonpolyMario.Components.Game.Model
         {
             if (partida == null)
             {
+
                 partida = new Partida(jogadores);
+            }
+            return partida;
+        }
+        public static Partida getPartida()
+        {
+            if (partida == null)
+            {
+                throw new JogadoresNaoInformadosException();
             }
             return partida;
         }
@@ -36,6 +45,10 @@ namespace MonpolyMario.Components.Game.Model
         public Jogador getJogadorAtual()
         {
             return this.jogadores[turno];
+        }
+        public Jogador[] getJogadores()
+        {
+            return this.jogadores;
         }
         public int getTurno()
         {

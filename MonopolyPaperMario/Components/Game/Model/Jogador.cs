@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonpolyMario.Components.Game.Model
 {
-    class Jogador
+    public class Jogador
     {
         public Jogador(String nome)
         {
@@ -71,6 +71,10 @@ namespace MonpolyMario.Components.Game.Model
         public String getNome()
         {
             return nome;
+        }
+        public PosseJogador[] getPosses()
+        {
+            return this.posses;
         }
         public int getDinheiro()
         {
