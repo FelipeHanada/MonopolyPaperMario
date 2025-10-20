@@ -37,6 +37,10 @@ namespace MonopolyPaperMario.model
         {
             return this.jogadores[turno];
         }
+        public jogador[] getjogadores()
+        {
+            return this.jogadores;
+        }
         public int getTurno()
         {
             return this.turno;
