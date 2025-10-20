@@ -1,0 +1,37 @@
+﻿<div class="tile">
+    @ChildContent
+
+    <div class="characters">
+        @for (int i = 0; i < DisplayCharacters.Length; i++)
+        {
+            if (DisplayCharacters[i])
+            {
+                <div class="character-pawn-img-wrapper">
+                    <img src="@PathByCharId[i]"
+                         class="character-pawn"
+                         />
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private static readonly string[] PathByCharId =
+    {
+        "assets/characters/mario.png",
+        "assets/characters/kooper.png",
+        "assets/characters/bombette.png",
+        "assets/characters/goombario.png",
+        "assets/characters/lakilester.png",
+        "assets/characters/parakarry.png",
+    };
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public bool Horizontal { get; set; } = true;
+
+    [Parameter] public int StreetSize { get; set; } = 1;
+
+    [Parameter] public bool[] DisplayCharacters { get; set; } = { false, false, false, false, false, false };
+}

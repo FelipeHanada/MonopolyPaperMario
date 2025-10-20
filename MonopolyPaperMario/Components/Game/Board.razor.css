@@ -87,3 +87,21 @@
     width: 100%;
     height: calc(100% / 9);
 }
+
+
+.street-tile-icon {
+    width: 48px;
+    height: 48px;
+}
+
+#street-2 .street-tile-icon {
+    transform: rotate(90deg);
+}
+
+#street-3 .street-tile-icon {
+    transform: rotate(180deg);
+}
+
+#street-4 .street-tile-icon {
+    transform: rotate(-90deg);
+}

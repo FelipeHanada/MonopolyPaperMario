@@ -17,10 +17,7 @@
             <h3 class="tile-title">@Title</h3>
         }
 
-        @if (!string.IsNullOrEmpty(Image))
-        {
-            <img src="@Image" alt="@Title" class="tile-image" />
-        }
+        @ChildContent
 
         @if (Cost is not null)
         {
@@ -41,7 +38,9 @@
 
     [Parameter] public string? Title { get; set; }
     [Parameter] public string? Color { get; set; }
-    [Parameter] public string? Image { get; set; }
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
     [Parameter] public int? Cost { get; set; }
     [Parameter] public int? HousingLevel { get; set; }
     [Parameter] public int Rotation { get; set; } = 0;

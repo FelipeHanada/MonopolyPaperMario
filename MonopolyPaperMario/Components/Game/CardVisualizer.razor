@@ -1,27 +1,38 @@
-﻿@namespace MonopolyPaperMario.Components.Game.CardVisualizer
+﻿@namespace MonopolyPaperMario.Components.Game.PlayerUI
+@using MonopolyPaperMario.Components.Game.PropertyCard
 
-<div class="container">
-    <div class="row g-3 mb-3">
-        <div class="col-6">
-            <button class="btn btn-primary w-100">Comprar Casa</button>
-        </div>
-        <div class="col-6">
-            <button class="btn btn-success w-100">Comprar Hotel</button>
-        </div>
-    </div>
+<div class="w-25 h-100 d-flex flex-column align-items-center justify-content-center gap-2">
+    <PropertyCard>
+        <TitleDeedCardContent PropertyName="Parada do Mario"
+                              Rents="new int[] { 2, 10, 30, 90, 160, 250 }"
+                              MortgageValue="10"
+                              HouseCost="50"
+                              HotelCost="50" />
+    </PropertyCard>
 
-    <div class="row g-3">
-        <div class="col-6">
-            <button class="btn btn-danger btn-hipotecar w-100">Hipotecar</button>
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-casa">Comprar Casa</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-hotel">Comprar Hotel</button>
+            </div>
         </div>
-        <div class="col-6">
-            <button class="btn btn-warning btn-deshipotecar w-100">Deshipotecar</button>
-        </div>
-    </div>
 
-    <div class="row mt-3">
-        <div class="col-12">
-            <button class="btn btn-secondary w-100">Fazer Leilão</button>
+        <div class="row mb-2">
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-hipotecar">Hipotecar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-deshipotecar">Deshipotecar</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary w-100 btn-leilao">Fazer Leilão</button>
+            </div>
         </div>
     </div>
 </div>
