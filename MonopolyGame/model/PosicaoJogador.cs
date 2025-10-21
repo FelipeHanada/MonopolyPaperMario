@@ -6,11 +6,11 @@ namespace MonopolyPaperMario.model
 
         private int position;
 
-        private BlobReader tabuleiro;
+        private Tabuleiro tabuleiro;
 
-        private Player jogador;
+        private Jogador jogador;
 
-        public PosicaoJogador(int position, BlobReader tabuleiro, Player jogador)
+        public PosicaoJogador(int position, Tabuleiro tabuleiro, Player jogador)
         {
             this.position = position;
             this.tabuleiro = tabuleiro;
@@ -26,6 +26,11 @@ namespace MonopolyPaperMario.model
         {
 
             this.position = position;
+        }
+
+        public Jogador getJogador()
+        {
+            return jogador;
         }
 
 
