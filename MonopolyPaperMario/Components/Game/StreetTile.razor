@@ -6,7 +6,7 @@
         <div class="tile-color" style="background-color:@Color">
             @if (HousingLevel is not null && HousingLevel.Value >= 0 && HousingLevel.Value < PathByHousingLevel.Length)
             {
-                <img class="housing-marker" src="@PathByHousingLevel[HousingLevel.Value]" alt="Housing level: @(HousingLevel)" />
+                <img class="housing-marker" src="@PathByHousingLevel[HousingLevel.Value]" />
             }
         </div>
     }
@@ -21,7 +21,7 @@
 
         @if (Cost is not null)
         {
-            <span class="tile-cost">$@Cost</span>
+            <span class="tile-cost">★@Cost</span>
         }
     </div>
 </div>

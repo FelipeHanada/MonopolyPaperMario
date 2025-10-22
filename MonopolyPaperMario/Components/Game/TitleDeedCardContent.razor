@@ -35,12 +35,12 @@
 </div>
 
 @code {
-    [Parameter] public string PropertyName { get; set; } = "Nome da Propriedade";
+    [Parameter] public required string PropertyName { get; set; }
 
-    // Rents[0] = aluguel base, Rents[1..4] = casas, Rents[^1] = hotel
-    [Parameter] public int[] Rents { get; set; } = new int[] { 2, 10, 30, 90, 160, 250 };
+    // Rents[0] = aluguel base, Rents[1..4] = casas, Rents[5] = hotel
+    [Parameter] public required int[] Rents { get; set; }
 
-    [Parameter] public int MortgageValue { get; set; } = 10;
+    [Parameter] public required int MortgageValue { get; set; }
     [Parameter] public int HouseCost { get; set; } = 50;
     [Parameter] public int HotelCost { get; set; } = 50;
 }

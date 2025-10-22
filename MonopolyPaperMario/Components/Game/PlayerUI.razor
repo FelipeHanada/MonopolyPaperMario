@@ -1,21 +1,68 @@
 ﻿@namespace MonopolyPaperMario.Components.Game.PlayerUI
+@using MonopolyPaperMario.Components.Stores
 
-<div class="w-25 h-100 d-flex flex-column align-items-center justify-content-center gap-2">
-    <div class="container flex-column align-items-center">
-        <h2>HISTÓRICO DE JOGADAS</h2>
-        <div class="container w-100 d-flex flex-column justify-content-center">
+
+<div class="player-ui w-25 d-flex flex-column align-items-center justify-content-center gap-2">
+    <div class="previous-plays container d-flex flex-column align-items-center">
+        <h2 class="text-center">HISTÓRICO DE JOGADAS</h2>
+
+        <div class="previous-plays-content overflow-auto w-100 container d-flex flex-column justify-content-start">
             <span>m1</span>
             <span>m2</span>
             <span>m3</span>
             <span>m4</span>
             <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
+            <span>m5</span>
         </div>
     </div>
-    <div>
-        <h2>VEZ DO JOGADOR 1</h2>
+    <div class="player-turn-counter">
+        <h2>VEZ DO JOGADOR @(CurrentPlayer + 1)</h2>
+    </div>
+
+    <div class="player-bar">
+        @for (int i = 0; i < 6; i++)
+        {
+            <div class="player-bar-character @(CurrentPlayer == i ? "bar-current-player" : "")">
+                <img src="@spriteStore.GetSpritePath(i)" />
+            </div>
+        }
+    </div>
+
+    <div class="current-player">
+        <img src="@spriteStore.GetSpritePath(CurrentPlayer)"/>
+        <div class="current-player-offset"></div>
+        <div class="current-player-ui container d-flex flex-column justify-content-center">
+            <div class="row m-1 mt-3">
+                <h2 class="col-8 p-0">Dinheiro:</h2>
+                <h2 class="col-4 p-0 text-md-end">1500★</h2>
+            </div>
+            <div class="row m-1">
+                <button
+                    class="btn btn-primary col-8"
+                    @onclick="() => CurrentPlayer = (CurrentPlayer + 1) % 6">
+                    Passar a Vez
+                </button>
+
+                <div class="col-4 d-flex pe-0 justify-content-around">
+                    <img class="dice" src="/assets/icon/dices/dice-four-solid-full.svg" />
+                    <img class="dice" src="/assets/icon/dices/dice-five-solid-full.svg" />
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @code {
+    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
 
+    [Parameter] public int CurrentPlayer { get; set; } = 0;
 }
