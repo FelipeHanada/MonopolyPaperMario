@@ -15,6 +15,9 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public int TurnosPreso { get; private set; }
         public List<IPosseJogador> Posses { get; }
+        public bool Reverso { get; set; }
+        public int Desconto { get; set; }
+        public bool PodeComprar { get; set; }
 
         public Jogador(string nome, int dinheiroInicial = 1500)
         {
