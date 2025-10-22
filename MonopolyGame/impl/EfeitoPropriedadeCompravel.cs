@@ -1,11 +1,71 @@
-using MonopolyPaperMario.Interface;
-using MonopolyPaperMario.model;
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
+using System;
 
-namespace MonopolyPaperMario.Impl
+namespace MonopolyPaperMario.MonopolyGame.Impl
 {
-    public class EfeitoPropriedadeCompravel : Propriedade, IEfeitoJogador
+    public class EfeitoPropriedadeCompravel : IEfeitoJogador
     {
+        private readonly Propriedade propriedade;
+        private readonly Partida partida;
 
+        public EfeitoPropriedadeCompravel(Propriedade propriedade, Partida partida)
+        {
+            this.propriedade = propriedade ?? throw new ArgumentNullException(nameof(propriedade));
+            this.partida = partida ?? throw new ArgumentNullException(nameof(partida));
+        }
+
+        public void Execute(Jogador jogador)
+        {
+            if (jogador == null) throw new ArgumentNullException(nameof(jogador));
+
+            // Se a propriedade tem dono, calcula e cobra o aluguel.
+            if (propriedade.Proprietario != null)
+            {
+                if (propriedade.Proprietario != jogador && !propriedade.Hipotecada)
+                {
+                    int aluguel = propriedade.CalcularPagamento(jogador);
+                    Console.WriteLine($"Esta propriedade pertence a {propriedade.Proprietario.Nome}. Você deve pagar ${aluguel} de aluguel.");
+                    jogador.TransferirDinheiroPara(propriedade.Proprietario, aluguel);
+                }
+                else if (propriedade.Proprietario == jogador)
+                {
+                    Console.WriteLine("Você parou em sua própria propriedade.");
+                }
+                else if (propriedade.Hipotecada)
+                {
+                    Console.WriteLine($"A propriedade {propriedade.Nome} está hipotecada. Nenhum aluguel é devido.");
+                }
+                return;
+            }
+
+            // Se a propriedade não tem dono, oferece para compra.
+            Console.WriteLine($"A propriedade {propriedade.Nome} está à venda por ${propriedade.Preco}.");
+            Console.Write($"{jogador.Nome}, você deseja comprar? (s/n): ");
+            string? resposta = Console.ReadLine()?.Trim().ToLower();
+
+            if (resposta == "s")
+            {
+                if (jogador.Dinheiro >= propriedade.Preco)
+                {
+                    jogador.Debitar(propriedade.Preco);
+                    propriedade.Proprietario = jogador;
+                    jogador.AdicionarPropriedade(propriedade);
+                    Console.WriteLine($"Parabéns! {jogador.Nome} comprou {propriedade.Nome}.");
+                }
+                else
+                {
+                    Console.WriteLine("Você não tem dinheiro suficiente. A propriedade irá a leilão.");
+                    // Corrigido: Chama o método a partir do Singleton TurnoJogador
+                    TurnoJogador.Instance.IniciarLeilao(propriedade);
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{jogador.Nome} decidiu não comprar. A propriedade irá a leilão.");
+                // Corrigido: Chama o método a partir do Singleton TurnoJogador
+                TurnoJogador.Instance.IniciarLeilao(propriedade);
+            }
+        }
     }
-
 }

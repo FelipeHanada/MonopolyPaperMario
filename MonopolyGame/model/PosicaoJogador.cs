@@ -1,38 +1,16 @@
-using System.Reflection.Metadata;
-namespace MonopolyPaperMario.model
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    class PosicaoJogador
+    public class PosicaoJogador
     {
+        public int PosicaoAtual { get; set; }
+        public Tabuleiro Tabuleiro { get; private set; }
+        public Jogador Jogador { get; private set; }
 
-        private int position;
-
-        private Tabuleiro tabuleiro;
-
-        private Jogador jogador;
-
-        public PosicaoJogador(int position, Tabuleiro tabuleiro, Player jogador)
+        public PosicaoJogador(Jogador jogador, Tabuleiro tabuleiro, int posicaoInicial = 0)
         {
-            this.position = position;
-            this.tabuleiro = tabuleiro;
-            this.jogador = jogador;
+            this.Jogador = jogador;
+            this.Tabuleiro = tabuleiro;
+            this.PosicaoAtual = posicaoInicial;
         }
-
-        public getPosition(int position)
-        {
-            return position;
-        }
-
-        public void setPosition(int position)
-        {
-
-            this.position = position;
-        }
-
-        public Jogador getJogador()
-        {
-            return jogador;
-        }
-
-
     }
 }

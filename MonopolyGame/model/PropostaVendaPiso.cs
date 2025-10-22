@@ -1,42 +1,18 @@
-using System;
-using MonpolyMario.Components.Game.Model;
-
-public class PropostaVendaPiso : PropostaVenda
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    private Leilao? leilao;
-    private Jogador jogador;
-    private PosseJogador posseRequisitada;
-    private int preco;
-
-    public PropostaVendaPiso(int preco, PosseJogador posseRequisitada, Jogador jogador)
-     : base(preco, posseRequisitada, jogador)
+    public class PropostaVendaPiso
     {
-        this.preco = preco;
-        this.posseRequisitada = posseRequisitada;
-        this.jogador = jogador;
-    }
+        public Jogador Vendedor { get; private set; }
+        public Jogador Comprador { get; private set; }
+        public Propriedade Propriedade { get; private set; }
+        public int Valor { get; private set; }
 
-    public new bool SerAceito()
-    {
-        string nome = jogador.getNome();
-        Console.Write($"{nome} aceita a proposta? (S/N)");
-
-        string resposta = Console.ReadLine();
-
-        if (resposta.ToLower() == "s" || resposta.ToLower() == "sim")
+        public PropostaVendaPiso(Jogador vendedor, Jogador comprador, Propriedade propriedade, int valor)
         {
-
-            Console.Write("Proposta aceita!");
-            return true;
-        }
-        else
-        {
-            Console.Write("Proposta Recusada!");
-
-            leilao = new Leilao(posseRequisitada, jogador);
-            leilao.ExecutarLeilao();
-
-            return false;
+            Vendedor = vendedor;
+            Comprador = comprador;
+            Propriedade = propriedade;
+            Valor = valor;
         }
     }
 }

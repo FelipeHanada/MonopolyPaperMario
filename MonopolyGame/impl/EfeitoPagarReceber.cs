@@ -1,21 +1,41 @@
-using MonopolyPaperMario.Interface;
-using MonopolyPaperMario.model;
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
+using System;
 
-namespace MonopolyPaperMario.Impl
+namespace MonopolyPaperMario.MonopolyGame.Impl
 {
     public class EfeitoPagarReceber : IEfeitoJogador
     {
+        public int Valor { get; private set; }
 
-        public void Execute(Joagador pagador, Joagador recebedor, int quantia)
+        public EfeitoPagarReceber(int valor)
         {
-            // 1. Calcular o novo dinheiro do pagador
-            int novoDinheiroPagador = pagador.getDinheiro() - quantia;
-            pagador.setDinheiro(novoDinheiroPagador);
-
-            // 2. Calcular o novo dinheiro do recebedor
-            int novoDinheiroRecebedor = recebedor.getDinheiro() + quantia;
-            recebedor.setDinheiro(novoDinheiroRecebedor);
+            this.Valor = valor;
         }
 
+        public void Execute(Jogador jogador)
+        {
+            if (jogador == null) throw new ArgumentNullException(nameof(jogador));
+
+            if (Valor > 0)
+            {
+                jogador.Creditar(Valor);
+                Console.WriteLine($"{jogador.Nome} recebeu ${Valor}.");
+            }
+            else if (Valor < 0)
+            {
+                int valorAbsoluto = Math.Abs(Valor);
+                try
+                {
+                    jogador.Debitar(valorAbsoluto);
+                    Console.WriteLine($"{jogador.Nome} pagou ${valorAbsoluto}.");
+                }
+                catch (Exceptions.FundosInsuficientesException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    jogador.SetFalido(true);
+                }
+            }
+        }
     }
 }

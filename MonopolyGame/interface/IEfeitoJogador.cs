@@ -1,7 +1,9 @@
-namespace MonopolyGame.Interfaces
+using MonopolyPaperMario.MonopolyGame.Model;
+
+namespace MonopolyPaperMario.MonopolyGame.Interface
 {
     public interface IEfeitoJogador
     {
-        void Execute(MonopolyGame.Player player);
+        void Execute(Jogador jogador);
     }
 }

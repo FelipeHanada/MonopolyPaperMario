@@ -2,8 +2,8 @@ using MonopolyPaperMario.MonopolyGame.Model;
 
 namespace MonopolyPaperMario.MonopolyGame.Interface
 {
-    public interface ICarta
+    public interface IDeck
     {
-        void QuandoPegada(Jogador jogador);
+        ICarta? ComprarCarta();
     }
 }

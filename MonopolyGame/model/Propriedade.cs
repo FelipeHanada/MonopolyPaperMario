@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MonopolyPaperMario.MonopolyGame.Interface;
 
-namespace MonopolyPaperMario.model
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    abstract class Propriedade:PosseJogador
+    public abstract class Propriedade : IPosseJogador
     {
-        private bool hipotecado;
-        private int valorHipoteca;
+        public string Nome { get; private set; }
+        public int Preco { get; private set; }
+        public int Hipoteca { get; private set; }
+        public bool Hipotecada { get; private set; }
+        public Jogador? Proprietario { get; set; }
 
-        public bool isHipotecado()
+        protected Propriedade(string nome, int preco)
         {
-            return hipotecado;
+            this.Nome = nome;
+            this.Preco = preco;
+            this.Hipoteca = preco / 2;
+            this.Hipotecada = false;
+            this.Proprietario = null;
         }
-        public int getValorHipoteca()
-        {
-            return valorHipoteca;
-        }
-        public void setHipotecado(bool hipotecado)
-        {
-            this.hipotecado = hipotecado;
-        }
-        public void setValorHipoteca(int hipoteca)
-        {
-            this.valorHipoteca = hipoteca;
-        }
-        public abstract int calculaPagamento();
 
+        public abstract int CalcularPagamento(Jogador jogador);
+
+        public void SetHipotecada(bool hipotecada)
+        {
+            this.Hipotecada = hipotecada;
+        }
     }
 }

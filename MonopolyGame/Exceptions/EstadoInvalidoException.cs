@@ -1,7 +1,7 @@
 using System;
 
 
-namespace MonpolyMario.Components.Game.Exceptions
+namespace MonopolyPaperMario.MonopolyGame.Exceptions
 {
     class EstadoInvalidoException : Exception
     {

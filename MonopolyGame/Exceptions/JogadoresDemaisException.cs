@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace MonpolyMario.Components.Game.Exceptions
+namespace MonopolyPaperMario.MonopolyGame.Exceptions
 {
     class JogadoresDemaisException:Exception
     {

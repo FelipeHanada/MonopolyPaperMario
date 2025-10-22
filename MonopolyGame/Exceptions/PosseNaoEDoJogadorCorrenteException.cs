@@ -1,17 +1,19 @@
-﻿using MonpolyMario.Components.Game.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
 
-namespace MonpolyMario.Components.Game.Exceptions
+namespace MonopolyPaperMario.MonopolyGame.Exceptions
 {
-    internal class PosseNaoEDoJogadorCorrenteException:Exception
+    public class PosseNaoEDoJogadorCorrenteException : Exception
     {
-        public PosseNaoEDoJogadorCorrenteException(Jogador jogador, PosseJogador posse) : base("A posse " + posse.getNome() +" não pertence ao jogador "+jogador.getNome())
-        {
+        public Jogador JogadorTentandoAcao { get; }
+        public IPosseJogador Posse { get; }
 
+        public PosseNaoEDoJogadorCorrenteException(IPosseJogador posse, Jogador jogador, string message = "O jogador não é o dono da posse.")
+            : base(message)
+        {
+            this.Posse = posse;
+            this.JogadorTentandoAcao = jogador;
         }
     }
 }

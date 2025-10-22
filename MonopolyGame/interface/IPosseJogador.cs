@@ -2,8 +2,9 @@ using MonopolyPaperMario.MonopolyGame.Model;
 
 namespace MonopolyPaperMario.MonopolyGame.Interface
 {
-    public interface ICarta
+    public interface IPosseJogador
     {
-        void QuandoPegada(Jogador jogador);
+        string Nome { get; }
+        Jogador? Proprietario { get; set; }
     }
 }

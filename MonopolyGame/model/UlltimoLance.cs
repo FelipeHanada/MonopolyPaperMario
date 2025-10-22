@@ -1,35 +1,14 @@
-using MonpolyMario.Components.Game.Model;
-
-public class UltimoLance
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    private int valor;
-    private Jogador jogador;
+    public class UltimoLance
+    {
+        public Jogador Licitante { get; private set; }
+        public int Valor { get; private set; }
 
-    public UltimoLance(Jogador jogador, int valor)
-    {
-        this.jogador = jogador;
-        this.valor = valor;
-    }
-
-    public int getUltimolance()
-    {
-        return valor;
-    }
-
-    public Jogador getJogador()
-    {
-        return this.jogador;
-    }
-
-    public void setUltimoLance(int valor)
-    {
-        this.valor = valor;
-        return;
-    }
-    
-    public void setJogador(Jogador jogador)
-    {
-        this.jogador = jogador;
-        return;
+        public UltimoLance(Jogador licitante, int valor)
+        {
+            Licitante = licitante;
+            Valor = valor;
+        }
     }
 }
