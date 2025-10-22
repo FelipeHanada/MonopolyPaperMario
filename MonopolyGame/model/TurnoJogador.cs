@@ -148,8 +148,8 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         {
             if (partidaAtual == null) return;
             Console.WriteLine($"--- Leilão para {propriedade.Nome} ---");
-            var leilao = new Leilao(propriedade, partidaAtual.Jogadores.Where(j => !j.Falido).ToList());
-            Console.WriteLine("(Lógica de leilão a ser implementada)");
+            var leilao = new Leilao(propriedade, partidaAtual.Jogadores.Where(j => !j.Falido).ToList(), jogadorDaVez);
+            leilao.Executar();
             FinalizarLeilao(leilao);
         }
 
