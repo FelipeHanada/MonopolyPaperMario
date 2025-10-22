@@ -1,13 +1,17 @@
 ﻿@namespace MonopolyPaperMario.Components.Game.Board
 
+
 <div class="board">
-    <div class="board-center"></div>
+    <div class="board-center">
+        <button @onclick="() => MovePlayer(0, 3)">Move Player 0 (3 steps)</button>
+        <button @onclick="() => MovePlayer(5, 2)">Move Player 5 (2 steps)</button>
+    </div>
 
     <div class="street" id="street-1">
         @{
             int tileIndex = 1;
         }
-        @foreach (var tile in street1Tiles)
+        @foreach (var tile in allStreetTiles.Take(9))
         {
             <div>
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
@@ -35,7 +39,7 @@
         @{
             tileIndex = 11;
         }
-        @foreach (var tile in street2Tiles)
+        @foreach (var tile in allStreetTiles.Skip(9).Take(9))
         {
             <div>
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
@@ -64,7 +68,7 @@
         @{
             tileIndex = 21;
         }
-        @foreach (var tile in street3Tiles)
+        @foreach (var tile in allStreetTiles.Skip(18).Take(9))
         {
             <div>
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
@@ -93,7 +97,7 @@
         @{
             tileIndex = 31;
         }
-        @foreach (var tile in street4Tiles)
+        @foreach (var tile in allStreetTiles.Skip(27).Take(9))
         {
             <div>
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
@@ -136,6 +140,22 @@
         return display;
     }
 
+    private void MovePlayer(int playerIndex, int steps)
+    {
+        if (playerIndex < 0 || playerIndex >= playerPositions.Length)
+        {
+            return;
+        }
+
+        int currentPosition = playerPositions[playerIndex];
+
+        int newPosition = (currentPosition + steps) % 40;
+
+        playerPositions[playerIndex] = newPosition;
+
+        StateHasChanged();
+    }
+
     public record class StreetTileData
     {
         public string Title { get; init; } = string.Empty;
@@ -145,8 +165,9 @@
         public string? IconPath { get; init; }
     }
 
-    private readonly List<StreetTileData> street1Tiles = new()
+    private readonly List<StreetTileData> allStreetTiles = new()
     {
+        // Street 1
         new() { Title = "Goomba Village", Color = "var(--color-1)", Cost = 60, HousingLevel = 1 },
         new() { Title = "Baú Comunitário", IconPath = "assets/icon/gift-solid-full.svg" },
         new() { Title = "Koopa Village", Color = "var(--color-1)", Cost = 60, HousingLevel = 2 },
@@ -155,11 +176,9 @@
         new() { Title = "Mt Rugged", Color = "var(--color-2)", Cost = 100, HousingLevel = 5 },
         new() { Title = "Sorte ou Revés", IconPath = "assets/icon/question-solid-full.svg" },
         new() { Title = "Dry Dry Outpost", Color = "var(--color-2)", Cost = 100, HousingLevel = 3 },
-        new() { Title = "Dry Dry Ruins", Color = "var(--color-2)", Cost = 120 }
-    };
+        new() { Title = "Dry Dry Ruins", Color = "var(--color-2)", Cost = 120 },
 
-    private readonly List<StreetTileData> street2Tiles = new()
-    {
+        // Street 2
         new() { Title = "Boo's Mansion", Color = "var(--color-3)", Cost = 140 },
         new() { Title = "Big Lantern Ghost", Cost = 150 },
         new() { Title = "Gusty Gulch", Color = "var(--color-3)", Cost = 140 },
@@ -168,11 +187,9 @@
         new() { Title = "Toad Town Tunnels", Color = "var(--color-4)", Cost = 180 },
         new() { Title = "Baú Comunitário", IconPath = "assets/icon/gift-solid-full.svg" },
         new() { Title = "Shooting Star Summit", Color = "var(--color-4)", Cost = 180 },
-        new() { Title = "Shy Guy's Toybox", Color = "var(--color-4)", Cost = 200 }
-    };
+        new() { Title = "Shy Guy's Toybox", Color = "var(--color-4)", Cost = 200 },
 
-    private readonly List<StreetTileData> street3Tiles = new()
-    {
+        // Street 3
         new() { Title = "Yoshi's Village", Color = "var(--color-5)", Cost = 220 },
         new() { Title = "Sorte ou Revés", IconPath = "assets/icon/question-solid-full.svg" },
         new() { Title = "Jade Jungle", Color = "var(--color-5)", Cost = 220 },
@@ -181,11 +198,9 @@
         new() { Title = "Flower Fields", Color = "var(--color-6)", Cost = 260 },
         new() { Title = "Sun Tower", Color = "var(--color-6)", Cost = 260 },
         new() { Title = "Paper Mario Whale", Cost = 150 },
-        new() { Title = "Cloudy Climb", Color = "var(--color-6)", Cost = 280 }
-    };
+        new() { Title = "Cloudy Climb", Color = "var(--color-6)", Cost = 280 },
 
-    private readonly List<StreetTileData> street4Tiles = new()
-    {
+        // Street 4
         new() { Title = "Shiver City", Color = "var(--color-7)", Cost = 300 },
         new() { Title = "Starborn Valley", Color = "var(--color-7)", Cost = 300 },
         new() { Title = "Baú Comunitário", IconPath = "assets/icon/gift-solid-full.svg" },

@@ -1,0 +1,27 @@
+﻿@namespace MonopolyPaperMario.Components.Game.PropertyCard
+
+<div class="h-100 d-flex flex-column align-items-center justify-content-center g-2">
+    <div class="company-title d-flex justify-content-center align-items-center flex-column">
+        <h1>@PropertyName</h1>
+    </div>
+
+    <div class="company-body d-flex flex-column align-items-center g-1">
+        <span class="text-center">
+            Se UMA companhia é sua, o aluguel é 4 vezes o valor do dado.
+        </span>
+
+        <span class="text-center">
+            Se AMBAS companhias são suas, o aluguel é 10 vezes o valor do dado.
+        </span>
+
+        <div class="w-100 d-flex justify-content-between">
+            <span>Valor de Hipoteca</span>
+            <span>@MortgageValue★</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public required string PropertyName { get; set; }
+    [Parameter] public required int MortgageValue { get; set; }
+}

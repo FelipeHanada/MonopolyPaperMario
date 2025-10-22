@@ -1,4 +1,7 @@
-﻿<div class="tile">
+﻿@namespace MonopolyPaperMario.Components.Game.Board
+@using MonopolyPaperMario.Components.Stores
+
+<div class="tile">
     @ChildContent
 
     <div class="characters">
@@ -7,9 +10,9 @@
             if (DisplayCharacters[i])
             {
                 <div class="character-pawn-img-wrapper">
-                    <img src="@PathByCharId[i]"
-                         class="character-pawn"
-                         />
+
+                    <img src="@spriteStore.GetSpritePath(i)"
+                         class="character-pawn" />
                 </div>
             }
         }
@@ -17,21 +20,10 @@
 </div>
 
 @code {
-    private static readonly string[] PathByCharId =
-    {
-        "assets/characters/mario.png",
-        "assets/characters/kooper.png",
-        "assets/characters/bombette.png",
-        "assets/characters/goombario.png",
-        "assets/characters/lakilester.png",
-        "assets/characters/parakarry.png",
-    };
-
     [Parameter] public RenderFragment? ChildContent { get; set; }
-
     [Parameter] public bool Horizontal { get; set; } = true;
-
     [Parameter] public int StreetSize { get; set; } = 1;
-
     [Parameter] public bool[] DisplayCharacters { get; set; } = { false, false, false, false, false, false };
+
+    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
 }
