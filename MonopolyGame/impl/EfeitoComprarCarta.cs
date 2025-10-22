@@ -1,22 +1,24 @@
-using MonopolyPaperMario.Interface; // Para usar IPlayerEffect
-using MonopolyPaperMario.Model;    // Para usar a classe Player
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
 using System;
 
-namespace MonopolyPaperMario.Impl
+namespace MonopolyPaperMario.MonopolyGame.Impl
 {
- public class EfeitoComprarCarta : IEfeitoJogador
-{
-    private int quantidade = 1;
+    public class EfeitoComprarCarta : IEfeitoJogador
+    {
+        private readonly IDeck deck;
 
-        private Propriedade propriedade;
-        private int valor = propriedade.getDinheiro;
+        public EfeitoComprarCarta(IDeck deck)
+        {
+            this.deck = deck ?? throw new ArgumentNullException(nameof(deck));
+        }
 
         public void Execute(Jogador jogador)
         {
-            jogador.transferirDinheiroPara(jogador, valor);
+            if (jogador == null) throw new ArgumentNullException(nameof(jogador));
+
+            ICarta? carta = deck.ComprarCarta();
+            carta?.QuandoPegada(jogador);
         }
-
-}   
-
+    }
 }
-

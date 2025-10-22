@@ -1,109 +1,116 @@
-﻿using MonpolyMario.Components.Game.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MonopolyPaperMario.MonopolyGame.Exceptions;
+using MonopolyPaperMario.MonopolyGame.Interface;
 
-namespace MonopolyPaperMario.model
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    class Jogador
+    public class Jogador
     {
-        public Jogador(String nome)
-        {
-            this.nome = nome;
-        }
-        private bool falido;
-        private bool preso;
-        private String nome;
-        private int dinheiro;
-        private PosseJogador[] posses;
+        public string Nome { get; private set; }
+        public int Dinheiro { get; private set; }
+        public bool Falido { get; private set; }
+        public bool Preso { get; private set; }
 
-        public void addPosse(PosseJogador posse)
+        public int TurnosPreso { get; private set; }
+        public List<IPosseJogador> Posses { get; }
+        // para implementar as cartas===========================================================================================
+        public bool Reverso { get; set; }
+        public int Desconto { get; set; }
+        public bool PodeComprar { get; set; }
+        public Jogador pagador { get; set; } // É pra implementar a carta de sorte 10
+        public bool TemLifeShroom { get; set; }
+        public bool TemBoost { get; set; }
+        public int QtdATirarNoProximoTurno { get; set; } // para implementar a carta 15
+        //======================================================================================================================
+
+        public Jogador(string nome, int dinheiroInicial = 1500)
         {
-            posses.Append(posse);
+            Nome = nome;
+            Dinheiro = dinheiroInicial;
+            Posses = new List<IPosseJogador>();
+            Falido = false;
+            Preso = false;
+            TurnosPreso = 0;
+            pagador = this;
+            TemLifeShroom = false;
+            TemBoost = false;
+            QtdATirarNoProximoTurno = 0;
         }
-        public void transferirPossePara(Jogador jogador, PosseJogador posse)
-        {
-            if (!posse.getDono().Equals(this)) // se a posse não é do jogador corrente
-            {
-                throw new PosseNaoEDoJogadorCorrenteException(jogador, posse);
-            }
-            
-            PosseJogador[] newPossesCurrent = new PosseJogador[this.posses.Length-1]; //cria um novo array de posses com tamanho diminuído em 1
-            int i = 0;
-            foreach (PosseJogador p in posses)
-            {
-                if (!(p.Equals(posse))) // se a posse do array for diferente da que eu vou transferir
-                {
-                    newPossesCurrent[i++] = p; // adiciono no novo array de posses e incremento o índice
-                }
-            }
-            this.posses = newPossesCurrent;
-            jogador.addPosse(posse);
-            
+
+        public void IncrementarTurnosPreso()
+        {    
+            if(Preso) TurnosPreso++;
         }
-        public void transferirDinheiroPara(Jogador jogador, int valor)
+        public void AdicionarPropriedade(IPosseJogador posse)
         {
-            if (this.dinheiro < valor)
+            if (posse != null)
+            {
+                Posses.Add(posse);
+            }
+        }
+
+        public void TransferirPossePara(Jogador destinatario, IPosseJogador posse)
+        {
+            if (destinatario == null) throw new ArgumentNullException(nameof(destinatario));
+            if (posse == null) throw new ArgumentNullException(nameof(posse));
+            if (posse.Proprietario != this)
+            {
+                throw new PosseNaoEDoJogadorCorrenteException(posse, this, "A posse não pertence ao jogador que está tentando transferi-la.");
+            }
+
+            if (Posses.Remove(posse))
+            {
+                destinatario.AdicionarPropriedade(posse);
+                posse.Proprietario = destinatario;
+            }
+        }
+
+        public void TransferirDinheiroPara(Jogador destinatario, int valor)
+        {
+            if (valor <= 0) return;
+            if (Dinheiro < valor)
+            {
+                throw new FundosInsuficientesException(this, $"Fundos insuficientes para transferir {valor}.");
+            }
+            this.Debitar(valor);
+            destinatario.Creditar(valor);
+        }
+
+        public void Creditar(int valor)
+        {
+            if (valor > 0)
+            {
+                Dinheiro += valor;
+            }
+        }
+
+        public void Debitar(int valor)
+        {
+            if (valor <= 0) return;
+            if (Dinheiro < valor)
             {
                 throw new FundosInsuficientesException(this);
             }
-            this.dinheiro -= valor;
-            jogador.setDinheiro(jogador.getDinheiro() + valor);
+            Dinheiro -= valor;
         }
-        
-        public void mudarDinheiro(int valor)
+
+        public void SetFalido(bool falido)
         {
-        // Se o valor for positivo, o jogador recebe dinheiro.
-        // Se o valor for negativo, o jogador paga dinheiro.
-    
-        // Verifica se a operação é um PAGAMENTO (valor negativo)
-            if (valor < 0) 
+            this.Falido = falido;
+            if (falido)
             {
-                int valorAbsoluto = Math.Abs(valor);
-        
-            // Verifica se há fundos suficientes antes de pagar
-                if (this.dinheiro < valorAbsoluto)
-                {
-            // Você pode lançar uma exceção ou lidar com a falência aqui.
-            // Vou usar a mesma lógica que o seu transferirDinheiroPara faria.
-                    throw new FundosInsuficientesException(this);
-                }
+                Console.WriteLine($"O jogador {Nome} faliu!");
             }
-    
-        // Se for RECEBIMENTO (valor positivo) ou PAGAMENTO com fundos OK,
-        // o dinheiro é alterado.
-            this.dinheiro += valor;
         }
-        
-        public void setFalido(bool falido)
+
+        public void SetPreso(bool preso)
         {
-            this.falido = falido;
-        }
-        public void setPreso(bool preso)
-        {
-            this.preso = preso;
-        }
-        public void setDinheiro(int dinheiro)
-        {
-            this.dinheiro = dinheiro;
-        }
-        public bool isFalido()
-        {
-            return falido;
-        }
-        public String getNome()
-        {
-            return nome;
-        }
-        public int getDinheiro()
-        {
-            return dinheiro;
-        }
-        public bool isPreso()
-        {
-            return preso;
+            this.Preso = preso;
+            if(!preso){
+                this.TurnosPreso = 0;
+            }
         }
     }
 }

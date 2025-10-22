@@ -1,17 +1,17 @@
-using System.Text.Json;
-namespace MonopolyPaperMario.model
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
+
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-
-    class CartaInstantanea: Icarta
+    public abstract class CartaInstantanea : ICarta
     {
-        
+        public string Descricao { get; protected set; }
 
-
-    public abstract void QuandoPegada(Jogador jogador)
+        protected CartaInstantanea(string descricao) // Correção aqui
         {
-            
-        }      
+            this.Descricao = descricao;
+        }
 
+        public abstract void QuandoPegada(Jogador jogador);
     }
-
 }

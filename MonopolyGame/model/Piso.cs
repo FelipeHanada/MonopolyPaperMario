@@ -1,23 +1,39 @@
-namespace MonopolyPaperMario.model
+using MonopolyPaperMario.MonopolyGame.Interface;
+using System;
+
+namespace MonopolyPaperMario.MonopolyGame.Model
 {
-    class Piso
+    public class Piso
     {
-        private string nome;
+        public string Nome { get; }
+        // Corrigido: Transformado em uma propriedade pública com setter privado
+        public IEfeitoJogador? EfeitoAcao { get; private set; }
 
-        public Floor(string nome)
+        // Construtor para pisos sem efeito especial
+        public Piso(string nome)
         {
-            nome = nome;
+            this.Nome = nome;
+            this.EfeitoAcao = null;
         }
 
-        public getNome(string nome)
+        // Construtor para pisos com um efeito
+        public Piso(string nome, IEfeitoJogador efeito)
         {
-            return nome;
+            this.Nome = nome;
+            this.EfeitoAcao = efeito ?? throw new ArgumentNullException(nameof(efeito));
         }
 
-        public void setNome(string nome)
+        // Método que ativa o efeito do piso
+        public void Efeito(Jogador jogador)
         {
-            this.nome = nome;
+            if (EfeitoAcao != null)
+            {
+                EfeitoAcao.Execute(jogador);
+            }
+            else
+            {
+                Console.WriteLine($"{jogador.Nome} parou em '{Nome}', mas nada acontece.");
+            }
         }
-
     }
 }
