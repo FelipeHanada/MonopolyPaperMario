@@ -15,9 +15,15 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public int TurnosPreso { get; private set; }
         public List<IPosseJogador> Posses { get; }
+        // para implementar as cartas===========================================================================================
         public bool Reverso { get; set; }
         public int Desconto { get; set; }
         public bool PodeComprar { get; set; }
+        public Jogador pagador { get; set; } // É pra implementar a carta de sorte 10
+        public bool TemLifeShroom { get; set; }
+        public bool TemBoost { get; set; }
+        public int QtdATirarNoProximoTurno { get; set; } // para implementar a carta 15
+        //======================================================================================================================
 
         public Jogador(string nome, int dinheiroInicial = 1500)
         {
@@ -27,6 +33,10 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             Falido = false;
             Preso = false;
             TurnosPreso = 0;
+            pagador = this;
+            TemLifeShroom = false;
+            TemBoost = false;
+            QtdATirarNoProximoTurno = 0;
         }
 
         public void IncrementarTurnosPreso()
