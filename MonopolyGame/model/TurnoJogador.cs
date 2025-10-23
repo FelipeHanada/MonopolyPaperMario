@@ -1,20 +1,34 @@
 using System;
 using System.Linq;
 using MonopolyPaperMario.MonopolyGame.Impl;
+using MonopolyPaperMario.MonopolyGame.Interface;
 
 namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class TurnoJogador
     {
+        public enum TurnoJogadorEstado
+        {
+            FaseComum,
+            FaseComumDadoRolado,
+            PropostaTroca,
+            Leilao,
+            FimDeTurno
+        }
+
         private static TurnoJogador? _instance;
         private readonly Random dado;
         private Partida? partidaAtual;
         private Jogador? jogadorDaVez;
         private int contadorDadosIguais;
+        private TurnoJogadorEstado estadoAtual;
+        private TurnoJogadorEstado estadoAnterior;
 
         private TurnoJogador()
         {
             dado = new Random();
+            estadoAtual = TurnoJogadorEstado.FimDeTurno;
+            estadoAnterior = TurnoJogadorEstado.FimDeTurno;
         }
 
         public static TurnoJogador Instance
@@ -40,11 +54,90 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             if (jogadorDaVez.Preso)
             {
                 TentarSairDaPrisao();
+                // O loop principal só é iniciado se o jogador não estiver preso.
+                // TentarSairDaPrisao já finaliza o turno ou o prepara para o próximo estado.
             }
             else
             {
-                RolarDados();
+                estadoAtual = TurnoJogadorEstado.FaseComum;
             }
+
+            while (estadoAtual != TurnoJogadorEstado.FimDeTurno)
+            {
+                switch (estadoAtual)
+                {
+                    case TurnoJogadorEstado.FaseComum:
+                    case TurnoJogadorEstado.FaseComumDadoRolado:
+                        ApresentarMenuFaseComum();
+                        break;
+                    case TurnoJogadorEstado.PropostaTroca:
+                        IniciarPropostaDeTroca();
+                        estadoAtual = estadoAnterior; // Restaura o estado anterior de forma simples
+                        break;
+                    case TurnoJogadorEstado.Leilao:
+                        Console.WriteLine("Estado de Leilão (não implementado).");
+                        estadoAtual = estadoAnterior; // Restaura o estado anterior
+                        break;
+                }
+            }
+            FinalizarTurno();
+        }
+
+        private void ApresentarMenuFaseComum()
+        {
+            Console.WriteLine("\nEscolha uma ação:");
+            if (estadoAtual == TurnoJogadorEstado.FaseComum)
+            {
+                Console.WriteLine("1. Rolar os dados");
+                Console.WriteLine("2. Fazer uma proposta de troca");
+                Console.WriteLine("3. Gerenciar propriedades - (Não implementado)");
+                Console.Write("Opção: ");
+                string? escolha = Console.ReadLine();
+
+                switch (escolha)
+                {
+                    case "1":
+                        RolarDados();
+                        break;
+                    case "2":
+                        estadoAnterior = estadoAtual;
+                        estadoAtual = TurnoJogadorEstado.PropostaTroca;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("1. Fazer uma proposta de troca");
+                Console.WriteLine("2. Gerenciar propriedades - (Não implementado)");
+                Console.WriteLine("3. Finalizar turno");
+                Console.Write("Opção: ");
+                string? escolha = Console.ReadLine();
+
+                switch (escolha)
+                {
+                    case "1":
+                        estadoAnterior = estadoAtual;
+                        estadoAtual = TurnoJogadorEstado.PropostaTroca;
+                        break;
+                    case "3":
+                        estadoAtual = TurnoJogadorEstado.FimDeTurno;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida.");
+                        break;
+                }
+            }
+        }
+
+        private void IniciarPropostaDeTroca()
+        {
+            if (partidaAtual == null || jogadorDaVez == null) return;
+
+            var gerenciador = new GerenciadorDeTrocas(partidaAtual.Jogadores);
+            gerenciador.IniciarNovaTroca(jogadorDaVez);
         }
 
         private void TentarSairDaPrisao()
@@ -54,7 +147,6 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             jogadorDaVez.IncrementarTurnosPreso();
             Console.WriteLine($"{jogadorDaVez.Nome} está na prisão. (Turno {jogadorDaVez.TurnosPreso})");
 
-            // No terceiro turno, força a saída pagando fiança
             if (jogadorDaVez.TurnosPreso >= 3)
             {
                 Console.WriteLine("Terceiro turno na prisão! Você deve pagar $50 para sair.");
@@ -63,85 +155,74 @@ namespace MonopolyPaperMario.MonopolyGame.Model
                     jogadorDaVez.Debitar(50);
                     Console.WriteLine("Fiança paga.");
                     new EfeitoSairDaCadeia().Execute(jogadorDaVez);
-                    RolarDados(); // Agora que está livre, joga normalmente
+                    RolarDados();
                 }
                 catch (Exceptions.FundosInsuficientesException)
                 {
                     Console.WriteLine("Você não tem dinheiro para pagar a fiança e faliu!");
                     jogadorDaVez.SetFalido(true);
-                    FinalizarTurno();
+                    estadoAtual = TurnoJogadorEstado.FimDeTurno;
                 }
-                return;
-            }
-
-            // Tenta rolar dados iguais nos turnos 1 e 2
-            Console.WriteLine("Tentando rolar dados iguais para sair...");
-            Console.WriteLine("Pressione Enter para rolar os dados...");
-            Console.ReadLine();
-
-            int resultadoDado1 = dado.Next(1, 7);
-            int resultadoDado2 = dado.Next(1, 7);
-            Console.WriteLine($"Você rolou {resultadoDado1} e {resultadoDado2}.");
-
-            if (resultadoDado1 == resultadoDado2)
-            {
-                Console.WriteLine("Dados iguais! Você está livre!");
-                new EfeitoSairDaCadeia().Execute(jogadorDaVez);
-
-                int totalDados = resultadoDado1 + resultadoDado2;
-                partidaAtual.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
             }
             else
             {
-                Console.WriteLine("Você não rolou dados iguais e continua na prisão.");
-            }
+                Console.WriteLine("Tentando rolar dados iguais para sair...");
 
-            FinalizarTurno();
+                int resultadoDado1 = dado.Next(1, 7);
+                int resultadoDado2 = dado.Next(1, 7);
+                Console.WriteLine($"Você rolou {resultadoDado1} e {resultadoDado2}.");
+
+                if (resultadoDado1 == resultadoDado2)
+                {
+                    Console.WriteLine("Dados iguais! Você está livre!");
+                    new EfeitoSairDaCadeia().Execute(jogadorDaVez);
+                    int totalDados = resultadoDado1 + resultadoDado2;
+                    partidaAtual.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
+                    estadoAtual = TurnoJogadorEstado.FaseComumDadoRolado;
+                }
+                else
+                {
+                    Console.WriteLine("Você não rolou dados iguais e continua na prisão.");
+                    estadoAtual = TurnoJogadorEstado.FimDeTurno;
+                }
+            }
         }
 
         private void RolarDados()
         {
             if (jogadorDaVez == null || partidaAtual == null || partidaAtual.Tabuleiro == null) return;
 
-            bool jogarNovamente = true;
-            while (jogarNovamente)
+            int resultadoDado1 = dado.Next(1, 7);
+            int resultadoDado2 = dado.Next(1, 7);
+            int totalDados = resultadoDado1 + resultadoDado2;
+            bool dadosIguais = resultadoDado1 == resultadoDado2;
+
+            Console.WriteLine($"{jogadorDaVez.Nome} rolou os dados e tirou {resultadoDado1} e {resultadoDado2}, totalizando {totalDados}.");
+
+            if (dadosIguais)
             {
-                Console.WriteLine("\nPressione Enter para rolar os dados...");
-                Console.ReadLine();
+                contadorDadosIguais++;
+                Console.WriteLine("Dados iguais!");
 
-                int resultadoDado1 = dado.Next(1, 7);
-                int resultadoDado2 = dado.Next(1, 7);
-                int totalDados = resultadoDado1 + resultadoDado2;
-                bool dadosIguais = resultadoDado1 == resultadoDado2;
-
-                Console.WriteLine($"{jogadorDaVez.Nome} rolou os dados e tirou {resultadoDado1} e {resultadoDado2}, totalizando {totalDados}.");
-
-                if (dadosIguais)
+                if (contadorDadosIguais == 3)
                 {
-                    contadorDadosIguais++;
-                    Console.WriteLine("Dados iguais!");
-
-                    if (contadorDadosIguais == 3)
-                    {
-                        Console.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
-                        var efeitoCadeia = new EfeitoIrParaCadeia { Tabuleiro = partidaAtual.Tabuleiro };
-                        efeitoCadeia.Execute(jogadorDaVez);
-                        jogarNovamente = false;
-                    }
-                    else
-                    {
-                        partidaAtual.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
-                        Console.WriteLine("Jogue novamente!");
-                        jogarNovamente = true;
-                    }
+                    Console.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
+                    var efeitoCadeia = new EfeitoIrParaCadeia { Tabuleiro = partidaAtual.Tabuleiro };
+                    efeitoCadeia.Execute(jogadorDaVez);
+                    estadoAtual = TurnoJogadorEstado.FimDeTurno;
                 }
                 else
                 {
                     partidaAtual.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
-                    jogarNovamente = false;
+                    Console.WriteLine("Jogue novamente!");
+                    estadoAtual = TurnoJogadorEstado.FaseComum;
                 }
             }
-            FinalizarTurno();
+            else
+            {
+                partidaAtual.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
+                estadoAtual = TurnoJogadorEstado.FaseComumDadoRolado;
+            }
         }
 
         public void IniciarLeilao(Propriedade propriedade)
@@ -156,17 +237,6 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         private void FinalizarLeilao(Leilao leilao)
         {
             Console.WriteLine("Leilão finalizado.");
-        }
-
-        public void ComecarPropostaDeVenda(PropostaDeVenda proposta)
-        {
-            Console.WriteLine($"Proposta de venda iniciada: {proposta.Vendedor.Nome} -> {proposta.Comprador.Nome} para {proposta.Posse.Nome}");
-            FinalizarPropostaDeVenda(proposta, true);
-        }
-
-        private void FinalizarPropostaDeVenda(PropostaDeVenda proposta, bool aceita)
-        {
-            Console.WriteLine($"Proposta de venda finalizada. Aceita: {aceita}");
         }
 
         private void FinalizarTurno()

@@ -12,18 +12,17 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public int Dinheiro { get; private set; }
         public bool Falido { get; private set; }
         public bool Preso { get; private set; }
-
         public int TurnosPreso { get; private set; }
         public List<IPosseJogador> Posses { get; }
-        // para implementar as cartas===========================================================================================
+
+        // Atributos para as cartas e efeitos especiais
         public bool Reverso { get; set; }
         public int Desconto { get; set; }
         public bool PodeComprar { get; set; }
-        public Jogador pagador { get; set; } // É pra implementar a carta de sorte 10
+        public Jogador pagador { get; set; }
         public bool TemLifeShroom { get; set; }
         public bool TemBoost { get; set; }
-        public int QtdATirarNoProximoTurno { get; set; } // para implementar a carta 15
-        //======================================================================================================================
+        public int QtdATirarNoProximoTurno { get; set; }
 
         public Jogador(string nome, int dinheiroInicial = 1500)
         {
@@ -33,6 +32,11 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             Falido = false;
             Preso = false;
             TurnosPreso = 0;
+
+            // Inicialização dos novos atributos
+            Reverso = false;
+            Desconto = 0;
+            PodeComprar = true;
             pagador = this;
             TemLifeShroom = false;
             TemBoost = false;
@@ -40,9 +44,13 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         }
 
         public void IncrementarTurnosPreso()
-        {    
-            if(Preso) TurnosPreso++;
+        {
+            if (Preso)
+            {
+                TurnosPreso++;
+            }
         }
+
         public void AdicionarPropriedade(IPosseJogador posse)
         {
             if (posse != null)
@@ -69,29 +77,34 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void TransferirDinheiroPara(Jogador destinatario, int valor)
         {
-            if (valor <= 0) return;
-            if (Dinheiro < valor)
+            if (destinatario == null) throw new ArgumentNullException(nameof(destinatario));
+            if (valor == 0) return;
+
+            if (valor > 0) // Ofertante (this) paga ao Alvo (destinatario)
             {
-                throw new FundosInsuficientesException(this, $"Fundos insuficientes para transferir {valor}.");
+                this.Debitar(valor);
+                destinatario.Creditar(valor);
             }
-            this.Debitar(valor);
-            destinatario.Creditar(valor);
+            else // Alvo (destinatario) paga ao Ofertante (this) (valor é negativo)
+            {
+                destinatario.Debitar(-valor);
+                this.Creditar(-valor);
+            }
         }
 
         public void Creditar(int valor)
         {
-            if (valor > 0)
-            {
-                Dinheiro += valor;
-            }
+            if (valor < 0) throw new ArgumentException("O valor a ser creditado não pode ser negativo.");
+            Dinheiro += valor;
         }
 
         public void Debitar(int valor)
         {
-            if (valor <= 0) return;
+            if (valor < 0) throw new ArgumentException("O valor a ser debitado não pode ser negativo.");
             if (Dinheiro < valor)
             {
-                throw new FundosInsuficientesException(this);
+                // Corrigido: Passa uma string como segundo argumento, não um int.
+                throw new FundosInsuficientesException(this, $"Não há fundos suficientes para debitar ${valor}.");
             }
             Dinheiro -= valor;
         }
@@ -108,7 +121,8 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public void SetPreso(bool preso)
         {
             this.Preso = preso;
-            if(!preso){
+            if (!preso)
+            {
                 this.TurnosPreso = 0;
             }
         }
