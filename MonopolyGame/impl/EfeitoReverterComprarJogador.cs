@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace MonopolyGame.impl
 {
-    internal class EfeitoNaoComprarJogador : IEfeitoJogador
+    internal class EfeitoReverterComprarJogador : IEfeitoJogador
     {
         public void Execute(Jogador jogador)
         {
             if (jogador == null) throw new ArgumentNullException(nameof(jogador));
-            jogador.PodeComprar = false;
+            jogador.PodeComprar = !jogador.PodeComprar;
         }
     }
 }
