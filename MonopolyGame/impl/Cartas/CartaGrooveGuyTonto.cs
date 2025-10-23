@@ -1,10 +1,4 @@
-﻿using MonopolyPaperMario.MonopolyGame.Interface;
-using MonopolyPaperMario.MonopolyGame.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MonopolyPaperMario.MonopolyGame.Model;
 
 namespace MonopolyGame.impl.Cartas
 {

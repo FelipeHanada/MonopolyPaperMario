@@ -9,6 +9,8 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class Partida
     {
+        public List<object[]> efeitosAReverter { get; }
+        private static Partida partida = null;
         public List<Jogador> Jogadores { get; private set; }
         public Tabuleiro? Tabuleiro { get; private set; }
         public int CasasDisponiveis { get; private set; } = 32;
@@ -16,12 +18,20 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public Jogador? JogadorAtual => (jogadorAtualIndex >= 0 && jogadorAtualIndex < Jogadores.Count) ? Jogadores[jogadorAtualIndex] : null;
         private int jogadorAtualIndex;
 
-        public Partida()
+        private Partida() // isso deve ser um singleton
         {
             Jogadores = new List<Jogador>();
             jogadorAtualIndex = -1;
+            efeitosAReverter = new List<object[]>();
         }
-
+        public static Partida GetPartida()
+        {
+            if(partida == null)
+            {
+                partida = new Partida();
+            }
+            return partida;
+        }
         public void AdicionarJogador(string nome)
         {
             if (Jogadores.Count < 6)

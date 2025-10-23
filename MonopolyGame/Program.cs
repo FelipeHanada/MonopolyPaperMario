@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame
         {
             Console.WriteLine("🎲 Monopoly Paper Mario! 🎲");
 
-            var partida = new Partida();
+            var partida = Partida.GetPartida();
             partida.AdicionarJogador("Mario");
             partida.AdicionarJogador("Luigi");
             partida.AdicionarJogador("Peach");
