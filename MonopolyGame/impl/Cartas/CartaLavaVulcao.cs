@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MonopolyGame.impl.Cartas
 {
-    internal class CartaLuteComBowser : CartaSorte
+    internal class CartaLavaVulcao : CartaSorte
     {
-        public CartaLuteComBowser(Tabuleiro tabuleiro) : base("Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.", new EfeitoIrParaCadeia())
+        public CartaLavaVulcao(Tabuleiro tabuleiro) : base("Você se queimou na lava do vulcão, volte 3 casas.", new EfeitoMoverJogador(tabuleiro,-3))
         {
            
         }

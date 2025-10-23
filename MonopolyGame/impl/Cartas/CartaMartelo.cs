@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MonopolyGame.impl.Cartas
 {
-    internal class CartaLuteComBowser : CartaSorte
+    internal class CartaMartelo : CartaSorte
     {
-        public CartaLuteComBowser(Tabuleiro tabuleiro) : base("Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.", new EfeitoIrParaCadeia())
+        public CartaMartelo(Tabuleiro tabuleiro) : base("Você encontrou o martelo e quebrou o bloco que bloqueava a passagem para Toad Town, avance 3 casas", new EfeitoMoverJogador(tabuleiro,3))
         {
            
         }

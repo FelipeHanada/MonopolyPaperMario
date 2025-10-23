@@ -32,8 +32,7 @@ namespace MonopolyPaperMario.impl
             // 1. Movimento para frente (offset positivo).
             // 2. Movimento para trás (offset negativo).
             // 3. Verificação de ter passado pelo início (apenas se movendo para frente).
-            // 4. Ativação do efeito do Piso de destino (true).
-            this._tabuleiro.moveJogador(jogador, this._offset, true);
+            this._tabuleiro.MoveJogador(jogador, this._offset);
         }
     }
 }
