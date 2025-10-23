@@ -23,6 +23,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public bool TemLifeShroom { get; set; }
         public bool TemBoost { get; set; }
         public int QtdATirarNoProximoTurno { get; set; }
+        public bool PodeJogar { get; set; }
 
         public Jogador(string nome, int dinheiroInicial = 1500)
         {
