@@ -15,6 +15,9 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public int TurnosPreso { get; private set; }
         public List<IPosseJogador> Posses { get; }
 
+        // NOVO: Contador de cartas de Passe Livre da Prisão
+        public int CartasPasseLivre { get; set; }
+
         // Atributos para as cartas e efeitos especiais
         public bool Reverso { get; set; }
         public int Desconto { get; set; }
@@ -33,6 +36,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             Falido = false;
             Preso = false;
             TurnosPreso = 0;
+            CartasPasseLivre = 0;
 
             // Inicialização dos novos atributos
             Reverso = false;

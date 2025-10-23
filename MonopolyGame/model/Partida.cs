@@ -58,34 +58,37 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void ProximoTurno()
         {
-            //================================================================================================================
+    //================================================================================================================
             int i = 0;
-            while (i<efeitosAReverter.Count)
+            while (i < efeitosAReverter.Count)
             {
                 object[] efeitoAtual = efeitosAReverter[i];
-                efeitoAtual[0] = (int)efeitoAtual[0]-1; // subtrai 1 do contador de turnos do efeito
-                if ((int)efeitoAtual[0] == -1) // quando o efeito acabar
+                efeitoAtual[0] = (int)efeitoAtual[0] - 1; // subtrai 1 do contador de turnos do efeito
+        
+                if ((int)efeitoAtual[0] == -1) // quando o efeito acabar (contador chegou a 0)
                 {
+            // O nome da variável de iteração 'jogador' agora representa o jogador individual
                     foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // executa os efeitos agendados para cada jogador
                     {
-                      ((IEfeitoJogador)efeitoAtual[1]).Execute((Jogador)efeitoAtual[2]);
+                // CORREÇÃO: Passar a variável de iteração 'jogador' em vez do array 'efeitoAtual[2]'
+                        ((IEfeitoJogador)efeitoAtual[1]).Execute(jogador); 
                     }
-                    
-                    efeitosAReverter.RemoveAt(i);
+            
+                efeitosAReverter.RemoveAt(i);
                 }
                 else
                 {
                     i++;
                 }
             }
-            //=================================================================================================================
-            if (Jogadores.Count(j => !j.Falido) <= 1) return;
+    //=================================================================================================================
+        if (Jogadores.Count(j => !j.Falido) <= 1) return;
 
-            do
-            {
-                jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
-            } while (Jogadores[jogadorAtualIndex].Falido);
-        }
+        do
+        {
+            jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
+        } while (Jogadores[jogadorAtualIndex].Falido);
+    }
 
         private (IDeck, IDeck) CriarDecks()
         {
