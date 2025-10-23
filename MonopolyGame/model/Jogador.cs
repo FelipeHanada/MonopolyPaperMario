@@ -131,5 +131,27 @@ namespace MonopolyPaperMario.MonopolyGame.Model
                 this.TurnosPreso = 0;
             }
         }
+
+        public int AplicarDesconto(int valorBase)
+        {
+            if (this.Desconto <= 0)
+            {
+                return valorBase; // Sem desconto, retorna o valor original
+            }
+
+        // Calcula o fator de desconto (ex: 30 / 100 = 0.3)
+            double fatorDesconto = (double)this.Desconto / 100.0;
+    
+    // Calcula o valor final: Valor Base * (1 - Fator de Desconto)
+    // Usamos Math.Round para garantir que o resultado seja um inteiro (arredondando para o mais próximo).
+            int valorFinal = (int)Math.Round(valorBase * (1.0 - fatorDesconto));
+    
+    // Mensagem de log para facilitar o debug e o feedback ao usuário
+            int valorDescontado = valorBase - valorFinal;
+            Console.WriteLine($"[Muskular] Despesa de ${valorBase} ajustada para ${valorFinal} (-${valorDescontado} de desconto).");
+    
+            return valorFinal;
+        }
+
     }
 }

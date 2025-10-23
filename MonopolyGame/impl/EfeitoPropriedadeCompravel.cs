@@ -24,9 +24,17 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
             {
                 if (propriedade.Proprietario != jogador && !propriedade.Hipotecada)
                 {
-                    int aluguel = propriedade.CalcularPagamento(jogador);
-                    Console.WriteLine($"Esta propriedade pertence a {propriedade.Proprietario.Nome}. Você deve pagar ${aluguel} de aluguel.");
-                    jogador.TransferirDinheiroPara(propriedade.Proprietario, aluguel);
+                    int aluguelBase = propriedade.CalcularPagamento(jogador);
+                    
+                    // ==========================================================
+                    // NOVO: Aplica o desconto do Muskular no valor do aluguel
+                    // ==========================================================
+                    int aluguelFinal = jogador.AplicarDesconto(aluguelBase);
+
+                    Console.WriteLine($"Esta propriedade pertence a {propriedade.Proprietario.Nome}. Você deve pagar ${aluguelFinal} de aluguel (Base: ${aluguelBase}).");
+                    
+                    // Usa o valor com desconto para a transferência
+                    jogador.TransferirDinheiroPara(propriedade.Proprietario, aluguelFinal);
                 }
                 else if (propriedade.Proprietario == jogador)
                 {
@@ -40,15 +48,24 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
             }
 
             // Se a propriedade não tem dono, oferece para compra.
-            Console.WriteLine($"A propriedade {propriedade.Nome} está à venda por ${propriedade.Preco}.");
+            
+            // ==========================================================
+            // NOVO: Calcula o preço de compra com o desconto
+            // ==========================================================
+            int precoCompraBase = propriedade.Preco;
+            int precoCompraFinal = jogador.AplicarDesconto(precoCompraBase);
+
+            Console.WriteLine($"A propriedade {propriedade.Nome} está à venda por ${precoCompraFinal} (Preço base: ${precoCompraBase}).");
             Console.Write($"{jogador.Nome}, você deseja comprar? (s/n): ");
             string? resposta = Console.ReadLine()?.Trim().ToLower();
 
             if (resposta == "s")
             {
-                if (jogador.Dinheiro >= propriedade.Preco)
+                // Verifica o saldo usando o preço com desconto
+                if (jogador.Dinheiro >= precoCompraFinal)
                 {
-                    jogador.Debitar(propriedade.Preco);
+                    // Debita o preço com desconto
+                    jogador.Debitar(precoCompraFinal); 
                     propriedade.Proprietario = jogador;
                     jogador.AdicionarPropriedade(propriedade);
                     Console.WriteLine($"Parabéns! {jogador.Nome} comprou {propriedade.Nome}.");
@@ -56,14 +73,12 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
                 else
                 {
                     Console.WriteLine("Você não tem dinheiro suficiente. A propriedade irá a leilão.");
-                    // Corrigido: Chama o método a partir do Singleton TurnoJogador
                     TurnoJogador.Instance.IniciarLeilao(propriedade);
                 }
             }
             else
-            {
+            {                
                 Console.WriteLine($"{jogador.Nome} decidiu não comprar. A propriedade irá a leilão.");
-                // Corrigido: Chama o método a partir do Singleton TurnoJogador
                 TurnoJogador.Instance.IniciarLeilao(propriedade);
             }
         }

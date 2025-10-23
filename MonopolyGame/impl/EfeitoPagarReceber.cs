@@ -19,16 +19,26 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
 
             if (Valor > 0)
             {
+                // Crédito: Não se aplica desconto.
                 jogador.Creditar(Valor);
                 Console.WriteLine($"{jogador.Nome} recebeu ${Valor}.");
             }
             else if (Valor < 0)
             {
-                int valorAbsoluto = Math.Abs(Valor);
+                // Débito (Despesa/Imposto)
+                int valorDespesaBase = Math.Abs(Valor);
+                
+                // ==========================================================
+                // NOVO: Aplica o desconto do Muskular no valor da despesa
+                // O valor final é o que será efetivamente debitado.
+                // ==========================================================
+                int valorFinal = jogador.AplicarDesconto(valorDespesaBase);
+
                 try
                 {
-                    jogador.Debitar(valorAbsoluto);
-                    Console.WriteLine($"{jogador.Nome} pagou ${valorAbsoluto}.");
+                    jogador.Debitar(valorFinal);
+                    // Informa o valor final pago, que já inclui o desconto
+                    Console.WriteLine($"{jogador.Nome} pagou ${valorFinal} (Despesa Base: ${valorDespesaBase}).");
                 }
                 catch (Exceptions.FundosInsuficientesException ex)
                 {
