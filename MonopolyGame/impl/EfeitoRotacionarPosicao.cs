@@ -1,5 +1,5 @@
-using MonopolyPaperMario.Interface; 
-using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyPaperMario.MonopolyGame.Interface; 
+using MonopolyPaperMario.MonopolyGame.Model;    
 using System;
 
 namespace MonopolyPaperMario.MonopolyGame.Impl

@@ -1,8 +1,8 @@
-using MonopolyPaperMario.Interface; 
-using MonopolyPaperMario.model;    
+using MonopolyPaperMario.MonopolyGame.Interface; 
+using MonopolyPaperMario.MonopolyGame.Model;    
 using System;
 
-namespace MonopolyPaperMario.impl
+namespace MonopolyPaperMario.MonopolyGame.Impl
 {
     // Responsável por mover o jogador um número (positivo ou negativo) de casas.
     public class EfeitoMoverJogador : IEfeitoJogador
@@ -26,7 +26,7 @@ namespace MonopolyPaperMario.impl
                 throw new ArgumentNullException(nameof(jogador));
             }
 
-            Console.WriteLine($"Efeito: Movendo {jogador.getNome()} por {_offset} casas.");
+            Console.WriteLine($"Efeito: Movendo {jogador.Nome} por {_offset} casas.");
 
             // O método moveJogador no Tabuleiro lida com a lógica de:
             // 1. Movimento para frente (offset positivo).

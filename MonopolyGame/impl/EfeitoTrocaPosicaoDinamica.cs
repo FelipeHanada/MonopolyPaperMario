@@ -1,4 +1,4 @@
-using MonopolyPaperMario.Interface; 
+using MonopolyPaperMario.MonopolyGame.Interface; 
 using MonopolyPaperMario.MonopolyGame.Model;
 using System;
 using System.Collections.Generic;

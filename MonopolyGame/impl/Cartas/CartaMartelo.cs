@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MonopolyGame.impl.Cartas
+namespace MonopolyPaperMario.MonopolyGame.Impl.Cartas
 {
     internal class CartaMartelo : CartaSorte
     {
