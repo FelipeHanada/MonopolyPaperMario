@@ -12,7 +12,7 @@ namespace MonopolyGame.impl
     {
         public void Execute(Jogador jogador)
         {
-            jogador.Reverso = true;
+            jogador.Reverso = !jogador.Reverso;
         }
     }
 }

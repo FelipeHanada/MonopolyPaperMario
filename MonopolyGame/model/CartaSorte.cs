@@ -6,17 +6,17 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class CartaSorte : CartaInstantanea
     {
-        private readonly IEfeitoJogador efeito;
+        protected  IEfeitoJogador Efeito{get; }
 
         public CartaSorte(string descricao, IEfeitoJogador efeito) : base(descricao) // Correção aqui
         {
-            this.efeito = efeito;
+            this.Efeito = efeito;
         }
 
         public override void QuandoPegada(Jogador jogador)
         {
             Console.WriteLine($"Sorte: {Descricao}");
-            efeito?.Execute(jogador);
+            Efeito?.Execute(jogador);
         }
     }
 }

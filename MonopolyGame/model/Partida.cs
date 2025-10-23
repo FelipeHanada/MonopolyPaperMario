@@ -9,7 +9,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class Partida
     {
-        public List<object[]> efeitosAReverter { get; }
+        private List<object[]> efeitosAReverter;
         private static Partida partida = null;
         public List<Jogador> Jogadores { get; private set; }
         public Tabuleiro? Tabuleiro { get; private set; }
@@ -18,6 +18,10 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public Jogador? JogadorAtual => (jogadorAtualIndex >= 0 && jogadorAtualIndex < Jogadores.Count) ? Jogadores[jogadorAtualIndex] : null;
         private int jogadorAtualIndex;
 
+        public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] jogadores) // adiciona um efeito para ser executado daqui a alguns turnos sobre os jogadores passados
+        {
+            efeitosAReverter.Add([turnos, efeito, jogadores]);
+        }
         private Partida() // isso deve ser um singleton
         {
             Jogadores = new List<Jogador>();
@@ -54,6 +58,27 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void ProximoTurno()
         {
+            //================================================================================================================
+            int i = 0;
+            while (i<efeitosAReverter.Count)
+            {
+                object[] efeitoAtual = efeitosAReverter[i];
+                efeitoAtual[0] = (int)efeitoAtual[0]-1; // subtrai 1 do contador de turnos do efeito
+                if ((int)efeitoAtual[0] == -1) // quando o efeito acabar
+                {
+                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // executa os efeitos agendados para cada jogador
+                    {
+                      ((IEfeitoJogador)efeitoAtual[1]).Execute((Jogador)efeitoAtual[2]);
+                    }
+                    
+                    efeitosAReverter.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            //=================================================================================================================
             if (Jogadores.Count(j => !j.Falido) <= 1) return;
 
             do
