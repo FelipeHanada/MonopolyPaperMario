@@ -80,7 +80,7 @@
   {
     "id": 12,
     "nome": "Red Magikoopa",
-    "texto": "Red Magikoopa te deu um boost e agora você pode jogar 2 vezes no mesmo turno.",
+    "texto": "Red Magikoopa te deu um boost e agora nesse turno o número de casas movidas aumentará em 50 %.",
     "tipo": "efeito",
     "efeito": "jogar_2_vezes"
   },
