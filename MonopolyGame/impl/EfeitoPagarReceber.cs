@@ -1,3 +1,4 @@
+using MonopolyPaperMario.MonopolyGame.Exceptions;
 using MonopolyPaperMario.MonopolyGame.Interface;
 using MonopolyPaperMario.MonopolyGame.Model;
 using System;

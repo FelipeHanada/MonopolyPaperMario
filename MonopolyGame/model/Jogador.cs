@@ -23,7 +23,6 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public int Desconto { get; set; }
         public bool PodeComprar { get; set; }
         public Jogador pagador { get; set; }
-        public bool TemLifeShroom { get; set; }
         public bool TemBoost { get; set; }
         public int QtdATirarNoProximoTurno { get; set; }
         public bool PodeJogar { get; set; }
@@ -43,7 +42,6 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             Desconto = 0;
             PodeComprar = true;
             pagador = this;
-            TemLifeShroom = false;
             TemBoost = false;
             QtdATirarNoProximoTurno = 0;
         }
