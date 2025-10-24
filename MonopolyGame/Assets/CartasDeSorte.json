@@ -37,7 +37,7 @@
   {
     "id": 6,
     "nome": "Spiny Tromp",
-    "texto": "Oh não, um Spiny Tromp. Fujam dele e parem na primeira ponta a frente (Início ou Passe Livre).",
+    "texto": "Oh não, um Spiny Tromp. Fuja dele e avance 4 casas.",
     "tipo": "movimento",
     "efeito": "mover_para_proxima_ponta"
   },
