@@ -17,7 +17,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         // NOVO: Contador de cartas de Passe Livre da Prisão
         public int CartasPasseLivre { get; set; }
-
+        public EfeitoDuplighostReversor? EfeitoDuplighostAtivo { get; set; } // Guarda a referência do efeito
         // Atributos para as cartas e efeitos especiais
         public bool Reverso { get; set; }
         public int Desconto { get; set; }
@@ -43,6 +43,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             PodeComprar = true;
             pagador = this;
             TemBoost = false;
+            EfeitoDuplighostAtivo = null;
             QtdATirarNoProximoTurno = 0;
         }
 

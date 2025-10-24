@@ -1,6 +1,7 @@
 using MonopolyPaperMario.MonopolyGame.Interface;
 using MonopolyPaperMario.MonopolyGame.Model;
 using System;
+using MonopolyPaperMario.MonopolyGame.Impl; 
 
 namespace MonopolyPaperMario.MonopolyGame.Impl
 {
@@ -24,11 +25,43 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
             {
                 if (propriedade.Proprietario != jogador && !propriedade.Hipotecada)
                 {
+                    // ==========================================================
+                    // INÍCIO: CHECAGEM DO DUPLIGHOST
+                    // ==========================================================
+                    var duplighostEfeito = jogador.EfeitoDuplighostAtivo;
+
+                    if (duplighostEfeito != null && duplighostEfeito.UsarEfeito(propriedade))
+                    {
+                        // O Duplighost irá pagar!
+                        Jogador duplighost = duplighostEfeito.DuplighostAlvo;
+                        
+                        // 1. Calcular o aluguel base.
+                        int aluguelBase = propriedade.CalcularPagamento(jogador);
+                        
+                        // 2. O pagamento do Duplighost pode ser afetado pelo desconto dele, não do jogador que caiu na casa.
+                        // Usaremos o desconto DO DUPLIGHOST, se houver (o mais correto).
+                        int aluguelFinal = duplighost.AplicarDesconto(aluguelBase); 
+                        
+                        // O jogador que ativou o Duplighost (que caiu na casa) não paga nada.
+                        Console.WriteLine($"\n*** DUPLIGHOST ATIVO! ***");
+                        Console.WriteLine($"{duplighost.Nome} (Duplighost) pagará o aluguel de ${aluguelFinal} (Base: ${aluguelBase}) para {propriedade.Proprietario.Nome}.");
+                        
+                        // Duplighost paga o aluguel ao Proprietário
+                        duplighost.TransferirDinheiroPara(propriedade.Proprietario, aluguelFinal);
+                        
+                        // Limpa o efeito após o uso para evitar dupla utilização no mesmo turno
+                        jogador.EfeitoDuplighostAtivo = null; 
+                        
+                        return; // Sai do método; a despesa foi resolvida.
+                    }
+                    // ==========================================================
+                    // FIM: CHECAGEM DO DUPLIGHOST (Se não for acionado, segue o fluxo normal)
+                    // ==========================================================
+
+                    // FLUXO NORMAL DE PAGAMENTO (Muskular)
                     int aluguelBase = propriedade.CalcularPagamento(jogador);
                     
-                    // ==========================================================
-                    // NOVO: Aplica o desconto do Muskular no valor do aluguel
-                    // ==========================================================
+                    // Aplica o desconto do Muskular no valor do aluguel (do jogador que caiu na casa)
                     int aluguelFinal = jogador.AplicarDesconto(aluguelBase);
 
                     Console.WriteLine($"Esta propriedade pertence a {propriedade.Proprietario.Nome}. Você deve pagar ${aluguelFinal} de aluguel (Base: ${aluguelBase}).");
@@ -47,11 +80,9 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
                 return;
             }
 
-            // Se a propriedade não tem dono, oferece para compra.
+            // ... (A lógica de compra abaixo não muda, pois Duplighost afeta apenas ALUGUEL)
             
-            // ==========================================================
-            // NOVO: Calcula o preço de compra com o desconto
-            // ==========================================================
+            // Se a propriedade não tem dono, oferece para compra.
             int precoCompraBase = propriedade.Preco;
             int precoCompraFinal = jogador.AplicarDesconto(precoCompraBase);
 
@@ -77,7 +108,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
                 }
             }
             else
-            {                
+            { 
                 Console.WriteLine($"{jogador.Nome} decidiu não comprar. A propriedade irá a leilão.");
                 TurnoJogador.Instance.IniciarLeilao(propriedade);
             }
