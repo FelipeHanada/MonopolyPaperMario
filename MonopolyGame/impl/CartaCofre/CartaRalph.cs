@@ -5,7 +5,7 @@ using System;
 
 namespace MonopolyPaperMario.MonopolyGame.Impl.CartaCofre
 {
-    internal class CartaRalph : CartaCofre 
+    internal class CartaRalph : MonopolyPaperMario.MonopolyGame.Model.CartaCofre 
     {
         private const int VALOR_DEBITO = 150;
 

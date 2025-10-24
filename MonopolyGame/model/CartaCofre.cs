@@ -6,17 +6,18 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class CartaCofre : CartaInstantanea
     {
-        private readonly IEfeitoJogador efeito;
+        // CORREÇÃO: Padronizado para ser uma propriedade protegida, como em CartaSorte.
+        protected IEfeitoJogador Efeito { get; }
 
-        public CartaCofre(string descricao, IEfeitoJogador efeito) : base(descricao) // Correção aqui
+        public CartaCofre(string descricao, IEfeitoJogador efeito) : base(descricao)
         {
-            this.efeito = efeito;
+            this.Efeito = efeito;
         }
 
         public override void QuandoPegada(Jogador jogador)
         {
             Console.WriteLine($"Cofre: {Descricao}");
-            efeito?.Execute(jogador);
+            Efeito?.Execute(jogador);
         }
     }
 }

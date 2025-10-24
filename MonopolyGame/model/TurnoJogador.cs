@@ -227,7 +227,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void IniciarLeilao(Propriedade propriedade)
         {
-            if (partidaAtual == null) return;
+            if (partidaAtual == null || jogadorDaVez == null) return;
             Console.WriteLine($"--- Leilão para {propriedade.Nome} ---");
             var leilao = new Leilao(propriedade, partidaAtual.Jogadores.Where(j => !j.Falido).ToList(), jogadorDaVez);
             leilao.Executar();

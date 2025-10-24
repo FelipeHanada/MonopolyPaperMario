@@ -6,9 +6,10 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 {
     public class CartaSorte : CartaInstantanea
     {
-        protected  IEfeitoJogador Efeito{get; }
+        protected  IEfeitoJogador? Efeito{get; }
 
-        public CartaSorte(string descricao, IEfeitoJogador efeito) : base(descricao) // Correção aqui
+        // CORREÇÃO: Permite que o parâmetro 'efeito' seja nulo usando '?'
+        public CartaSorte(string descricao, IEfeitoJogador? efeito) : base(descricao)
         {
             this.Efeito = efeito;
         }

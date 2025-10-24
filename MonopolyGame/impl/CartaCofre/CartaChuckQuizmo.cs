@@ -6,8 +6,7 @@ using System;
 
 namespace MonopolyPaperMario.MonopolyGame.Impl.CartaCofre
 {
-    
-    internal class CartaChuckQuizmo : CartaCofre 
+    internal class CartaChuckQuizmo : MonopolyPaperMario.MonopolyGame.Model.CartaCofre
     {
         private const int CREDITO = 50;
         

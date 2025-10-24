@@ -5,11 +5,11 @@ using System;
 
 namespace MonopolyPaperMario.MonopolyGame.Impl.CartaCofre
 {
-    internal class CartaBandits : CartaCofre 
+    internal class CartaChetRippo : MonopolyPaperMario.MonopolyGame.Model.CartaCofre 
     {
         private const int VALOR_DEBITO = 65;
 
-        public CartaBandits() : base(
+        public CartaChetRippo() : base(
             // Descrição da Carta
             $"Seus stats estão desbalanceados e você pediu para chet rippo balancea-los. Pague ${VALOR_DEBITO}.", 
             

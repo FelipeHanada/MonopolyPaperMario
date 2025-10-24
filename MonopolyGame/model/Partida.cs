@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
     public class Partida
     {
         private List<object[]> efeitosAReverter;
-        private static Partida partida = null;
+        private static Partida? partida = null;
         public List<Jogador> Jogadores { get; private set; }
         public Tabuleiro? Tabuleiro { get; private set; }
         public int CasasDisponiveis { get; private set; } = 32;

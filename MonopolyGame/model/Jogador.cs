@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MonopolyPaperMario.MonopolyGame.Exceptions;
 using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Impl;
 
 namespace MonopolyPaperMario.MonopolyGame.Model
 {
