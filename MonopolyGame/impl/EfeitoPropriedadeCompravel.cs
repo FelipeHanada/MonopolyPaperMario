@@ -36,7 +36,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
                     // Usa o valor com desconto para a transferência
                     jogador.TransferirDinheiroPara(propriedade.Proprietario, aluguelFinal);
                 }
-                else if (propriedade.Proprietario == jogador && propriedade.hipotecada == false)
+                else if (propriedade.Proprietario == jogador && propriedade.Hipotecada == false)
                 {
                     Console.WriteLine("Você parou em sua própria propriedade.");
                 }
