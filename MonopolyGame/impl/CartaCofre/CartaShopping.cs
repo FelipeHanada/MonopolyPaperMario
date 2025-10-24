@@ -1,0 +1,30 @@
+using MonopolyPaperMario.MonopolyGame.Interface;
+using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyPaperMario.MonopolyGame.Impl; // Para acessar EfeitoDebitoFixo
+using System;
+
+namespace MonopolyPaperMario.MonopolyGame.Impl.CartaCofre
+{
+    internal class CartaShopping: CartaCofre 
+    {
+        private const int VALOR_DEBITO = 100;
+
+        public CartaShopping() : base(
+            // Descrição da Carta
+            $" você está com hp baixo e precisou ir no shopping comprar itens para restaurar sua saúde. Pague ${VALOR_DEBITO}.", 
+            
+            // O Efeito agora só precisa do valor
+            new EfeitoDebitoFixo(VALOR_DEBITO)
+        )
+        {
+            
+        }
+        
+        public override void QuandoPegada(Jogador jogador)
+        {
+            Console.WriteLine($"Cofre: {Descricao}");
+            
+            Efeito?.Execute(jogador); 
+        }
+    }
+}
