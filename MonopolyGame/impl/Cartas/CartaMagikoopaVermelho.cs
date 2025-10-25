@@ -9,7 +9,7 @@ namespace MonopolyGame.impl.Cartas
     {
         // Define o efeito Magikoopa Amarelo
         public CartaMagikoopaVermelho() 
-            : base("Red Magikoopa te deu um boost e agora nesse turno o número de casas movidas aumentará em 50 %.", 
+            : base("Red Magikoopa te deu um boost e durante o próximo turno a quantidade de casas a mover será duplicada.", 
                   new EfeitoMagikoopaVermelho()) // Usando a classe de efeito correta
         {
             
@@ -19,10 +19,8 @@ namespace MonopolyGame.impl.Cartas
         {
             Console.WriteLine($"Sorte: {Descricao}");
             
-            // O Efeito Magikoopa Amarelo é uma ação AGENDADA, não é executada imediatamente
-            
-            Console.WriteLine("================DEBUG=================\nAgendando a mágica Magikoopa Amarelo.");
-            
+            Console.WriteLine("================DEBUG=================\nAgendando a mágica Magikoopa Vermelho.");
+            Efeito?.Execute(jogador); // LINHA MAIS IMPORTANTE DA CARTA
             // Agenda o EfeitoMagikoopaAmarelo para ser executado no início do próximo turno do jogador (contador = 1).
             // O efeito é criado aqui para que a Partida possa agendá-lo.
             Partida.GetPartida().addEfeitoTurnoParaJogadores(1, new EfeitoMagikoopaVermelho(), [jogador]);

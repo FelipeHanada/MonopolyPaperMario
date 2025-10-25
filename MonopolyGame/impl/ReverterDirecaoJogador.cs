@@ -12,7 +12,9 @@ namespace MonopolyGame.impl
     {
         public void Execute(Jogador jogador)
         {
+            Console.WriteLine("Revertendo direção do jogador");
             jogador.Reverso = !jogador.Reverso;
+            Console.WriteLine(jogador.Reverso);
         }
     }
 }

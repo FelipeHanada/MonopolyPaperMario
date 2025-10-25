@@ -50,7 +50,13 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
             Console.WriteLine($"\n--- É a vez de {jogadorDaVez.Nome} ---");
             Console.WriteLine($"Saldo: ${jogadorDaVez.Dinheiro} | Posição: {partida.Tabuleiro?.GetPosicao(jogadorDaVez)}");
-
+            //SE NÃO PODE JOGAR, RETORNA
+            if (!jogadorDaVez.PodeJogar)
+            {
+                Console.WriteLine($"\n{jogadorDaVez.Nome} está proibido de jogar!");
+                FinalizarTurno();
+                return;
+            }
             if (jogadorDaVez.Preso)
             {
                 TentarSairDaPrisao();

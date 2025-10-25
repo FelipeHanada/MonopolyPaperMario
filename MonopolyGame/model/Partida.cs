@@ -23,6 +23,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] jogadores)
         {
+            Console.WriteLine("==================DEBUG===============\nAdicionado um efeito agendado.");
             efeitosAReverter.Add([turnos, efeito, jogadores]);
         }
 
@@ -70,28 +71,35 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void ProximoTurno()
         {
-            int i = 0;
-            while (i < efeitosAReverter.Count)
+            if (jogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
             {
-                object[] efeitoAtual = efeitosAReverter[i];
-                efeitoAtual[0] = (int)efeitoAtual[0] - 1;
+                int i = 0;
+                while (i < efeitosAReverter.Count) // para cada efeito agendado
+                {
+                    object[] efeitoAtual = efeitosAReverter[i];
+                    efeitoAtual[0] = (int)efeitoAtual[0] - 1;
 
-                if ((int)efeitoAtual[0] == -1)
-                {
-                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2])
+                    if ((int)efeitoAtual[0] == -1)
                     {
-                        ((IEfeitoJogador)efeitoAtual[1]).Execute(jogador);
+                        foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // para cada jogador afetado
+                        {
+                            ((IEfeitoJogador)efeitoAtual[1]).Execute(jogador);
+                        }
+                        efeitosAReverter.RemoveAt(i);
+                        Console.WriteLine("==================DEBUG===============\nEfeito revertido.");
                     }
-                    efeitosAReverter.RemoveAt(i);
+                    else
+                    {
+                        Console.WriteLine("==================DEBUG===============\nAinda não é para reverter.");
+                        i++;
+                    }
                 }
-                else
-                {
-                    i++;
-                }
+
             }
+           
 
             if (Jogadores.Count(j => !j.Falido) <= 1) return;
-
+            
             do
             {
                 jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
@@ -122,15 +130,15 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
             var cartasSorte = new List<CartaSorte>
             {
-                new CartaStarBeam(),
-                new BowserShuffle(),
-                new CartaDuplighost(),
-                new CartaMuskular(),
-                new CartaBlooper(),
-                new CartaGrooveGuyTonto(),
+                /* new CartaStarBeam(),
+                 new BowserShuffle(),
+                 new CartaDuplighost(),*/
+                 new CartaMuskular(),
+                /* new CartaBlooper(),
+                 new CartaGrooveGuyTonto(),
                 new CartaTimeout(),
                 new CartaMagikoopaAmarelo(),
-                new CartaMagikoopaVermelho()
+                new CartaMagikoopaVermelho()*/
             };
 
             var deckCofre = new Deck<CartaCofre>(cartasCofre);

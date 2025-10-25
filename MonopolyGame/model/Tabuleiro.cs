@@ -26,6 +26,15 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void MoveJogador(Jogador jogador, int offset)
         {
+            if (jogador.Reverso) // para fazer a carta Groove Guy tonto funcionar
+            {
+                offset = -offset;
+            }
+            if (jogador.Multiplicador != 0)
+            {
+                offset = offset * jogador.Multiplicador;
+                Console.WriteLine("O jogador teve o valor dos dados multiplicado por "+jogador.Multiplicador+". Novo valor é "+offset+".");
+            }
             PosicaoJogador? posAtual = posicoesJogadores.FirstOrDefault(p => p.Jogador == jogador);
             if (posAtual == null) return;
 

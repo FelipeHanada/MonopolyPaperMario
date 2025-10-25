@@ -27,6 +27,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public bool TemBoost { get; set; }
         public int QtdATirarNoProximoTurno { get; set; }
         public bool PodeJogar { get; set; }
+        public int Multiplicador { get; set; }
 
         public Jogador(string nome, int dinheiroInicial = 1500)
         {
@@ -42,10 +43,12 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             Reverso = false;
             Desconto = 0;
             PodeComprar = true;
+            PodeJogar = true;
             pagador = this;
             TemBoost = false;
             EfeitoDuplighostAtivo = null;
             QtdATirarNoProximoTurno = 0;
+            Multiplicador = 0;
         }
 
         public void IncrementarTurnosPreso()
@@ -105,6 +108,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
         public void Debitar(int valor)
         {
+            valor = AplicarDesconto(valor);
             if (valor < 0) throw new ArgumentException("O valor a ser debitado não pode ser negativo.");
             if (Dinheiro < valor)
             {
@@ -138,7 +142,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             {
                 return valorBase; // Sem desconto, retorna o valor original
             }
-
+            Console.WriteLine("Oba, " + this.Nome + " teve um desconto no débito.");
         // Calcula o fator de desconto (ex: 30 / 100 = 0.3)
             double fatorDesconto = (double)this.Desconto / 100.0;
     
