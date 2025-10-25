@@ -4,6 +4,9 @@ using System.Linq;
 using MonopolyPaperMario.MonopolyGame.Impl;
 using MonopolyPaperMario.MonopolyGame.Interface;
 using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyPaperMario.MonopolyGame.Impl.CartaCofre;
+using MonopolyPaperMario.MonopolyGame.Impl.Cartas;
+using MonopolyGame.impl.Cartas; // Namespace antigo de algumas cartas
 
 namespace MonopolyPaperMario.MonopolyGame.Model
 {
@@ -18,24 +21,27 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         public Jogador? JogadorAtual => (jogadorAtualIndex >= 0 && jogadorAtualIndex < Jogadores.Count) ? Jogadores[jogadorAtualIndex] : null;
         private int jogadorAtualIndex;
 
-        public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] jogadores) // adiciona um efeito para ser executado daqui a alguns turnos sobre os jogadores passados
+        public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] jogadores)
         {
             efeitosAReverter.Add([turnos, efeito, jogadores]);
         }
-        private Partida() // isso deve ser um singleton
+
+        private Partida()
         {
             Jogadores = new List<Jogador>();
             jogadorAtualIndex = -1;
             efeitosAReverter = new List<object[]>();
         }
+
         public static Partida GetPartida()
         {
-            if(partida == null)
+            if (partida == null)
             {
                 partida = new Partida();
             }
             return partida;
         }
+
         public void AdicionarJogador(string nome)
         {
             if (Jogadores.Count < 6)
@@ -51,60 +57,80 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
             var pisos = CriarPisos();
             this.Tabuleiro = new Tabuleiro(pisos, Jogadores);
-            ((EfeitoIrParaCadeia)pisos[30].EfeitoAcao!).Tabuleiro = this.Tabuleiro;            
+            
+            // Garante que a referência do tabuleiro seja passada para o efeito de ir para a cadeia
+            if (pisos[30].EfeitoAcao is EfeitoIrParaCadeia efeitoCadeia)
+            {
+                efeitoCadeia.Tabuleiro = this.Tabuleiro;
+            }
+
             jogadorAtualIndex = -1;
             Console.WriteLine("A partida começou!");
         }
 
         public void ProximoTurno()
         {
-    //================================================================================================================
             int i = 0;
             while (i < efeitosAReverter.Count)
             {
                 object[] efeitoAtual = efeitosAReverter[i];
-                efeitoAtual[0] = (int)efeitoAtual[0] - 1; // subtrai 1 do contador de turnos do efeito
-        
-                if ((int)efeitoAtual[0] == -1) // quando o efeito acabar (contador chegou a 0)
+                efeitoAtual[0] = (int)efeitoAtual[0] - 1;
+
+                if ((int)efeitoAtual[0] == -1)
                 {
-            // O nome da variável de iteração 'jogador' agora representa o jogador individual
-                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // executa os efeitos agendados para cada jogador
+                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2])
                     {
-                // CORREÇÃO: Passar a variável de iteração 'jogador' em vez do array 'efeitoAtual[2]'
-                        ((IEfeitoJogador)efeitoAtual[1]).Execute(jogador); 
+                        ((IEfeitoJogador)efeitoAtual[1]).Execute(jogador);
                     }
-            
-                efeitosAReverter.RemoveAt(i);
+                    efeitosAReverter.RemoveAt(i);
                 }
                 else
                 {
                     i++;
                 }
             }
-    //=================================================================================================================
-        if (Jogadores.Count(j => !j.Falido) <= 1) return;
 
-        do
-        {
-            jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
-        } while (Jogadores[jogadorAtualIndex].Falido);
-    }
+            if (Jogadores.Count(j => !j.Falido) <= 1) return;
+
+            do
+            {
+                jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
+            } while (Jogadores[jogadorAtualIndex].Falido);
+        }
 
         private (IDeck, IDeck) CriarDecks()
         {
             var cartasCofre = new List<CartaCofre>
             {
-                //new CartaCofre("Erro do banco ao seu favor. Receba $200.", new EfeitoPagarReceber(200)),
-                //new CartaCofre("Taxa médica. Pague $50.", new EfeitoPagarReceber(-50)),
-                //new CartaCofre("Restituição de imposto de renda. Receba $20.", new EfeitoPagarReceber(20)),
-                //new CartaCofre("Você herdou $100.", new EfeitoPagarReceber(100))
+                new CartaAntiGuys(),
+                new CartaBandits(),
+                new CartaChetRippo(),
+                new CartaChuckQuizmo(),
+                new CartaKetchnkoopa(),
+                new CartaKoopaKoot(),
+                new CartaMerlee(),
+                new CartaMerluvelee(),
+                new CartaMistake(),
+                new CartaMistar(),
+                new CartaPlayground(),
+                new CartaRalph(),
+                new CartaRipCheato(),
+                new CartaShopping(),
+                new CartaWhacka(),
+                new CartaYoshiKids()
             };
 
             var cartasSorte = new List<CartaSorte>
             {
-                //new CartaSorte("Seu empréstimo de construção vence. Receba $150.", new EfeitoPagarReceber(150)),
-                //new CartaSorte("Pague uma multa por excesso de velocidade de $15.", new EfeitoPagarReceber(-15)),
-                //new CartaSorte("Você ganhou um concurso de palavras cruzadas. Receba $100.", new EfeitoPagarReceber(100))
+                new CartaStarBeam(),
+                new BowserShuffle(),
+                new CartaDuplighost(),
+                new CartaMuskular(),
+                new CartaBlooper(),
+                new CartaGrooveGuyTonto(),
+                new CartaTimeout(),
+                new CartaMagikoopaAmarelo(),
+                new CartaMagikoopaVermelho()
             };
 
             var deckCofre = new Deck<CartaCofre>(cartasCofre);
@@ -113,7 +139,42 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             return (deckCofre, deckSorte);
         }
 
+        // Tabuleiro focado em cartas. Deixei o "original" comentado lá embaixo
         private Piso[] CriarPisos()
+        {
+            var pisos = new Piso[40];
+            var (deckCofre, deckSorte) = CriarDecks();
+
+            
+
+            
+            pisos[0] = new Piso("Ponto de Partida");
+            pisos[10] = new Piso("Cadeia (Apenas Visitando)");
+            pisos[20] = new Piso("Parada Livre");
+            pisos[30] = new Piso("Vá para a Cadeia", new EfeitoIrParaCadeia());
+
+            for (int i = 1; i < 40; i++)
+            {
+                if (pisos[i] != null) continue;
+
+                if (i % 2 == 0)
+                {
+                    pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(deckSorte));
+                }
+                else
+                {
+                    pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(deckCofre));
+                }
+            }
+
+            return pisos;
+        }
+    }
+}
+
+//CRIAR PISOS ORIGINAL
+/*
+private Piso[] CriarPisos()
         {
             var pisos = new Piso[40];
             var (deckCofre, deckSorte) = CriarDecks();
@@ -196,5 +257,4 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
             return pisos;
         }
-    }
-}
+*/
