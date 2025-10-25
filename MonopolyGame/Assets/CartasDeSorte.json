@@ -100,7 +100,7 @@
   {
     "id": 15,
     "nome": "Yellow Magikoopa",
-    "texto": "Yellow Magikoopa ativou sua mágica e agora todos que passarem por você no próximo turno perderão 100 moedas.",
+    "texto": "Yellow Magikoopa ativou sua mágica e agora todos os jogadores no próximo turno lhe pagarão 100 moedas.",
     "tipo": "efeito_temporario",
     "efeito": "penalidade_passagem_1_turno",
     "valor_penalidade": -100

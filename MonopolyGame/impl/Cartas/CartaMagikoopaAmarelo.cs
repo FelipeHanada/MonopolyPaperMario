@@ -9,7 +9,7 @@ namespace MonopolyGame.impl.Cartas
     {
         // Define o efeito Magikoopa Amarelo
         public CartaMagikoopaAmarelo() 
-            : base("Yellow Magikoopa ativou sua mágica e agora todos que passarem por você no próximo turno perderão 100 moedas", 
+            : base("Yellow Magikoopa ativou sua mágica e agora todos os jogadores no próximo turno lhe pagarão 100 moedas", 
                   new EfeitoMagikoopaAmarelo()) // Usando a classe de efeito correta
         {
             
