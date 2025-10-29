@@ -27,21 +27,17 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
             // Usamos a Descrição da Carta para o console.log (menos dependência do efeito)
             Console.WriteLine($"{jogador.Nome} deve pagar ${this.valor}.");
             
-            // Aplica o desconto Muskular no valor base
-            int valorComDesconto = jogador.AplicarDesconto(this.valor);
-
-            Console.WriteLine($"Valor com desconto Muskular (se aplicável): ${valorComDesconto}.");
 
             try
             {
                 // Debita o valor com desconto
-                jogador.Debitar(valorComDesconto);
+                jogador.Debitar(this.valor);
                 Console.WriteLine($"Transação concluída. Novo saldo de {jogador.Nome}: ${jogador.Dinheiro}");
             }
             catch (Exceptions.FundosInsuficientesException)
             {
                 // Lógica de falência/hipoteca
-                Console.WriteLine($"{jogador.Nome} não conseguiu pagar a multa de ${valorComDesconto} e deve tomar medidas (hipotecar ou falir).");
+                Console.WriteLine($"{jogador.Nome} não conseguiu pagar a multa de ${this.valor} e deve tomar medidas (hipotecar ou falir).");
                 jogador.SetFalido(true);
             }
         }
