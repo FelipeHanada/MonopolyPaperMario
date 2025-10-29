@@ -132,7 +132,14 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             {
                 /* new CartaStarBeam(),
                  new BowserShuffle(),
-                 new CartaDuplighost(),*/
+                 new CartaDuplighost(),
+                 new CartaLavaVulcao(),
+                 new CartaLuteComBowser(),
+                 new CartaMartelo(),
+                 new CartaPeDeFeijao(),
+                 new CartaSentinels(),
+                 new CartaSpinyTromp(),
+                 new CartaTrocaCano(),*/
                  new CartaMuskular(),
                 /* new CartaBlooper(),
                  new CartaGrooveGuyTonto(),
