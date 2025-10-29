@@ -7,15 +7,15 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
     public class EfeitoIrParaCadeia : IEfeitoJogador
     {
         // Nota: A classe Tabuleiro precisa ser acessível para mover o jogador.
-        public Tabuleiro? Tabuleiro { get; set; }
+        private Tabuleiro tabuleiro;
 
-        public EfeitoIrParaCadeia() { }
+        public EfeitoIrParaCadeia(Tabuleiro tabuleiro)
+        {
+            this.tabuleiro = tabuleiro;
+        }
 
         public void Execute(Jogador jogador)
         {
-            if (jogador == null) throw new ArgumentNullException(nameof(jogador));
-            if (Tabuleiro == null) throw new InvalidOperationException("A referência ao tabuleiro não foi definida para EfeitoIrParaCadeia.");
-
             // 1. Verifica se o jogador tem o Passe Livre
             if (jogador.CartasPasseLivre > 0)
             {
@@ -40,14 +40,10 @@ namespace MonopolyPaperMario.MonopolyGame.Impl
                 }
             }
 
-
-            // 3. O jogador vai para a prisão (se não usou a carta ou se não tinha nenhuma)
             Console.WriteLine($"\n{jogador.Nome} foi para a cadeia!");
             jogador.SetPreso(true);
-            
-            // Revertido para usar a posição fixa 10 (a posição da cadeia)
-            // O 'false' indica que não deve passar pelo ponto de partida (Go)
-            Tabuleiro.MoverJogadorPara(jogador, 10, false);
+
+            tabuleiro.MoverJogadorPara(jogador, 10, false);
         }
     }
 }

@@ -213,7 +213,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
                 if (contadorDadosIguais == 3)
                 {
                     Console.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
-                    var efeitoCadeia = new EfeitoIrParaCadeia { Tabuleiro = partidaAtual.Tabuleiro };
+                    var efeitoCadeia = new EfeitoIrParaCadeia(Tabuleiro.getTabuleiro());
                     efeitoCadeia.Execute(jogadorDaVez);
                     estadoAtual = TurnoJogadorEstado.FimDeTurno;
                 }

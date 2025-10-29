@@ -6,9 +6,9 @@ namespace MonopolyGame.impl.Cartas
 {
     public class CartaSentinels : CartaSorte
     {
-        public CartaSentinels(Tabuleiro tabuleiro) 
+        public CartaSentinels() 
             : base("Os Sentinels pegaram todos os jogadores e os trocaram de lugar uns com os outros.", 
-                   new EfeitoRotacionarPosicao(tabuleiro)) 
+                   new EfeitoRotacionarPosicao(Tabuleiro.getTabuleiro())) 
         {
             
         }

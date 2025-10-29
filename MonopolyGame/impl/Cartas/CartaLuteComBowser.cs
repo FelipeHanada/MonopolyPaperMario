@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl.Cartas
 {
     internal class CartaLuteComBowser : CartaSorte
     {
-        public CartaLuteComBowser(Tabuleiro tabuleiro) : base("Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.", new EfeitoIrParaCadeia())
+        public CartaLuteComBowser() : base("Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.", new EfeitoIrParaCadeia(Tabuleiro.getTabuleiro()))
         {
            
         }

@@ -7,9 +7,9 @@ namespace MonopolyGame.impl.Cartas
 {
     public class CartaTrocaCano : CartaSorte
     {
-        public CartaTrocaCano(Tabuleiro tabuleiro, List<Jogador> jogadoresAtivos) 
+        public CartaTrocaCano(List<Jogador> jogadoresAtivos) 
             : base("Você encontrou uma passagem em um cano. Troque de lugar com outro jogador.", 
-                   new EfeitoTrocaPosicaoDinamica(tabuleiro, jogadoresAtivos)) // Injeta as dependências
+                   new EfeitoTrocaPosicaoDinamica(Tabuleiro.getTabuleiro(), jogadoresAtivos)) // Injeta as dependências
         {
             
         }

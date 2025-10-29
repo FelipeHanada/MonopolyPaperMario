@@ -57,14 +57,8 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             if (Jogadores.Count < 2) return;
 
             var pisos = CriarPisos();
-            this.Tabuleiro = new Tabuleiro(pisos, Jogadores);
-            
-            // Garante que a referência do tabuleiro seja passada para o efeito de ir para a cadeia
-            if (pisos[30].EfeitoAcao is EfeitoIrParaCadeia efeitoCadeia)
-            {
-                efeitoCadeia.Tabuleiro = this.Tabuleiro;
-            }
-
+            this.Tabuleiro = Tabuleiro.getTabuleiro();
+            //this.Tabuleiro = new Tabuleiro(pisos, Jogadores);
             jogadorAtualIndex = -1;
             Console.WriteLine("A partida começou!");
         }
@@ -96,10 +90,10 @@ namespace MonopolyPaperMario.MonopolyGame.Model
                 }
 
             }
-           
+
 
             if (Jogadores.Count(j => !j.Falido) <= 1) return;
-            
+
             do
             {
                 jogadorAtualIndex = (jogadorAtualIndex + 1) % Jogadores.Count;
@@ -130,18 +124,18 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 
             var cartasSorte = new List<CartaSorte>
             {
-                /* new CartaStarBeam(),
-                 new BowserShuffle(),
+                 new CartaStarBeam(),
+                /* new BowserShuffle(),
                  new CartaDuplighost(),
                  new CartaLavaVulcao(),
-                 new CartaLuteComBowser(),
-                 new CartaMartelo(),
+                 new CartaLuteComBowser(),*/
+                 /* new CartaMartelo(),
                  new CartaPeDeFeijao(),
                  new CartaSentinels(),
                  new CartaSpinyTromp(),
-                 new CartaTrocaCano(),*/
+                 new CartaTrocaCano(Jogad1ores),
                  new CartaMuskular(),
-                /* new CartaBlooper(),
+                 new CartaBlooper(),
                  new CartaGrooveGuyTonto(),
                 new CartaTimeout(),
                 new CartaMagikoopaAmarelo(),
@@ -158,15 +152,13 @@ namespace MonopolyPaperMario.MonopolyGame.Model
         private Piso[] CriarPisos()
         {
             var pisos = new Piso[40];
+            Tabuleiro.getNovoTabuleiro(pisos, Jogadores);
             var (deckCofre, deckSorte) = CriarDecks();
-
-            
-
-            
             pisos[0] = new Piso("Ponto de Partida");
             pisos[10] = new Piso("Cadeia (Apenas Visitando)");
             pisos[20] = new Piso("Parada Livre");
-            pisos[30] = new Piso("Vá para a Cadeia", new EfeitoIrParaCadeia());
+            pisos[30] = new Piso("Vá para a Cadeia", new EfeitoIrParaCadeia(Tabuleiro.getTabuleiro()));
+
 
             for (int i = 1; i < 40; i++)
             {
@@ -192,6 +184,7 @@ namespace MonopolyPaperMario.MonopolyGame.Model
 private Piso[] CriarPisos()
         {
             var pisos = new Piso[40];
+            Tabuleiro.getNovoTabuleiro(pisos, Jogadores);
             var (deckCofre, deckSorte) = CriarDecks();
 
             // Lado 1

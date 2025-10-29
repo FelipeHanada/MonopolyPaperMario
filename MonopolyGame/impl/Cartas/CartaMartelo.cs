@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl.Cartas
 {
     internal class CartaMartelo : CartaSorte
     {
-        public CartaMartelo(Tabuleiro tabuleiro) : base("Você encontrou o martelo e quebrou o bloco que bloqueava a passagem para Toad Town, avance 3 casas", new EfeitoMoverJogador(tabuleiro,3))
+        public CartaMartelo() : base("Você encontrou o martelo e quebrou o bloco que bloqueava a passagem para Toad Town, avance 3 casas", new EfeitoMoverJogador(Tabuleiro.getTabuleiro(),3))
         {
            
         }

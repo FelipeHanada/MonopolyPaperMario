@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl.Cartas
 {
     internal class CartaSpinyTromp : CartaSorte
     {
-        public CartaSpinyTromp(Tabuleiro tabuleiro) : base("Oh não, um Spiny Tromp. Fuja dele e avance 4 casas", new EfeitoMoverJogador(tabuleiro,4))
+        public CartaSpinyTromp() : base("Oh não, um Spiny Tromp. Fuja dele e avance 4 casas", new EfeitoMoverJogador(Tabuleiro.getTabuleiro(),4))
         {
            
         }

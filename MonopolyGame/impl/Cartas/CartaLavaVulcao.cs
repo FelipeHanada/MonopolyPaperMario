@@ -10,7 +10,7 @@ namespace MonopolyPaperMario.MonopolyGame.Impl.Cartas
 {
     internal class CartaLavaVulcao : CartaSorte
     {
-        public CartaLavaVulcao(Tabuleiro tabuleiro) : base("Você se queimou na lava do vulcão, volte 3 casas.", new EfeitoMoverJogador(tabuleiro,-3))
+        public CartaLavaVulcao() : base("Você se queimou na lava do vulcão, volte 3 casas.", new EfeitoMoverJogador(Tabuleiro.getTabuleiro(),-3))
         {
            
         }

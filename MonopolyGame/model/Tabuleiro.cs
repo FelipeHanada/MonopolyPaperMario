@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MonopolyPaperMario.MonopolyGame.Exceptions;
 
 namespace MonopolyPaperMario.MonopolyGame.Model
 {
@@ -8,8 +9,21 @@ namespace MonopolyPaperMario.MonopolyGame.Model
     {
         private readonly Piso[] pisos;
         private readonly List<PosicaoJogador> posicoesJogadores;
+        private static Tabuleiro tabuleiro = null;
 
-        public Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
+        public static Tabuleiro getNovoTabuleiro(Piso[] pisos, List<Jogador> jogadores){
+            tabuleiro = new Tabuleiro(pisos, jogadores);
+            return tabuleiro;
+        }
+
+        public static Tabuleiro getTabuleiro(){
+            if(tabuleiro == null){
+                throw new TabuleiroVazioException();
+            }
+            return tabuleiro;
+        }
+
+        private Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
         {
             this.pisos = pisos;
             this.posicoesJogadores = new List<PosicaoJogador>();
