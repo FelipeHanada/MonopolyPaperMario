@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace MonopolyPaperMario.MonopolyGame.Model
 {
@@ -30,8 +31,44 @@ namespace MonopolyPaperMario.MonopolyGame.Model
             {
                 return Alugueis[0] * 2;
             }
-            
+
             return Alugueis[NivelConstrucao];
+        }
+
+        public void AdicionarCasa()
+        {
+            bool monopolio = Monopolio.VerificarMonopolio(Proprietario, this.Cor);
+
+            if (!monopolio)
+            {
+                Console.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
+                return;
+            }
+
+            if (NivelConstrucao == 5)
+            {
+                Console.WriteLine("Imóvel em nível máximo!!!");
+                return;
+            }
+
+            var imoveisMesmaCor = Proprietario.Posses
+                .OfType<Imovel>()
+                .Where(imovel => imovel.Cor == this.Cor)
+                .ToList();
+
+            int menorNivel = imoveisMesmaCor.Min(imovel => imovel.NivelConstrucao);
+
+            if (this.NivelConstrucao > menorNivel)
+            {
+                Console.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
+                return;
+            }
+            else
+            {
+                Proprietario.Debitar(CustoCasa);
+                this.NivelConstrucao++;
+                Console.WriteLine("Propriedade adicionada com sucesso!!");
+            }
         }
     }
 }
