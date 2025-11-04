@@ -4,13 +4,13 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-internal class EfeitoAgendarEfeito(Partida partida, IEfeitoJogador efeito, int delta) : EfeitoJogador(partida)
+internal class EfeitoAgendarEfeito(IEfeitoJogador efeito, int delta) : IEfeitoJogador
 {
     private readonly IEfeitoJogador efeito = efeito;
     private readonly int delta = delta;
     
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
-        GetPartida().addEfeitoTurnoParaJogadores(delta, efeito, [jogador]);
+        jogador.Partida.addEfeitoTurnoParaJogadores(delta, efeito, [jogador]);
     }
 }

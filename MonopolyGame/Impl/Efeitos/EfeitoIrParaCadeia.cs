@@ -4,9 +4,9 @@ using MonopolyGame.Model.Partidas;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoIrParaCadeia(Partida partida) : EfeitoJogador(partida)
+public class EfeitoIrParaCadeia : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         // 1. Verifica se o jogador tem o Passe Livre
         if (jogador.CartasPasseLivre > 0)
@@ -27,6 +27,6 @@ public class EfeitoIrParaCadeia(Partida partida) : EfeitoJogador(partida)
 
         jogador.SetPreso(true);
 
-        GetPartida().GetTabuleiro().MoverJogadorPara(jogador, 10, false);
+        jogador.Partida.Tabuleiro.MoverJogadorPara(jogador, 10, false);
     }
 }

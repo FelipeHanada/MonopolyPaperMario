@@ -4,18 +4,16 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoBowserShuffle(Partida partida) : EfeitoJogador(partida)
+public class EfeitoBowserShuffle : IEfeitoJogador
 {
-    private readonly Partida partida = partida;
-
     // NOTA: O IEfeitoJogador.Execute(Jogador jogador) recebe apenas um jogador, 
     // mas este efeito afetará TODOS os jogadores da Partida.
     // O jogador passado é tipicamente o jogador que acionou o efeito (ex: tirou a carta).
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         // 1. Obter todos os jogadores não falidos
         // O efeito não deve incluir jogadores que já faliram.
-        List<Jogador> jogadoresAtivos = partida.jogadores.Where(j => !j.Falido).ToList();
+        List<Jogador> jogadoresAtivos = jogador.Partida.JogadoresAtivos;
         
         if (jogadoresAtivos.Count <= 1)
         {

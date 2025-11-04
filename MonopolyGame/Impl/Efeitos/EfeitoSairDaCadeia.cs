@@ -4,9 +4,9 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoSairDaCadeia(Partida partida) : EfeitoJogador(partida)
+public class EfeitoSairDaCadeia : IEfeitoJogador
 {
-    override public void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) throw new ArgumentNullException(nameof(jogador));
 

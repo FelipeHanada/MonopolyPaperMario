@@ -44,13 +44,13 @@ public class TurnoJogador
     public void IniciarTurno(Partida partida)
     {
         this.partida = partida;
-        jogadorDaVez = partida.jogadorAtual;
+        jogadorDaVez = partida.JogadorAtual;
         contadorDadosIguais = 0;
 
         if (jogadorDaVez == null) return;
 
         Console.WriteLine($"\n--- É a vez de {jogadorDaVez.Nome} ---");
-        Console.WriteLine($"Saldo: ${jogadorDaVez.Dinheiro} | Posição: {partida.tabuleiro?.GetPosicao(jogadorDaVez)}");
+        Console.WriteLine($"Saldo: ${jogadorDaVez.Dinheiro} | Posição: {partida.Tabuleiro?.GetPosicao(jogadorDaVez)}");
         //SE NÃO PODE JOGAR, RETORNA
         if (!jogadorDaVez.PodeJogar)
         {
@@ -143,13 +143,13 @@ public class TurnoJogador
     {
         if (partida == null || jogadorDaVez == null) return;
 
-        var gerenciador = new GerenciadorDeTrocas(partida.jogadores);
+        var gerenciador = new GerenciadorDeTrocas(partida.Jogadores);
         gerenciador.IniciarNovaTroca(jogadorDaVez);
     }
 
     private void TentarSairDaPrisao()
     {
-        if (jogadorDaVez == null || partida == null || partida.tabuleiro == null) return;
+        if (jogadorDaVez == null || partida == null || partida.Tabuleiro == null) return;
 
         jogadorDaVez.IncrementarTurnosPreso();
         Console.WriteLine($"{jogadorDaVez.Nome} está na prisão. (Turno {jogadorDaVez.TurnosPreso})");
@@ -161,7 +161,7 @@ public class TurnoJogador
             {
                 jogadorDaVez.Debitar(50);
                 Console.WriteLine("Fiança paga.");
-                new EfeitoSairDaCadeia(partida).Aplicar(jogadorDaVez);
+                new EfeitoSairDaCadeia().Aplicar(jogadorDaVez);
                 RolarDados();
             }
             catch (Exceptions.FundosInsuficientesException)
@@ -182,9 +182,9 @@ public class TurnoJogador
             if (resultadoDado1 == resultadoDado2)
             {
                 Console.WriteLine("Dados iguais! Você está livre!");
-                new EfeitoSairDaCadeia(partida).Aplicar(jogadorDaVez);
+                new EfeitoSairDaCadeia().Aplicar(jogadorDaVez);
                 int totalDados = resultadoDado1 + resultadoDado2;
-                partida.tabuleiro.MoveJogador(jogadorDaVez, totalDados);
+                partida.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
                 estadoAtual = TurnoJogadorEstado.FaseComumDadoRolado;
             }
             else
@@ -197,7 +197,7 @@ public class TurnoJogador
 
     private void RolarDados()
     {
-        if (jogadorDaVez == null || partida == null || partida.tabuleiro == null) return;
+        if (jogadorDaVez == null || partida == null || partida.Tabuleiro == null) return;
 
         int resultadoDado1 = dado.Next(1, 7);
         int resultadoDado2 = dado.Next(1, 7);
@@ -214,20 +214,20 @@ public class TurnoJogador
             if (contadorDadosIguais == 3)
             {
                 Console.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
-                var efeitoCadeia = new EfeitoIrParaCadeia(partida);
+                var efeitoCadeia = new EfeitoIrParaCadeia();
                 efeitoCadeia.Aplicar(jogadorDaVez);
                 estadoAtual = TurnoJogadorEstado.FimDeTurno;
             }
             else
             {
-                partida.tabuleiro.MoveJogador(jogadorDaVez, totalDados);
+                partida.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
                 Console.WriteLine("Jogue novamente!");
                 estadoAtual = TurnoJogadorEstado.FaseComum;
             }
         }
         else
         {
-            partida.tabuleiro.MoveJogador(jogadorDaVez, totalDados);
+            partida.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
             estadoAtual = TurnoJogadorEstado.FaseComumDadoRolado;
         }
     }
@@ -236,7 +236,7 @@ public class TurnoJogador
     {
         if (partida == null || jogadorDaVez == null) return;
         Console.WriteLine($"--- Leilão para {posseJogador.Nome} ---");
-        var leilao = new Leilao(partida, posseJogador, partida.jogadores.Where(j => !j.Falido).ToList(), jogadorDaVez);
+        var leilao = new Leilao(partida, posseJogador, partida.Jogadores.Where(j => !j.Falido).ToList(), jogadorDaVez);
         leilao.Executar();
         FinalizarLeilao(leilao);
     }

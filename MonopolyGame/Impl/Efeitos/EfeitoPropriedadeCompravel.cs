@@ -5,11 +5,11 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoPropriedadeCompravel(Partida partida, Propriedade propriedade) : EfeitoJogador(partida)
+public class EfeitoPropriedadeCompravel(Propriedade propriedade) : IEfeitoJogador
 {
     private readonly Propriedade propriedade = propriedade;
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) throw new ArgumentNullException(nameof(jogador));
 

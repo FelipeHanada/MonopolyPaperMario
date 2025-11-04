@@ -4,11 +4,11 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-internal class EfeitoAplicarDesconto(Partida partida, int percentual) : EfeitoJogador(partida)
+internal class EfeitoAplicarDesconto(int percentual) : IEfeitoJogador
 {
-    private int percentual = percentual;
+    private readonly int percentual = percentual;
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         jogador.Desconto = percentual;
     }

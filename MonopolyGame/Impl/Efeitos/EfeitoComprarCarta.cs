@@ -5,11 +5,11 @@ using MonopolyGame.Model.Partidas;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoComprarCarta(Partida partida, IDeck deck) : EfeitoJogador(partida)
+public class EfeitoComprarCarta(IDeck deck) : IEfeitoJogador
 {
     private readonly IDeck deck = deck;
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) throw new ArgumentNullException(nameof(jogador));
 

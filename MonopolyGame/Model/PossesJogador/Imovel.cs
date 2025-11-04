@@ -38,6 +38,7 @@ namespace MonopolyGame.Model.PossesJogador
 
         public void AdicionarCasa()
         {
+            if (Proprietario == null) return;
             bool monopolio = Monopolio.VerificarMonopolio(Proprietario, Cor);
 
             if (!monopolio)

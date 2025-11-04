@@ -4,7 +4,7 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-class EfeitoComposto(Partida partida, List<IEfeitoJogador> efeitos) : EfeitoJogador(partida)
+class EfeitoComposto(List<IEfeitoJogador> efeitos) : IEfeitoJogador
 {
     private readonly List<IEfeitoJogador> efeitos = efeitos;
     
@@ -13,7 +13,7 @@ class EfeitoComposto(Partida partida, List<IEfeitoJogador> efeitos) : EfeitoJoga
         efeitos.Add(efeito);
     }
     
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         foreach (IEfeitoJogador efeito in efeitos) {
             efeito.Aplicar(jogador);

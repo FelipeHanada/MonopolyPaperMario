@@ -4,12 +4,12 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoMoverJogadorPara(Partida partida, int posicao) : EfeitoJogador(partida)
+public class EfeitoMoverJogadorPara(int posicao) : IEfeitoJogador
 {
     private readonly int posicao = posicao;
 
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null)
         {
@@ -22,6 +22,6 @@ public class EfeitoMoverJogadorPara(Partida partida, int posicao) : EfeitoJogado
         // 1. Movimento para frente (offset positivo).
         // 2. Movimento para trás (offset negativo).
         // 3. Verificação de ter passado pelo início (apenas se movendo para frente).
-        GetPartida().GetTabuleiro().MoverJogadorPara(jogador, posicao, true);
+        jogador.Partida.Tabuleiro.MoverJogadorPara(jogador, posicao, true);
     }
 }

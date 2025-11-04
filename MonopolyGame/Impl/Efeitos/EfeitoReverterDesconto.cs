@@ -5,10 +5,9 @@ namespace MonopolyGame.Impl.Efeitos;
 
 // A Reversão sempre zera o desconto, não importa qual era o valor anterior.
 
-
-internal class EfeitoReverterDesconto(Partida partida) : EfeitoJogador(partida)
+class EfeitoReverterDesconto : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) return;
         Console.WriteLine($"O efeito de desconto acabou. Descontos de {jogador.Nome} resetados.");

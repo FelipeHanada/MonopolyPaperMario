@@ -5,11 +5,11 @@ using MonopolyGame.Model.Partidas;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoPagarReceber(Partida partida, int valor) : EfeitoJogador(partida)
+public class EfeitoPagarReceber(int valor) : IEfeitoJogador
 {
     public readonly int valor = valor;
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) throw new ArgumentNullException(nameof(jogador));
 

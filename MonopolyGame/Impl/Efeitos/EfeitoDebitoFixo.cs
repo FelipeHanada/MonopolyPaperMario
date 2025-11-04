@@ -5,11 +5,11 @@ using MonopolyGame.Exceptions;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoDebitoFixo(Partida partida, int valor) : EfeitoJogador(partida)
+public class EfeitoDebitoFixo(int valor) : IEfeitoJogador
 {
     private readonly int valor = valor;
     
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) return;
         

@@ -7,13 +7,13 @@ namespace MonopolyGame.Impl.Efeitos;
 
 // Este efeito é o que é AGENDADO. 
 // Ele será setado no jogador e removido no fim do turno.
-public class EfeitoDuplighostReversor(Partida partida, Jogador duplighostAtivo) : EfeitoJogador(partida)
+public class EfeitoDuplighostReversor(Jogador duplighostAtivo) : IEfeitoJogador
 {
     public Jogador DuplighostAlvo { get; } = duplighostAtivo;
     private bool foiUsado = false; 
 
     // Este método é chamado na Partida.ProximoTurno quando o contador zera/expira.
-    public override void Aplicar(Jogador jogador) 
+    public void Aplicar(Jogador jogador) 
     {
         // Limpeza: remove a referência do efeito no jogador quando ele expira
         jogador.EfeitoDuplighostAtivo = null;

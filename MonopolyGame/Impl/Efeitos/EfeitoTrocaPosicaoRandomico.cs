@@ -4,13 +4,13 @@ using MonopolyGame.Interface.Efeitos;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-public class EfeitoTrocaPosicaoRandomico(Partida partida) : EfeitoJogador(partida)
+public class EfeitoTrocaPosicaoRandomico : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogadorSolicitante)
+    public void Aplicar(Jogador jogador)
     {
-        if (jogadorSolicitante == null) throw new ArgumentNullException(nameof(jogadorSolicitante));
+        if (jogador == null) throw new ArgumentNullException(nameof(jogador));
 
-        var alvosValidos = GetPartida().GetJogadoresAtivos().Where(j => j != jogadorSolicitante).ToList();
+        var alvosValidos = jogador.Partida.JogadoresAtivos.Where(j => j != jogador).ToList();
 
         if (!alvosValidos.Any())
         {
@@ -19,7 +19,7 @@ public class EfeitoTrocaPosicaoRandomico(Partida partida) : EfeitoJogador(partid
 
         Random rand = new Random();
         Jogador jogadorAlvo = alvosValidos[rand.Next(alvosValidos.Count)];
-        
-        GetPartida().GetTabuleiro().TrocarPosicao(jogadorSolicitante, jogadorAlvo);
+
+        jogador.Partida.Tabuleiro.TrocarPosicao(jogador, jogadorAlvo);
     }
 }

@@ -11,21 +11,21 @@ class Program
         Console.WriteLine("🎲 Monopoly Paper Mario! 🎲");
 
         Console.WriteLine("Jogadores:");
-        foreach (Jogador jogador in partida.GetJogadores())
+        foreach (Jogador jogador in partida.Jogadores)
         {
             Console.WriteLine("- " + jogador.Nome);
         }
         Console.WriteLine();
 
         // Loop principal do jogo
-        while (partida.GetJogadoresAtivos().Count() > 1)
+        while (partida.JogadoresAtivos.Count() > 1)
         {
             partida.ProximoTurno(); // Apenas avança o ponteiro do jogador atual
 
             TurnoJogador.Instance.IniciarTurno(partida);
         }
 
-        var vencedor = partida.jogadores.FirstOrDefault(j => !j.Falido);
+        var vencedor = partida.Jogadores.FirstOrDefault(j => !j.Falido);
         if (vencedor != null)
         {
             Console.WriteLine($"\n🎉 Fim de jogo! O vencedor é {vencedor.Nome}! 🎉");

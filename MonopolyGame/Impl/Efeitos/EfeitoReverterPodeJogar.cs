@@ -4,9 +4,9 @@ using MonopolyGame.Model.Partidas;
 namespace MonopolyGame.Impl.Efeitos;
 
 
-internal class EfeitoReverterPodeJogar(Partida partida) : EfeitoJogador(partida)
+internal class EfeitoReverterPodeJogar : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         jogador.PodeJogar = !jogador.PodeJogar;
     }

@@ -16,79 +16,79 @@ class FabricaCartaSorte(Partida partida) : FabricaAbstrataCartaSorte
         {
             CartasSorte.CartaBowserShuffle => new CartaSorte(
                 "Bowser ativou a sua Star Rod e fez com que todos os jogadores em campo tenham o mesmo dinheiro.",
-                new EfeitoBowserShuffle(partida)
+                new EfeitoBowserShuffle()
             ),
             CartasSorte.CartaBlooper => new CartaSorte(
                 "Blooper jogou tinta em você e você não pode ver nada. Fique 1 rodada sem comprar qualquer propriedade ou companhia.",
-                new EfeitoAgendarEfeito(partida, new EfeitoReverterComprarJogador(partida), 1)
+                new EfeitoAgendarEfeito(new EfeitoReverterComprarJogador(), 1)
             ),
             CartasSorte.CartaDuplighost => new CartaSorte(
                 "Duplighost apareceu! Ele se transformará em um jogador aleatório e pagará sua próxima despesa de propriedade/aluguel.",
-                new EfeitoDuplighost(partida)
+                new EfeitoDuplighost()
             ),
             CartasSorte.CartaGrooveGuyTonto => new CartaSorte(
                 "Groove Guy te deixou tonto. Você vai se mover na direção contrária no próximo turno.",
-                new EfeitoComposto(partida, [
-                    new EfeitoReverterDirecaoJogador(partida),
-                    new EfeitoAgendarEfeito(partida, new EfeitoReverterDirecaoJogador(partida), 1)
+                new EfeitoComposto([
+                    new EfeitoReverterDirecaoJogador(),
+                    new EfeitoAgendarEfeito(new EfeitoReverterDirecaoJogador(), 1)
                 ])
             ),
             CartasSorte.CartaLavaVulcao => new CartaSorte(
                 "Você se queimou na lava do vulcão, volte 3 casas.",
-                new EfeitoMoverJogador(partida, -3)
+                new EfeitoMoverJogador(-3)
             ),
             CartasSorte.CartaLuteComBowser => new CartaSorte(
                 "Oh não, o Bowser está aqui, lute contra ele e ajude o reino dos cogumelos.",
-                new EfeitoIrParaCadeia(partida)
+                new EfeitoIrParaCadeia()
             ),
             CartasSorte.CartaMagikoopaAmarelo => new CartaSorte(
                 "Yellow Magikoopa ativou sua mágica e agora todos os jogadores no próximo turno lhe pagarão 100 moedas",
-                new EfeitoAgendarEfeito(partida, new EfeitoMagikoopaAmarelo(partida), 1)
+                new EfeitoAgendarEfeito(new EfeitoMagikoopaAmarelo(), 1)
             ),
             CartasSorte.CartaMagikoopaVermelho => new CartaSorte(
                 "Red Magikoopa te deu um boost e durante o próximo turno a quantidade de casas a mover será duplicada.",
-                new EfeitoComposto(partida, [
-                    new EfeitoMagikoopaVermelho(partida),
-                    new EfeitoAgendarEfeito(partida, new EfeitoMagikoopaVermelho(partida), 1),
+                new EfeitoComposto([
+                    new EfeitoMagikoopaVermelho(),
+                    new EfeitoAgendarEfeito(new EfeitoMagikoopaVermelho(), 1),
                 ])
             ),
             CartasSorte.CartaMartelo => new CartaSorte(
                 "Você encontrou o martelo e quebrou o bloco que bloqueava a passagem para Toad Town, avance 3 casas",
-                new EfeitoMoverJogador(partida, 3)
+                new EfeitoMoverJogador(3)
             ),
             CartasSorte.CartaMuskular => new CartaSorte(
                 "Muskular ativou seu poder Chill Out. Durante 3 turnos todas as propriedades e despesas terão 30% de desconto.",
-                new EfeitoComposto(partida, [
-                    new EfeitoAplicarDesconto(partida,30),
-                    new EfeitoAgendarEfeito(partida, new EfeitoReverterDesconto(partida), 3)
+                new EfeitoComposto([
+                    new EfeitoAplicarDesconto(30),
+                    new EfeitoAgendarEfeito(new EfeitoReverterDesconto(), 3)
                 ])
             ),
             CartasSorte.CartaPeDeFeijao => new CartaSorte(
                 "Você plantou o pé de feijão que te levou até as nuvens. Ao sair, você retornou para Toad Town (pare na partida e ganhe 200)",
-                new EfeitoMoverJogadorPara(partida, 0)
+                new EfeitoMoverJogadorPara(0)
             ),
             CartasSorte.CartaSentinels => new CartaSorte(
                 "Os Sentinels pegaram todos os jogadores e os trocaram de lugar uns com os outros.",
-                new EfeitoRotacionarPosicao(partida)
+                new EfeitoRotacionarPosicao()
             ),
             CartasSorte.CartaSpinyTromp => new CartaSorte(
                 "Oh não, um Spiny Tromp. Fuja dele e avance 4 casas",
-                new EfeitoMoverJogador(partida, 4)
+                new EfeitoMoverJogador(4)
             ),
             CartasSorte.CartaStarBeam => new CartaSorte(
                 "Passe Livre da Prisão. Esta carta pode ser guardada até que seja necessária ou vendida.",
-                new EfeitoDarPasseLivre(partida, 1)
+                new EfeitoDarPasseLivre(1)
             ),
             CartasSorte.CartaTimeout => new CartaSorte(
                 "Kevlar ativou seu poder timeout. Você ficará uma rodada sem jogar.",
-                new EfeitoComposto(partida, [
-                    new EfeitoReverterPodeJogar(partida),
-                    new EfeitoAgendarEfeito(partida, new EfeitoReverterPodeJogar(partida), 1)
+                new EfeitoComposto([
+                    new EfeitoReverterPodeJogar(),
+                    new EfeitoAgendarEfeito(new EfeitoReverterPodeJogar(), 1)
                 ])
             ),
             CartasSorte.CartaTrocaCano => new CartaSorte(
                 "Você encontrou uma passagem em um cano. Troque de lugar com outro jogador.",
-                new EfeitoTrocaPosicaoRandomico(partida)
+                new EfeitoTrocaPosicaoRandomico()
             ),
             _ => throw new ArgumentException($"ID de carta desconhecido: {cartaId}", nameof(cartaId))
         };

@@ -7,9 +7,9 @@ namespace MonopolyGame.Impl.Efeitos;
 /// Efeito imediato ativado pelo Magikoopa Vermelho.
 /// Define um multiplicador de 1.5 para a próxima jogada de dados do jogador.
 
-public class EfeitoMagikoopaVermelho(Partida partida) : EfeitoJogador(partida)
+public class EfeitoMagikoopaVermelho : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         Console.WriteLine($"--- Efeito Magikoopa Vermelho ativado para {jogador.Nome} ---");
         if (jogador.Multiplicador == 0)

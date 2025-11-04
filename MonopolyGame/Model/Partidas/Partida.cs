@@ -9,75 +9,63 @@ namespace MonopolyGame.Model.Partidas;
 
 public class Partida
 {
-    private List<object[]> efeitosAReverter;
-    public List<Jogador> jogadores { get; private set; }
-    public Tabuleiro tabuleiro { get; private set; }
-    public int casasDisponiveis { get; private set; } = 32;
-    public int hoteisDisponiveis { get; private set; } = 12;
-    public Jogador? jogadorAtual => jogadorAtualIndex >= 0 && jogadorAtualIndex < jogadores.Count ? jogadores[jogadorAtualIndex] : null;
-    private int jogadorAtualIndex;
+    public List<Jogador> Jogadores { get; }
+    public List<Jogador> JogadoresAtivos { get => [.. Jogadores.Where(j => j.Falido == false)]; }
+    public Tabuleiro Tabuleiro { get; private set; }
+    public int CasasDisponiveis { get; private set; } = 32;
+    public int HoteisDisponiveis { get; private set; } = 12;
+    public Jogador JogadorAtual { get => Jogadores[JogadorAtualIndex]; }
+    public int JogadorAtualIndex { get; private set; }
+    public IDeck? DeckCofre { get; }
+    public IDeck? DeckSorte { get; }
 
-    public IDeck? deckCofre, deckSorte;
+    private readonly List<object[]> EfeitosAReverter;
 
-    public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] jogadores)
+
+    public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] Jogadores)
     {
         Console.WriteLine("==================DEBUG===============\nAdicionado um efeito agendado.");
-        efeitosAReverter.Add([turnos, efeito, jogadores]);
+        EfeitosAReverter.Add([turnos, efeito, Jogadores]);
     }
 
     public Partida(List<string> nomes)
     {
-        jogadores = [];
+        Jogadores = [];
         foreach (string nome in nomes)
         {
-            jogadores.Add(new Jogador(nome));
+            AdicionarJogador(nome);
         }
-        jogadorAtualIndex = -1;
-        efeitosAReverter = [];
+        JogadorAtualIndex = -1;
+        EfeitosAReverter = [];
 
-        (deckCofre, deckSorte) = CriarDecks();
-        tabuleiro = CriarTabuleiro();
-        foreach (Jogador jogador in jogadores)
+        (DeckCofre, DeckSorte) = CriarDecks();
+        Tabuleiro = CriarTabuleiro();
+        foreach (Jogador jogador in Jogadores)
         {
-            tabuleiro.AddJogador(jogador);
+            Tabuleiro.AddJogador(jogador);
         }
 
         Console.WriteLine("A partida começou!");
     }
 
-    public Tabuleiro GetTabuleiro()
-    {
-        return tabuleiro;
-    }
-
     private void AdicionarJogador(string nome)
     {
-        if (jogadores.Count < 6)
+        if (Jogadores.Count < 6)
         {
-            Jogador novoJogador = new Jogador(nome);
-            jogadores.Add(novoJogador);
+            Jogador novoJogador = new Jogador(this, nome);
+            Jogadores.Add(novoJogador);
             Console.WriteLine($"Jogador {nome} adicionado.");
         }
     }
 
-    public List<Jogador> GetJogadores()
-    {
-        return jogadores;
-    }
-
-    public List<Jogador> GetJogadoresAtivos()
-    {
-        return [.. jogadores.Where(j => j.Falido == false)];
-    }
-
     public void ProximoTurno()
     {
-        if (jogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
+        if (JogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
         {
             int i = 0;
-            while (i < efeitosAReverter.Count) // para cada efeito agendado
+            while (i < EfeitosAReverter.Count) // para cada efeito agendado
             {
-                object[] efeitoAtual = efeitosAReverter[i];
+                object[] efeitoAtual = EfeitosAReverter[i];
                 efeitoAtual[0] = (int)efeitoAtual[0] - 1;
 
                 if ((int)efeitoAtual[0] == -1)
@@ -86,7 +74,7 @@ public class Partida
                     {
                         ((IEfeitoJogador)efeitoAtual[1]).Aplicar(jogador);
                     }
-                    efeitosAReverter.RemoveAt(i);
+                    EfeitosAReverter.RemoveAt(i);
                     Console.WriteLine("==================DEBUG===============\nEfeito revertido.");
                 }
                 else
@@ -98,12 +86,12 @@ public class Partida
 
         }
 
-        if (jogadores.Count(j => !j.Falido) <= 1) return;
+        if (Jogadores.Count(j => !j.Falido) <= 1) return;
 
         do
         {
-            jogadorAtualIndex = (jogadorAtualIndex + 1) % jogadores.Count;
-        } while (jogadores[jogadorAtualIndex].Falido);
+            JogadorAtualIndex = (JogadorAtualIndex + 1) % Jogadores.Count;
+        } while (Jogadores[JogadorAtualIndex].Falido);
     }
 
     private (IDeck, IDeck) CriarDecks()
@@ -122,8 +110,8 @@ public class Partida
 
     private Tabuleiro CriarTabuleiro()
     {
-        Tabuleiro tabuleiro = new(CriarPisos(), jogadores);
-        tabuleiro.SetPiso(30, new Piso("Vá para a Cadeia", new EfeitoIrParaCadeia(this)));
+        Tabuleiro tabuleiro = new(CriarPisos(), Jogadores);
+        tabuleiro.SetPiso(30, new Piso("Vá para a Cadeia", new EfeitoIrParaCadeia()));
         return tabuleiro;
     }
 
@@ -139,13 +127,13 @@ public class Partida
         {
             if (pisos[i] != null) continue;
 
-            if (i % 2 == 0 && deckSorte != null)
+            if (i % 2 == 0 && DeckSorte != null)
             {
-                pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(this, deckSorte));
+                pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(DeckSorte));
             }
-            else if (deckCofre != null)
+            else if (DeckCofre != null)
             {
-                pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(this, deckCofre));
+                pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(DeckCofre));
             }
         }
 

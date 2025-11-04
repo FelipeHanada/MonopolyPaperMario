@@ -10,16 +10,16 @@ namespace MonopolyGame.Impl.Efeitos;
 /// coleta 100 moedas de cada jogador ativo (não falido) na partida.
 /// </summary>
 /// 
-public class EfeitoMagikoopaAmarelo(Partida partida) : EfeitoJogador(partida)
+public class EfeitoMagikoopaAmarelo : IEfeitoJogador
 {
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         Console.WriteLine($"--- Efeito Magikoopa Amarelo ativado para {jogador.Nome} ---");
 
-        var partida = GetPartida();
+        var partida = jogador.Partida;
         
         // Filtra todos os outros jogadores que não estão falidos
-        var jogadoresPagadores = partida.jogadores
+        var jogadoresPagadores = partida.Jogadores
             .Where(j => j != jogador && !j.Falido)
             .ToList();
         

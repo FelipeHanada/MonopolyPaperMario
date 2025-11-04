@@ -7,6 +7,7 @@ namespace MonopolyGame.Model.Partidas;
 
 public class Jogador
 {
+    public Partida Partida { get; }
     public string Nome { get; private set; }
     public int Dinheiro { get; private set; }
     public bool Falido { get; private set; }
@@ -27,8 +28,9 @@ public class Jogador
     public bool PodeJogar { get; set; }
     public int Multiplicador { get; set; }
 
-    public Jogador(string nome, int dinheiroInicial = 1500)
+    public Jogador(Partida partida, string nome, int dinheiroInicial = 1500)
     {
+        Partida = partida;
         Nome = nome;
         Dinheiro = dinheiroInicial;
         Posses = new List<IPosseJogador>();

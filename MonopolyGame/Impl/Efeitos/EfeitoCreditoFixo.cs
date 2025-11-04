@@ -5,11 +5,11 @@ namespace MonopolyGame.Impl.Efeitos;
 
 
 // Efeito genérico para creditar um valor fixo (prêmio).
-public class EfeitoCreditoFixo(Partida partida, int valor) : EfeitoJogador(partida)
+public class EfeitoCreditoFixo(int valor) : IEfeitoJogador
 {
     private readonly int valor = valor;
 
-    public override void Aplicar(Jogador jogador)
+    public void Aplicar(Jogador jogador)
     {
         if (jogador == null) return;
         
