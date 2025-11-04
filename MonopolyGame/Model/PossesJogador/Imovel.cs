@@ -1,76 +1,74 @@
 using MonopolyGame.Model.Partidas;
-using System;
-using System.Linq;
 
-namespace MonopolyGame.Model.PossesJogador
+namespace MonopolyGame.Model.PossesJogador;
+
+
+public class Imovel : Propriedade
 {
-    public class Imovel : Propriedade
+    public string Cor { get; private set; }
+    public int[] Alugueis { get; private set; } // 6 posições: terreno, 1-4 casas, hotel
+    public int NivelConstrucao { get; private set; } // 0 = terreno, 5 = hotel
+    public int CustoCasa { get; private set; }
+
+    public Imovel(string nome, int preco, string cor, int[] alugueis, int custoCasa)
+        : base(nome, preco)
     {
-        public string Cor { get; private set; }
-        public int[] Alugueis { get; private set; } // 6 posições: terreno, 1-4 casas, hotel
-        public int NivelConstrucao { get; private set; } // 0 = terreno, 5 = hotel
-        public int CustoCasa { get; private set; }
+        if (alugueis.Length != 6)
+            throw new ArgumentException("O vetor de aluguéis deve ter 6 posições.");
 
-        public Imovel(string nome, int preco, string cor, int[] alugueis, int custoCasa)
-            : base(nome, preco)
+        Cor = cor;
+        Alugueis = alugueis;
+        CustoCasa = custoCasa;
+        NivelConstrucao = 0;
+    }
+
+    public override int CalcularPagamento(Jogador jogador)
+    {
+        if (Proprietario == null || Hipotecada) return 0;
+
+        // Se não há construções, verifica se há monopólio para dobrar o pagamento.
+        if (NivelConstrucao == 0 && Monopolio.VerificarMonopolio(Proprietario, Cor))
         {
-            if (alugueis.Length != 6)
-                throw new ArgumentException("O vetor de aluguéis deve ter 6 posições.");
-
-            Cor = cor;
-            Alugueis = alugueis;
-            CustoCasa = custoCasa;
-            NivelConstrucao = 0;
+            return Alugueis[0] * 2;
         }
 
-        public override int CalcularPagamento(Jogador jogador)
+        return Alugueis[NivelConstrucao];
+    }
+
+    public void AdicionarCasa()
+    {
+        if (Proprietario == null) return;
+        bool monopolio = Monopolio.VerificarMonopolio(Proprietario, Cor);
+
+        if (!monopolio)
         {
-            if (Proprietario == null || Hipotecada) return 0;
-
-            // Se não há construções, verifica se há monopólio para dobrar o pagamento.
-            if (NivelConstrucao == 0 && Monopolio.VerificarMonopolio(Proprietario, Cor))
-            {
-                return Alugueis[0] * 2;
-            }
-
-            return Alugueis[NivelConstrucao];
+            Console.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
+            return;
         }
 
-        public void AdicionarCasa()
+        if (NivelConstrucao == 5)
         {
-            if (Proprietario == null) return;
-            bool monopolio = Monopolio.VerificarMonopolio(Proprietario, Cor);
+            Console.WriteLine("Imóvel em nível máximo!!!");
+            return;
+        }
 
-            if (!monopolio)
-            {
-                Console.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
-                return;
-            }
+        var imoveisMesmaCor = Proprietario.Posses
+            .OfType<Imovel>()
+            .Where(imovel => imovel.Cor == Cor)
+            .ToList();
 
-            if (NivelConstrucao == 5)
-            {
-                Console.WriteLine("Imóvel em nível máximo!!!");
-                return;
-            }
+        int menorNivel = imoveisMesmaCor.Min(imovel => imovel.NivelConstrucao);
 
-            var imoveisMesmaCor = Proprietario.Posses
-                .OfType<Imovel>()
-                .Where(imovel => imovel.Cor == Cor)
-                .ToList();
-
-            int menorNivel = imoveisMesmaCor.Min(imovel => imovel.NivelConstrucao);
-
-            if (NivelConstrucao > menorNivel)
-            {
-                Console.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
-                return;
-            }
-            else
-            {
-                Proprietario.Debitar(CustoCasa);
-                NivelConstrucao++;
-                Console.WriteLine("Propriedade adicionada com sucesso!!");
-            }
+        if (NivelConstrucao > menorNivel)
+        {
+            Console.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
+            return;
+        }
+        else
+        {
+            Proprietario.Debitar(CustoCasa);
+            NivelConstrucao++;
+            Console.WriteLine("Propriedade adicionada com sucesso!!");
         }
     }
 }
