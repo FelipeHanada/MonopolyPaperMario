@@ -30,7 +30,7 @@ public class EfeitoDuplighost : IEfeitoJogador
         Console.WriteLine($"Duplighost transformou-se em {duplighostAlvo.Nome}! Ele pagará a sua próxima despesa de propriedade/aluguel.");
 
         // 2. Cria o Efeito Agendado de Reversão
-        IEfeitoJogador efeitoReversor = new EfeitoDuplighostReversor(jogador.Partida, duplighostAlvo);
+        IEfeitoJogador efeitoReversor = new EfeitoDuplighostReversor(duplighostAlvo);
 
         // 3. Agenda a reversão para daqui a 1 turno (dura apenas o próximo turno do jogador)
         // O efeito deve se aplicar APENAS ao jogador que sacou a carta.

@@ -107,7 +107,7 @@ public class Leilao
             }
 
             PosseJogador.Proprietario = vencedor;
-            vencedor.AdicionarPosseJogador(PosseJogador);
+            vencedor.AdicionarPosse(PosseJogador);
         }
         else
         {

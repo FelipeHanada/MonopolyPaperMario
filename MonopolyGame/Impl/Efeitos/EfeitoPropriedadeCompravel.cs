@@ -74,7 +74,7 @@ public class EfeitoPropriedadeCompravel(Propriedade propriedade) : IEfeitoJogado
             {
                 jogador.Debitar(precoCompraFinal); 
                 propriedade.Proprietario = jogador;
-                jogador.AdicionarPosseJogador(propriedade);
+                jogador.AdicionarPosse(propriedade);
                 Console.WriteLine($"Parabéns! {jogador.Nome} comprou {propriedade.Nome}.");
             }
             else

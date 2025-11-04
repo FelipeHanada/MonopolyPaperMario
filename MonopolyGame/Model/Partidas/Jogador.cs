@@ -8,12 +8,12 @@ namespace MonopolyGame.Model.Partidas;
 public class Jogador
 {
     public Partida Partida { get; }
-    public string Nome { get; private set; }
-    public int Dinheiro { get; private set; }
-    public bool Falido { get; private set; }
-    public bool Preso { get; private set; }
+    public string Nome { get; set; }
+    public int Dinheiro { get; set; }
+    public bool Falido { get; set; }
+    public bool Preso { get; set; }
     public int TurnosPreso { get; private set; }
-    public List<IPosseJogador> Posses { get; }
+    public HashSet<IPosseJogador> Posses { get; }
 
     // NOVO: Contador de cartas de Passe Livre da Prisão
     public int CartasPasseLivre { get; set; }
@@ -33,7 +33,7 @@ public class Jogador
         Partida = partida;
         Nome = nome;
         Dinheiro = dinheiroInicial;
-        Posses = new List<IPosseJogador>();
+        Posses = [];
         Falido = false;
         Preso = false;
         TurnosPreso = 0;
@@ -59,29 +59,37 @@ public class Jogador
         }
     }
 
-    public void AdicionarPosseJogador(IPosseJogador posse)
+    public bool RemoverPosse(IPosseJogador posseJogador)
     {
-        if (posse != null)
-        {
-            Posses.Add(posse);
-        }
+        if (posseJogador.Proprietario != this) return false;
+        posseJogador.Proprietario = null;
+        Posses.Remove(posseJogador);
+        return true;
     }
 
-    public void TransferirPossePara(Jogador destinatario, IPosseJogador posse)
+    public bool AdicionarPosse(IPosseJogador possesJogador)
     {
-        if (destinatario == null) throw new ArgumentNullException(nameof(destinatario));
-        if (posse == null) throw new ArgumentNullException(nameof(posse));
-        if (posse.Proprietario != this)
-        {
-            throw new PosseNaoEDoJogadorCorrenteException(posse, this, "A posse não pertence ao jogador que está tentando transferi-la.");
-        }
-
-        if (Posses.Remove(posse))
-        {
-            destinatario.AdicionarPosseJogador(posse);
-            posse.Proprietario = destinatario;
-        }
+        if (possesJogador.Proprietario != null) return false;
+        possesJogador.Proprietario = this;
+        Posses.Add(possesJogador);
+        return true;
     }
+
+    //public void TransferirPossePara(Jogador destinatario, IPosseJogador posse)
+    //{
+    //    if (destinatario == null) throw new ArgumentNullException(nameof(destinatario));
+    //    if (posse == null) throw new ArgumentNullException(nameof(posse));
+    //    if (posse.Proprietario != this)
+    //    {
+    //        throw new PosseNaoEDoJogadorCorrenteException(posse, this, "A posse não pertence ao jogador que está tentando transferi-la.");
+    //    }
+
+    //    if (Posses.Remove(posse))
+    //    {
+    //        destinatario.AdicionarPosseJogador(posse);
+    //        posse.Proprietario = destinatario;
+    //    }
+    //}
 
     public void TransferirDinheiroPara(Jogador destinatario, int valor)
     {
