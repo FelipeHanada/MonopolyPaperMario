@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace MonopolyPaperMario.MonopolyGame.Exceptions
+namespace MonopolyGame.Exceptions
 {
     class TurnoInvalidoException:Exception
     {

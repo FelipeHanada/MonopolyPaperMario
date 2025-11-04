@@ -1,7 +1,7 @@
 using System;
 
 
-namespace MonopolyPaperMario.MonopolyGame.Exceptions
+namespace MonopolyGame.Exceptions
 {
     class TabuleiroVazioException : Exception
     {

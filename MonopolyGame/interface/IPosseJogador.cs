@@ -1,6 +1,6 @@
-using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyGame.Model.Partidas;
 
-namespace MonopolyPaperMario.MonopolyGame.Interface
+namespace MonopolyGame.Interface
 {
     public interface IPosseJogador
     {
