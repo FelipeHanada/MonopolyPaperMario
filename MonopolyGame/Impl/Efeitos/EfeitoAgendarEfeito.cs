@@ -11,6 +11,6 @@ internal class EfeitoAgendarEfeito(IEfeitoJogador efeito, int delta) : IEfeitoJo
     
     public void Aplicar(Jogador jogador)
     {
-        jogador.Partida.addEfeitoTurnoParaJogadores(delta, efeito, [jogador]);
+        jogador.Partida.AddEfeitoTurnoParaJogadores(delta, efeito, [jogador]);
     }
 }

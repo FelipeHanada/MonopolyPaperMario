@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.Efeitos;
 
@@ -16,7 +17,7 @@ public class EfeitoMoverJogadorPara(int posicao) : IEfeitoJogador
             throw new ArgumentNullException(nameof(jogador));
         }
 
-        Console.WriteLine($"Efeito: Movendo {jogador.Nome} para casa 0.");
+        Log.WriteLine($"Efeito: Movendo {jogador.Nome} para casa 0.");
 
         // O método moveJogador no Tabuleiro lida com a lógica de:
         // 1. Movimento para frente (offset positivo).

@@ -11,7 +11,7 @@ namespace MonopolyGame.Interface;
  * + hipotecarPropriedade(Propriedade): bool
  * + melhorarImóvel(Imóvel): bool
  * + depreciarImóvel(Imóvel): bool
- * + passarAVez(): Jogador
+ * + FinalizarTurno(): Jogador
  * ---------------------------------------------
  * + getLeilão(): Leilão
  * + getJogadorAtualLeilão(): Jogador
@@ -34,7 +34,7 @@ interface IControlePartida
     bool HipotecarPropriedade(Propriedade propriedade);
     bool MelhorarImovel(Imovel imovel);
     bool DeprecriarImovel(Imovel imovel);
-    Jogador PassarAVez();
+    Jogador FinalizarTurno();
     Leilao? GetLeilao();
     Jogador GetJogadorAtualLeilao();
     Leilao IniciarLeilao(IPosseJogador posse);

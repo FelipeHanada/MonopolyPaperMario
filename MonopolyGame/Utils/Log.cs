@@ -2,7 +2,6 @@
 
 namespace MonopolyGame.Utils;
 
-
 public static class Log
 {
     [Conditional("DEBUG")]
@@ -14,6 +13,6 @@ public static class Log
     [Conditional("DEBUG")]
     public static void WriteLine(object value)
     {
-        Console.WriteLine(value);
+        Log.WriteLine(value?.ToString() ?? "null");
     }
 }

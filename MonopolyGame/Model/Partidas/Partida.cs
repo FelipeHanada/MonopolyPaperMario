@@ -1,9 +1,15 @@
-﻿using MonopolyGame.Model.Cartas;
-using MonopolyGame.Model.Tabuleiros;
-using MonopolyGame.Interface.Efeitos;
-using MonopolyGame.Interface.Cartas;
+﻿using MonopolyGame.Utils;
 using MonopolyGame.Impl.Cartas;
 using MonopolyGame.Impl.Efeitos;
+using MonopolyGame.Interface;
+using MonopolyGame.Interface.Cartas;
+using MonopolyGame.Interface.Efeitos;
+using MonopolyGame.Interface.Partidas;
+using MonopolyGame.Model.Cartas;
+using MonopolyGame.Model.Leiloes;
+using MonopolyGame.Model.PossesJogador;
+using MonopolyGame.Model.PropostasTroca;
+using MonopolyGame.Model.Tabuleiros;
 
 namespace MonopolyGame.Model.Partidas;
 
@@ -19,79 +25,27 @@ public class Partida
     public IDeck? DeckCofre { get; }
     public IDeck? DeckSorte { get; }
 
+    public IEstadoTurno EstadoTurnoAtual { get; private set; }
+
     private readonly List<object[]> EfeitosAReverter;
-
-
-    public void addEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] Jogadores)
-    {
-        Console.WriteLine("==================DEBUG===============\nAdicionado um efeito agendado.");
-        EfeitosAReverter.Add([turnos, efeito, Jogadores]);
-    }
 
     public Partida(List<string> nomes)
     {
         Jogadores = [];
         foreach (string nome in nomes)
         {
-            AdicionarJogador(nome);
+            Jogador novoJogador = new Jogador(this, nome);
+            Jogadores.Add(novoJogador);
         }
-        JogadorAtualIndex = -1;
+        JogadorAtualIndex = 0;
         EfeitosAReverter = [];
 
         (DeckCofre, DeckSorte) = CriarDecks();
         Tabuleiro = CriarTabuleiro();
-        foreach (Jogador jogador in Jogadores)
-        {
-            Tabuleiro.AddJogador(jogador);
-        }
 
-        Console.WriteLine("A partida começou!");
-    }
+        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
 
-    private void AdicionarJogador(string nome)
-    {
-        if (Jogadores.Count < 6)
-        {
-            Jogador novoJogador = new Jogador(this, nome);
-            Jogadores.Add(novoJogador);
-            Console.WriteLine($"Jogador {nome} adicionado.");
-        }
-    }
-
-    public void ProximoTurno()
-    {
-        if (JogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
-        {
-            int i = 0;
-            while (i < EfeitosAReverter.Count) // para cada efeito agendado
-            {
-                object[] efeitoAtual = EfeitosAReverter[i];
-                efeitoAtual[0] = (int)efeitoAtual[0] - 1;
-
-                if ((int)efeitoAtual[0] == -1)
-                {
-                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // para cada jogador afetado
-                    {
-                        ((IEfeitoJogador)efeitoAtual[1]).Aplicar(jogador);
-                    }
-                    EfeitosAReverter.RemoveAt(i);
-                    Console.WriteLine("==================DEBUG===============\nEfeito revertido.");
-                }
-                else
-                {
-                    Console.WriteLine("==================DEBUG===============\nAinda não é para reverter.");
-                    i++;
-                }
-            }
-
-        }
-
-        if (Jogadores.Count(j => !j.Falido) <= 1) return;
-
-        do
-        {
-            JogadorAtualIndex = (JogadorAtualIndex + 1) % Jogadores.Count;
-        } while (Jogadores[JogadorAtualIndex].Falido);
+        Log.WriteLine("A partida começou!");
     }
 
     private (IDeck, IDeck) CriarDecks()
@@ -139,4 +93,90 @@ public class Partida
 
         return pisos;
     }
+
+    public void AddEfeitoTurnoParaJogadores(int turnos, IEfeitoJogador efeito, Jogador[] Jogadores)
+    {
+        Log.WriteLine("==================DEBUG===============\nAdicionado um efeito agendado.");
+        EfeitosAReverter.Add([turnos, efeito, Jogadores]);
+    }
+
+    // ================================================================================================================
+
+    public bool RolarDados(out (int, int) dados, out int posicaoFinal)
+    {
+        return EstadoTurnoAtual.RolarDados(out dados, out posicaoFinal);
+    }
+    public bool HipotecarPropriedade(Propriedade propriedade)
+    {
+        return EstadoTurnoAtual.HipotecarPropriedade(propriedade);
+    }
+    public bool MelhorarImovel(Imovel imovel)
+    {
+        return EstadoTurnoAtual.MelhorarImovel(imovel);
+    }
+    public bool DepreciarImovel(Imovel imovel)
+    {
+        return EstadoTurnoAtual.DepreciarImovel(imovel);
+    }
+    public bool FinalizarTurno()
+    {
+        if (!EstadoTurnoAtual.PodeEncerrarTurno()) return false;
+
+        if (JogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
+        {
+            int i = 0;
+            while (i < EfeitosAReverter.Count) // para cada efeito agendado
+            {
+                object[] efeitoAtual = EfeitosAReverter[i];
+                efeitoAtual[0] = (int)efeitoAtual[0] - 1;
+
+                if ((int)efeitoAtual[0] == -1)
+                {
+                    foreach (Jogador jogador in (Jogador[])efeitoAtual[2]) // para cada jogador afetado
+                    {
+                        ((IEfeitoJogador)efeitoAtual[1]).Aplicar(jogador);
+                    }
+                    EfeitosAReverter.RemoveAt(i);
+                    Log.WriteLine("==================DEBUG===============\nEfeito revertido.");
+                }
+                else
+                {
+                    Log.WriteLine("==================DEBUG===============\nAinda não é para reverter.");
+                    i++;
+                }
+            }
+
+        }
+
+        if (Jogadores.Count(j => !j.Falido) <= 1) return false;
+
+        do
+        {
+            JogadorAtualIndex = (JogadorAtualIndex + 1) % Jogadores.Count;
+        } while (Jogadores[JogadorAtualIndex].Falido);
+
+        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+        return true;
+    }
+
+    //public bool IniciarLeilao(IPosseJogador posseJogador)
+    //{
+    //    if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
+    //    EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
+    //    return true;
+    //}
+    //public virtual Leilao GetLeilao()
+    //{
+    //    return EstadoTurnoAtual.GetLeilao();
+    //}
+    //public Jogador GetJogadorAtualLeilao()
+    //{
+    //    return EstadoTurnoAtual.GetJogadorAtualLeilao();
+    //}
+    //public Jogador DarLanceLeilao(int delta) { throw new NotImplementedException("Ação DarLanceLeilao não implementada ou inválida neste estado."); }
+    //public Jogador DesistirLeilao() { throw new NotImplementedException("Ação DesistirLeilao não implementada ou inválida neste estado."); }
+
+    //public virtual PropostaTroca GetPropostaVenda() { throw new NotImplementedException("Ação GetPropostaVenda não implementada ou inválida neste estado."); }
+    //public virtual PropostaTroca IniciarPropostaVenda() { throw new NotImplementedException("Ação IniciarPropostaVenda não implementada ou inválida neste estado."); }
+    //public virtual void EncerrarPropostaVenda(bool aceite) { throw new NotImplementedException("Ação EncerrarPropostaVenda não implementada ou inválida neste estado."); }
 }

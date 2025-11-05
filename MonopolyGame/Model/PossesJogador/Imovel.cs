@@ -1,26 +1,16 @@
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Utils;
 
 namespace MonopolyGame.Model.PossesJogador;
 
 
-public class Imovel : Propriedade
+public class Imovel(string nome, int preco, string cor, int[] alugueis, int precoComprarCasa, int precoVenderCasa) : Propriedade(nome, preco)
 {
-    public string Cor { get; private set; }
-    public int[] Alugueis { get; private set; } // 6 posições: terreno, 1-4 casas, hotel
-    public int NivelConstrucao { get; private set; } // 0 = terreno, 5 = hotel
-    public int CustoCasa { get; private set; }
-
-    public Imovel(string nome, int preco, string cor, int[] alugueis, int custoCasa)
-        : base(nome, preco)
-    {
-        if (alugueis.Length != 6)
-            throw new ArgumentException("O vetor de aluguéis deve ter 6 posições.");
-
-        Cor = cor;
-        Alugueis = alugueis;
-        CustoCasa = custoCasa;
-        NivelConstrucao = 0;
-    }
+    public string Cor { get; private set; } = cor;
+    public int[] Alugueis { get; private set; } = alugueis; // 6 posições: terreno, 1-4 casas, hotel
+    public int NivelConstrucao { get; private set; } = 0; // 0 = terreno, 5 = hotel
+    public int PrecoComprarCasa { get; private set; } = precoComprarCasa;
+    public int PrecoVenderCasa { get; private set; } = precoVenderCasa;
 
     public override int CalcularPagamento(Jogador jogador)
     {
@@ -35,21 +25,26 @@ public class Imovel : Propriedade
         return Alugueis[NivelConstrucao];
     }
 
-    public void AdicionarCasa()
+    public bool AdicionarCasa()
     {
-        if (Proprietario == null) return;
-        bool monopolio = Monopolio.VerificarMonopolio(Proprietario, Cor);
+        if (Proprietario == null) {
+            Log.WriteLine(" Este imóvel não tem proprietário.");
+            return false;
+        }
 
+        bool monopolio = Monopolio.VerificarMonopolio(Proprietario, Cor);
         if (!monopolio)
         {
-            Console.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
-            return;
+            Log.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
+            //Log.WriteLine("É necessário possuir todos os imóveis desta cor para evoluir!!");
+            return false;
         }
 
         if (NivelConstrucao == 5)
         {
-            Console.WriteLine("Imóvel em nível máximo!!!");
-            return;
+            Log.WriteLine("Imóvel em nível máximo!!!");
+            //Log.WriteLine("Imóvel em nível máximo!!!");
+            return false;
         }
 
         var imoveisMesmaCor = Proprietario.Posses
@@ -60,15 +55,43 @@ public class Imovel : Propriedade
         int menorNivel = imoveisMesmaCor.Min(imovel => imovel.NivelConstrucao);
 
         if (NivelConstrucao > menorNivel)
-        {
-            Console.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
-            return;
+        {  
+            Log.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
+            //Log.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
+            return false;
         }
-        else
+
+        NivelConstrucao++;
+        Log.WriteLine("Propriedade adicionada com sucesso!!");
+        //Log.WriteLine("Propriedade adicionada com sucesso!!");
+        return true;
+    }
+
+    public bool RemoverCasa()
+    {
+        if (Proprietario == null)
         {
-            Proprietario.Debitar(CustoCasa);
-            NivelConstrucao++;
-            Console.WriteLine("Propriedade adicionada com sucesso!!");
+            Log.WriteLine("Este imóvel não tem proprietário.");
+            return false;
         }
+        if (NivelConstrucao == 0)
+        {
+            return false;
+        }
+
+        var imoveisMesmaCor = Proprietario.Posses
+            .OfType<Imovel>()
+            .Where(imovel => imovel.Cor == Cor)
+            .ToList();
+
+        int maiorNivel = imoveisMesmaCor.Max(imovel => imovel.NivelConstrucao);
+
+        if (NivelConstrucao < maiorNivel)
+        {
+            return false;
+        }
+
+        NivelConstrucao--;
+        return true;
     }
 }

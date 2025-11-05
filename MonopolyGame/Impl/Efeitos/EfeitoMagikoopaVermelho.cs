@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.Efeitos;
 
@@ -11,7 +12,7 @@ public class EfeitoMagikoopaVermelho : IEfeitoJogador
 {
     public void Aplicar(Jogador jogador)
     {
-        Console.WriteLine($"--- Efeito Magikoopa Vermelho ativado para {jogador.Nome} ---");
+        Log.WriteLine($"--- Efeito Magikoopa Vermelho ativado para {jogador.Nome} ---");
         if (jogador.Multiplicador == 0)
         {
             jogador.Multiplicador = 2;
@@ -20,6 +21,6 @@ public class EfeitoMagikoopaVermelho : IEfeitoJogador
         {
             jogador.Multiplicador = 0;
         }
-        Console.WriteLine("=================DEBUG===============\nMultiplicador: " + jogador.Multiplicador);
+        Log.WriteLine("=================DEBUG===============\nMultiplicador: " + jogador.Multiplicador);
     }
 }

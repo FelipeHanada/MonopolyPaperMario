@@ -1,11 +1,12 @@
 ﻿using MonopolyGame.Model.Leiloes;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Model.PossesJogador;
+using MonopolyGame.Model.PropostasTroca;
 
 namespace MonopolyGame.Interface.Partidas;
 
 
-public enum EstadoTurnoID
+public enum EstadoTurnoId
 {
     Comum,
     Leilao,
@@ -16,21 +17,20 @@ public enum EstadoTurnoID
 
 public interface IEstadoTurno
 {
-    EstadoTurnoID GetEstado();
-
-    bool RolarDados();
+    EstadoTurnoId EstadoId { get; }
+    Jogador JogadorAtual { get; }
+    // ------------------------------------------------------
+    bool RolarDados(out (int, int) dados, out int posicaoFinal);
     bool HipotecarPropriedade(Propriedade propriedade);
     bool MelhorarImovel(Imovel imovel);
     bool DepreciarImovel(Imovel imovel);
-    Jogador PassarAVez();
-
-    Leilao GetLeilao();
-    Jogador GetJogadorAtualLeilao();
-    Leilao IniciarLeilao(IPosseJogador posseJogador);
-    Jogador DarLanceLeilao(int delta);
-    Jogador DesistirLeilao();
-
-    //PropostaVenda GetPropostaVenda();
-    //PropostaVenda IniciarPropostaVenda();
-    //void EncerrarPropostaVenda(bool aceite);
+    bool PodeEncerrarTurno();
+    bool PodeRolarDados();
+    // ------------------------------------------------------
+    //Leilao Leilao { get; }
+    //Jogador JogadorAtualLeilao { get; }
+    //Jogador DarLanceLeilao(int aumento);
+    //Jogador DesistirLeilao();
+    // ------------------------------------------------------
+    //PropostaTroca GetPropostaVenda();
 };

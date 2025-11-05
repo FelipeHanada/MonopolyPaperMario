@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Interface.Efeitos;
 using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Model.Partidas;
@@ -36,7 +37,7 @@ public class EfeitoDuplighostReversor(Jogador duplighostAtivo) : IEfeitoJogador
         else
         {
             // Regra extra: Duplighost é o proprietário. Ele se transformou nele mesmo.
-            Console.WriteLine($"[Duplighost] O Duplighost ({DuplighostAlvo.Nome}) é o proprietário. O efeito falhou.");
+            Log.WriteLine($"[Duplighost] O Duplighost ({DuplighostAlvo.Nome}) é o proprietário. O efeito falhou.");
             // O efeito falha, mas DEVE ser consumido, ou o jogador acionador usará no próximo turno.
             foiUsado = true;
             return false; // Não use, pague normalmente.

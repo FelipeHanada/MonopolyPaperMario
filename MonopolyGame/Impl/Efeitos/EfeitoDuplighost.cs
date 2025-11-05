@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.Efeitos;
 
@@ -8,8 +9,8 @@ public class EfeitoDuplighost : IEfeitoJogador
 {
     public void Aplicar(Jogador jogador)
     {
-        Console.WriteLine("\n------------------------------------------------");
-        Console.WriteLine($"!!! {jogador.Nome} sacou DUPLIGHOST !!!");
+        Log.WriteLine("\n------------------------------------------------");
+        Log.WriteLine($"!!! {jogador.Nome} sacou DUPLIGHOST !!!");
 
         // 1. Seleciona o 'Duplighost' (o jogador que pagará a próxima conta)
 
@@ -18,7 +19,7 @@ public class EfeitoDuplighost : IEfeitoJogador
 
         if (jogadoresAtivos.Count == 0)
         {
-            Console.WriteLine("Não há outros jogadores ativos para o Duplighost se transformar. Efeito cancelado.");
+            Log.WriteLine("Não há outros jogadores ativos para o Duplighost se transformar. Efeito cancelado.");
             return;
         }
 
@@ -27,19 +28,19 @@ public class EfeitoDuplighost : IEfeitoJogador
         int indexDuplighost = random.Next(jogadoresAtivos.Count);
         Jogador duplighostAlvo = jogadoresAtivos[indexDuplighost];
 
-        Console.WriteLine($"Duplighost transformou-se em {duplighostAlvo.Nome}! Ele pagará a sua próxima despesa de propriedade/aluguel.");
+        Log.WriteLine($"Duplighost transformou-se em {duplighostAlvo.Nome}! Ele pagará a sua próxima despesa de propriedade/aluguel.");
 
         // 2. Cria o Efeito Agendado de Reversão
         IEfeitoJogador efeitoReversor = new EfeitoDuplighostReversor(duplighostAlvo);
 
         // 3. Agenda a reversão para daqui a 1 turno (dura apenas o próximo turno do jogador)
         // O efeito deve se aplicar APENAS ao jogador que sacou a carta.
-        jogador.Partida.addEfeitoTurnoParaJogadores(
+        jogador.Partida.AddEfeitoTurnoParaJogadores(
             1, // Duração de 1 turno (será removido no início do turno seguinte)
             efeitoReversor,
             new Jogador[] { jogador } // O efeito será executado sobre o jogador que sacou a carta
         );
 
-        Console.WriteLine("------------------------------------------------\n");
+        Log.WriteLine("------------------------------------------------\n");
     }
 }

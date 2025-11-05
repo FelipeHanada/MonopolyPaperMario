@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Interface;
 using MonopolyGame.Interface.PropostasTroca;
 using MonopolyGame.Model.Partidas;
@@ -23,19 +24,19 @@ public class GerenciadorDeTrocas
         var outrosJogadores = jogadores.Where(j => j != ofertante && !j.Falido).ToList();
         if (!outrosJogadores.Any())
         {
-            Console.WriteLine("Não há outros jogadores para fazer uma troca.");
+            Log.WriteLine("Não há outros jogadores para fazer uma troca.");
             return;
         }
 
-        Console.WriteLine("\nCom qual jogador você gostaria de trocar?");
+        Log.WriteLine("\nCom qual jogador você gostaria de trocar?");
         for (int i = 0; i < outrosJogadores.Count; i++)
         {
-            Console.WriteLine($"{i} - {outrosJogadores[i].Nome}");
+            Log.WriteLine($"{i} - {outrosJogadores[i].Nome}");
         }
         Console.Write("Escolha: ");
         if (!int.TryParse(Console.ReadLine(), out int indiceAlvo) || indiceAlvo < 0 || indiceAlvo >= outrosJogadores.Count)
         {
-            Console.WriteLine("Seleção inválida.");
+            Log.WriteLine("Seleção inválida.");
             return;
         }
         Jogador jogadorAlvo = outrosJogadores[indiceAlvo];
@@ -52,25 +53,25 @@ public class GerenciadorDeTrocas
         while (montando)
         {
             Console.Clear();
-            Console.WriteLine("--- Montando Proposta de Troca ---");
-            Console.WriteLine($"Ofertante: {ofertante.Nome} | Alvo: {jogadorAlvo.Nome}\n");
+            Log.WriteLine("--- Montando Proposta de Troca ---");
+            Log.WriteLine($"Ofertante: {ofertante.Nome} | Alvo: {jogadorAlvo.Nome}\n");
 
-            Console.WriteLine("Sua oferta:");
-            possesOfertante.ForEach(p => Console.WriteLine($"- {p.Nome}"));
-            Console.WriteLine("\nItens pedidos:");
-            possesDesejadas.ForEach(p => Console.WriteLine($"- {p.Nome}"));
-            Console.WriteLine($"\nDinheiro: {(dinheiro > 0 ? $"Você oferece ${dinheiro}" : dinheiro < 0 ? $"Você pede ${-dinheiro}" : "$0")}");
+            Log.WriteLine("Sua oferta:");
+            possesOfertante.ForEach(p => Log.WriteLine($"- {p.Nome}"));
+            Log.WriteLine("\nItens pedidos:");
+            possesDesejadas.ForEach(p => Log.WriteLine($"- {p.Nome}"));
+            Log.WriteLine($"\nDinheiro: {(dinheiro > 0 ? $"Você oferece ${dinheiro}" : dinheiro < 0 ? $"Você pede ${-dinheiro}" : "$0")}");
 
-            Console.WriteLine("\nOpções:");
+            Log.WriteLine("\nOpções:");
             for (int i = 0; i < todasAsPosses.Count; i++)
             {
                 var posse = todasAsPosses[i];
                 string dono = posse.Proprietario == ofertante ? "(Seu)" : "(Dele)";
-                Console.WriteLine($"{i} - Adicionar/Remover {posse.Nome} {dono}");
+                Log.WriteLine($"{i} - Adicionar/Remover {posse.Nome} {dono}");
             }
-            Console.WriteLine("d - Definir valor em dinheiro");
-            Console.WriteLine("f - Finalizar e fazer proposta");
-            Console.WriteLine("c - Cancelar proposta");
+            Log.WriteLine("d - Definir valor em dinheiro");
+            Log.WriteLine("f - Finalizar e fazer proposta");
+            Log.WriteLine("c - Cancelar proposta");
             Console.Write("Escolha: ");
             string? input = Console.ReadLine();
 
@@ -110,14 +111,14 @@ public class GerenciadorDeTrocas
         proposta.DinheiroOfertado = dinheiro;
 
         Console.Clear();
-        Console.WriteLine($"\n--- Proposta para {jogadorAlvo.Nome} ---");
-        Console.WriteLine($"{ofertante.Nome} oferece:");
-        proposta.PossesOfertadas.ForEach(p => Console.WriteLine($"- {p.Nome}"));
-        if (proposta.DinheiroOfertado > 0) Console.WriteLine($"- ${proposta.DinheiroOfertado}");
+        Log.WriteLine($"\n--- Proposta para {jogadorAlvo.Nome} ---");
+        Log.WriteLine($"{ofertante.Nome} oferece:");
+        proposta.PossesOfertadas.ForEach(p => Log.WriteLine($"- {p.Nome}"));
+        if (proposta.DinheiroOfertado > 0) Log.WriteLine($"- ${proposta.DinheiroOfertado}");
 
-        Console.WriteLine("\nEm troca de:");
-        proposta.PossesDesejadas.ForEach(p => Console.WriteLine($"- {p.Nome}"));
-        if (proposta.DinheiroOfertado < 0) Console.WriteLine($"- ${-proposta.DinheiroOfertado}");
+        Log.WriteLine("\nEm troca de:");
+        proposta.PossesDesejadas.ForEach(p => Log.WriteLine($"- {p.Nome}"));
+        if (proposta.DinheiroOfertado < 0) Log.WriteLine($"- ${-proposta.DinheiroOfertado}");
 
         Console.Write($"\n{jogadorAlvo.Nome}, você aceita? (s/n): ");
         if (Console.ReadLine()?.ToLower() == "s")
@@ -127,7 +128,7 @@ public class GerenciadorDeTrocas
         }
         else
         {
-            Console.WriteLine("Proposta recusada.");
+            Log.WriteLine("Proposta recusada.");
         }
     }
 
@@ -162,11 +163,11 @@ public class GerenciadorDeTrocas
     //            proposta.Destinatario.TransferirPossePara(proposta.Ofertante, posse);
     //        }
 
-    //        Console.WriteLine("Troca realizada com sucesso!");
+    //        Log.WriteLine("Troca realizada com sucesso!");
     //    }
     //    catch (Exception ex)
     //    {
-    //        Console.WriteLine($"A troca falhou: {ex.Message}");
+    //        Log.WriteLine($"A troca falhou: {ex.Message}");
     //    }
     //}
 }

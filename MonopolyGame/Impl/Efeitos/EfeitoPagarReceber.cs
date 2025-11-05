@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Exceptions;
 using MonopolyGame.Interface.Efeitos;
 using MonopolyGame.Model.Partidas;
@@ -17,7 +18,7 @@ public class EfeitoPagarReceber(int valor) : IEfeitoJogador
         {
             // Crédito: Não se aplica desconto.
             jogador.Creditar(valor);
-            Console.WriteLine($"{jogador.Nome} recebeu ${valor}.");
+            Log.WriteLine($"{jogador.Nome} recebeu ${valor}.");
         }
         else if (valor < 0)
         {
@@ -34,11 +35,11 @@ public class EfeitoPagarReceber(int valor) : IEfeitoJogador
             {
                 jogador.Debitar(valorFinal);
                 // Informa o valor final pago, que já inclui o desconto
-                Console.WriteLine($"{jogador.Nome} pagou ${valorFinal} (Despesa Base: ${valorDespesaBase}).");
+                Log.WriteLine($"{jogador.Nome} pagou ${valorFinal} (Despesa Base: ${valorDespesaBase}).");
             }
             catch (FundosInsuficientesException ex)
             {
-                Console.WriteLine(ex.Message);
+                Log.WriteLine(ex.Message);
                 jogador.SetFalido(true);
             }
         }

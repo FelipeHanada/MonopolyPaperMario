@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Interface.Efeitos;
 using MonopolyGame.Model.Partidas;
 
@@ -10,7 +11,7 @@ class EfeitoReverterDesconto : IEfeitoJogador
     public void Aplicar(Jogador jogador)
     {
         if (jogador == null) return;
-        Console.WriteLine($"O efeito de desconto acabou. Descontos de {jogador.Nome} resetados.");
+        Log.WriteLine($"O efeito de desconto acabou. Descontos de {jogador.Nome} resetados.");
         
         // REVERSÃO: Define o desconto de volta para 0%
         jogador.Desconto = 0; 

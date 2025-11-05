@@ -1,40 +1,40 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Interface.Efeitos;
 using MonopolyGame.Model.Partidas;
-using System;
 
-namespace MonopolyGame.Model.Tabuleiros
+namespace MonopolyGame.Model.Tabuleiros;
+
+
+public class Piso
 {
-    public class Piso
+    public string Nome { get; }
+    // Corrigido: Transformado em uma propriedade pública com setter privado
+    public IEfeitoJogador? EfeitoAcao { get; private set; }
+
+    // Construtor para pisos sem efeito especial
+    public Piso(string nome)
     {
-        public string Nome { get; }
-        // Corrigido: Transformado em uma propriedade pública com setter privado
-        public IEfeitoJogador? EfeitoAcao { get; private set; }
+        Nome = nome;
+        EfeitoAcao = null;
+    }
 
-        // Construtor para pisos sem efeito especial
-        public Piso(string nome)
+    // Construtor para pisos com um efeito
+    public Piso(string nome, IEfeitoJogador efeito)
+    {
+        Nome = nome;
+        EfeitoAcao = efeito ?? throw new ArgumentNullException(nameof(efeito));
+    }
+
+    // Método que ativa o efeito do piso
+    public void Efeito(Jogador jogador)
+    {
+        if (EfeitoAcao != null)
         {
-            Nome = nome;
-            EfeitoAcao = null;
+            EfeitoAcao.Aplicar(jogador);
         }
-
-        // Construtor para pisos com um efeito
-        public Piso(string nome, IEfeitoJogador efeito)
+        else
         {
-            Nome = nome;
-            EfeitoAcao = efeito ?? throw new ArgumentNullException(nameof(efeito));
-        }
-
-        // Método que ativa o efeito do piso
-        public void Efeito(Jogador jogador)
-        {
-            if (EfeitoAcao != null)
-            {
-                EfeitoAcao.Aplicar(jogador);
-            }
-            else
-            {
-                Console.WriteLine($"{jogador.Nome} parou em '{Nome}', mas nada acontece.");
-            }
+            Log.WriteLine($"{jogador.Nome} parou em '{Nome}', mas nada acontece.");
         }
     }
 }

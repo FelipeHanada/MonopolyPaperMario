@@ -1,4 +1,5 @@
-﻿using MonopolyGame.Exceptions;
+﻿using MonopolyGame.Utils;
+using MonopolyGame.Exceptions;
 using MonopolyGame.Interface;
 using MonopolyGame.Impl.Efeitos;
 
@@ -131,7 +132,7 @@ public class Jogador
         Falido = falido;
         if (falido)
         {
-            Console.WriteLine($"O jogador {Nome} faliu!");
+            Log.WriteLine($"O jogador {Nome} faliu!");
         }
     }
 
@@ -150,7 +151,7 @@ public class Jogador
         {
             return valorBase; // Sem desconto, retorna o valor original
         }
-        Console.WriteLine("Oba, " + Nome + " teve um desconto no débito.");
+        Log.WriteLine("Oba, " + Nome + " teve um desconto no débito.");
     // Calcula o fator de desconto (ex: 30 / 100 = 0.3)
         double fatorDesconto = Desconto / 100.0;
 
@@ -160,7 +161,7 @@ public class Jogador
 
 // Mensagem de log para facilitar o debug e o feedback ao usuário
         int valorDescontado = valorBase - valorFinal;
-        Console.WriteLine($"[Muskular] Despesa de ${valorBase} ajustada para ${valorFinal} (-${valorDescontado} de desconto).");
+        Log.WriteLine($"[Muskular] Despesa de ${valorBase} ajustada para ${valorFinal} (-${valorDescontado} de desconto).");
 
         return valorFinal;
     }

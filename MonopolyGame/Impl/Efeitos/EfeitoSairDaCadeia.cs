@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.Efeitos;
 
@@ -13,7 +14,7 @@ public class EfeitoSairDaCadeia : IEfeitoJogador
         if (jogador.Preso)
         {
             jogador.SetPreso(false);
-            Console.WriteLine($"{jogador.Nome} está livre da prisão!");
+            Log.WriteLine($"{jogador.Nome} está livre da prisão!");
         }
     }
 }

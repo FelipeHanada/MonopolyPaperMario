@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.Efeitos;
 
@@ -17,7 +18,7 @@ public class EfeitoBowserShuffle : IEfeitoJogador
         
         if (jogadoresAtivos.Count <= 1)
         {
-            Console.WriteLine("O Bowser Shuffle não pode ser ativado com apenas um jogador ativo.");
+            Log.WriteLine("O Bowser Shuffle não pode ser ativado com apenas um jogador ativo.");
             return;
         }
 
@@ -28,11 +29,11 @@ public class EfeitoBowserShuffle : IEfeitoJogador
         // 3. Calcular a média (arredondando para o inteiro mais próximo, como é comum em Monopoly)
         int mediaPorJogador = (int)Math.Round((double)dinheiroTotal / numeroJogadores);
 
-        Console.WriteLine("\n==============================================");
-        Console.WriteLine($"!!! BOWSER SHUFFLE ATIVADO por {jogador.Nome} !!!");
-        Console.WriteLine($"Dinheiro total na partida: ${dinheiroTotal}");
-        Console.WriteLine($"Média de dinheiro por jogador: ${mediaPorJogador}");
-        Console.WriteLine("==============================================\n");
+        Log.WriteLine("\n==============================================");
+        Log.WriteLine($"!!! BOWSER SHUFFLE ATIVADO por {jogador.Nome} !!!");
+        Log.WriteLine($"Dinheiro total na partida: ${dinheiroTotal}");
+        Log.WriteLine($"Média de dinheiro por jogador: ${mediaPorJogador}");
+        Log.WriteLine("==============================================\n");
 
         // 4. Redistribuir o dinheiro para a média
         foreach (Jogador j in jogadoresAtivos)
@@ -43,7 +44,7 @@ public class EfeitoBowserShuffle : IEfeitoJogador
             {
                 // O jogador deve RECEBER dinheiro (Creditar)
                 j.Creditar(diferenca);
-                Console.WriteLine($"- {j.Nome} recebeu ${diferenca} (Novo Saldo: ${j.Dinheiro}).");
+                Log.WriteLine($"- {j.Nome} recebeu ${diferenca} (Novo Saldo: ${j.Dinheiro}).");
             }
             else if (diferenca < 0)
             {
@@ -55,7 +56,7 @@ public class EfeitoBowserShuffle : IEfeitoJogador
                 try
                 {
                     j.Debitar(valorAPagar);
-                    Console.WriteLine($"- {j.Nome} pagou ${valorAPagar} (Novo Saldo: ${j.Dinheiro}).");
+                    Log.WriteLine($"- {j.Nome} pagou ${valorAPagar} (Novo Saldo: ${j.Dinheiro}).");
                 }
                 catch (Exceptions.FundosInsuficientesException)
                 {
@@ -63,7 +64,7 @@ public class EfeitoBowserShuffle : IEfeitoJogador
                     // ele paga o que tem e, se ficar devendo, deve hipotecar ou falir.
                     // Para simplificar, vou assumir que a exceção será tratada
                     // externamente ou que o jogador só perde o que tem.
-                    Console.WriteLine($"- {j.Nome} tentou pagar ${valorAPagar}, mas faliu no processo.");
+                    Log.WriteLine($"- {j.Nome} tentou pagar ${valorAPagar}, mas faliu no processo.");
                     j.SetFalido(true);
                 }
             }

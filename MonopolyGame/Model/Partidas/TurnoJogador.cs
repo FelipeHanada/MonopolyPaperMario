@@ -1,3 +1,4 @@
+using MonopolyGame.Utils;
 using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Model.Leiloes;
 using MonopolyGame.Impl.Efeitos;
@@ -49,12 +50,12 @@ public class TurnoJogador
 
         if (jogadorDaVez == null) return;
 
-        Console.WriteLine($"\n--- É a vez de {jogadorDaVez.Nome} ---");
-        Console.WriteLine($"Saldo: ${jogadorDaVez.Dinheiro} | Posição: {partida.Tabuleiro?.GetPosicao(jogadorDaVez)}");
+        Log.WriteLine($"\n--- É a vez de {jogadorDaVez.Nome} ---");
+        Log.WriteLine($"Saldo: ${jogadorDaVez.Dinheiro} | Posição: {partida.Tabuleiro?.GetPosicao(jogadorDaVez)}");
         //SE NÃO PODE JOGAR, RETORNA
         if (!jogadorDaVez.PodeJogar)
         {
-            Console.WriteLine($"\n{jogadorDaVez.Nome} está proibido de jogar!");
+            Log.WriteLine($"\n{jogadorDaVez.Nome} está proibido de jogar!");
             FinalizarTurno();
             return;
         }
@@ -82,7 +83,7 @@ public class TurnoJogador
                     estadoAtual = estadoAnterior; // Restaura o estado anterior de forma simples
                     break;
                 case TurnoJogadorEstado.Leilao:
-                    Console.WriteLine("Estado de Leilão (não implementado).");
+                    Log.WriteLine("Estado de Leilão (não implementado).");
                     estadoAtual = estadoAnterior; // Restaura o estado anterior
                     break;
             }
@@ -92,12 +93,12 @@ public class TurnoJogador
 
     private void ApresentarMenuFaseComum()
     {
-        Console.WriteLine("\nEscolha uma ação:");
+        Log.WriteLine("\nEscolha uma ação:");
         if (estadoAtual == TurnoJogadorEstado.FaseComum)
         {
-            Console.WriteLine("1. Rolar os dados");
-            Console.WriteLine("2. Fazer uma proposta de troca");
-            Console.WriteLine("3. Gerenciar propriedades - (Não implementado)");
+            Log.WriteLine("1. Rolar os dados");
+            Log.WriteLine("2. Fazer uma proposta de troca");
+            Log.WriteLine("3. Gerenciar propriedades - (Não implementado)");
             Console.Write("Opção: ");
             string? escolha = Console.ReadLine();
 
@@ -111,29 +112,7 @@ public class TurnoJogador
                     estadoAtual = TurnoJogadorEstado.PropostaTroca;
                     break;
                 default:
-                    Console.WriteLine("Opção inválida.");
-                    break;
-            }
-        }
-        else
-        {
-            Console.WriteLine("1. Fazer uma proposta de troca");
-            Console.WriteLine("2. Gerenciar propriedades - (Não implementado)");
-            Console.WriteLine("3. Finalizar turno");
-            Console.Write("Opção: ");
-            string? escolha = Console.ReadLine();
-
-            switch (escolha)
-            {
-                case "1":
-                    estadoAnterior = estadoAtual;
-                    estadoAtual = TurnoJogadorEstado.PropostaTroca;
-                    break;
-                case "3":
-                    estadoAtual = TurnoJogadorEstado.FimDeTurno;
-                    break;
-                default:
-                    Console.WriteLine("Opção inválida.");
+                    Log.WriteLine("Opção inválida.");
                     break;
             }
         }
@@ -152,36 +131,36 @@ public class TurnoJogador
         if (jogadorDaVez == null || partida == null || partida.Tabuleiro == null) return;
 
         jogadorDaVez.IncrementarTurnosPreso();
-        Console.WriteLine($"{jogadorDaVez.Nome} está na prisão. (Turno {jogadorDaVez.TurnosPreso})");
+        Log.WriteLine($"{jogadorDaVez.Nome} está na prisão. (Turno {jogadorDaVez.TurnosPreso})");
 
         if (jogadorDaVez.TurnosPreso >= 3)
         {
-            Console.WriteLine("Terceiro turno na prisão! Você deve pagar $50 para sair.");
+            Log.WriteLine("Terceiro turno na prisão! Você deve pagar $50 para sair.");
             try
             {
                 jogadorDaVez.Debitar(50);
-                Console.WriteLine("Fiança paga.");
+                Log.WriteLine("Fiança paga.");
                 new EfeitoSairDaCadeia().Aplicar(jogadorDaVez);
                 RolarDados();
             }
             catch (Exceptions.FundosInsuficientesException)
             {
-                Console.WriteLine("Você não tem dinheiro para pagar a fiança e faliu!");
+                Log.WriteLine("Você não tem dinheiro para pagar a fiança e faliu!");
                 jogadorDaVez.SetFalido(true);
                 estadoAtual = TurnoJogadorEstado.FimDeTurno;
             }
         }
         else
         {
-            Console.WriteLine("Tentando rolar dados iguais para sair...");
+            Log.WriteLine("Tentando rolar dados iguais para sair...");
 
             int resultadoDado1 = dado.Next(1, 7);
             int resultadoDado2 = dado.Next(1, 7);
-            Console.WriteLine($"Você rolou {resultadoDado1} e {resultadoDado2}.");
+            Log.WriteLine($"Você rolou {resultadoDado1} e {resultadoDado2}.");
 
             if (resultadoDado1 == resultadoDado2)
             {
-                Console.WriteLine("Dados iguais! Você está livre!");
+                Log.WriteLine("Dados iguais! Você está livre!");
                 new EfeitoSairDaCadeia().Aplicar(jogadorDaVez);
                 int totalDados = resultadoDado1 + resultadoDado2;
                 partida.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
@@ -189,7 +168,7 @@ public class TurnoJogador
             }
             else
             {
-                Console.WriteLine("Você não rolou dados iguais e continua na prisão.");
+                Log.WriteLine("Você não rolou dados iguais e continua na prisão.");
                 estadoAtual = TurnoJogadorEstado.FimDeTurno;
             }
         }
@@ -204,16 +183,16 @@ public class TurnoJogador
         int totalDados = resultadoDado1 + resultadoDado2;
         bool dadosIguais = resultadoDado1 == resultadoDado2;
 
-        Console.WriteLine($"{jogadorDaVez.Nome} rolou os dados e tirou {resultadoDado1} e {resultadoDado2}, totalizando {totalDados}.");
+        Log.WriteLine($"{jogadorDaVez.Nome} rolou os dados e tirou {resultadoDado1} e {resultadoDado2}, totalizando {totalDados}.");
 
         if (dadosIguais)
         {
             contadorDadosIguais++;
-            Console.WriteLine("Dados iguais!");
+            Log.WriteLine("Dados iguais!");
 
             if (contadorDadosIguais == 3)
             {
-                Console.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
+                Log.WriteLine("Três pares de dados iguais seguidos! Vá para a cadeia!");
                 var efeitoCadeia = new EfeitoIrParaCadeia();
                 efeitoCadeia.Aplicar(jogadorDaVez);
                 estadoAtual = TurnoJogadorEstado.FimDeTurno;
@@ -221,7 +200,7 @@ public class TurnoJogador
             else
             {
                 partida.Tabuleiro.MoveJogador(jogadorDaVez, totalDados);
-                Console.WriteLine("Jogue novamente!");
+                Log.WriteLine("Jogue novamente!");
                 estadoAtual = TurnoJogadorEstado.FaseComum;
             }
         }
@@ -232,22 +211,22 @@ public class TurnoJogador
         }
     }
 
-    public void IniciarLeilao(IPosseJogador posseJogador)
-    {
-        if (partida == null || jogadorDaVez == null) return;
-        Console.WriteLine($"--- Leilão para {posseJogador.Nome} ---");
-        var leilao = new Leilao(partida, posseJogador, partida.Jogadores.Where(j => !j.Falido).ToList(), jogadorDaVez);
-        leilao.Executar();
-        FinalizarLeilao(leilao);
-    }
+    //public void IniciarLeilao(IPosseJogador posseJogador)
+    //{
+    //    if (partida == null || jogadorDaVez == null) return;
+    //    Log.WriteLine($"--- Leilão para {posseJogador.Nome} ---");
+    //    var leilao = new Leilao(jogadorDaVez, posseJogador);
+    //    leilao.Executar();
+    //    FinalizarLeilao(leilao);
+    //}
 
     private void FinalizarLeilao(Leilao leilao)
     {
-        Console.WriteLine("Leilão finalizado.");
+        Log.WriteLine("Leilão finalizado.");
     }
 
     private void FinalizarTurno()
     {
-        Console.WriteLine($"Fim do turno de {jogadorDaVez?.Nome}.");
+        Log.WriteLine($"Fim do turno de {jogadorDaVez?.Nome}.");
     }
 }
