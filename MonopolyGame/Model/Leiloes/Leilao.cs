@@ -8,7 +8,7 @@ namespace MonopolyGame.Model.Leiloes;
 public class Leilao
 {
     public IPosseJogador PosseJogador { get; private set; }
-    public Jogador JogadorIniciador { get; private set; }
+    public Partida Partida { get; private set; }
 
     public List<Jogador> Participantes { get; }
 
@@ -20,12 +20,12 @@ public class Leilao
 
     public bool Finalizado { get => JogadorAtual == null; }
 
-    public Leilao(Jogador jogadorIniciador, IPosseJogador posseJogador)
+    public Leilao(Partida partida, IPosseJogador posseJogador)
     {
+        Partida = partida;
         PosseJogador = posseJogador;
-        JogadorIniciador = jogadorIniciador;
 
-        Participantes = [.. jogadorIniciador.Partida.JogadoresAtivos];
+        Participantes = [.. Partida.JogadoresAtivos];
 
         MaiorLance = 0;
         MaiorLicitante = null;

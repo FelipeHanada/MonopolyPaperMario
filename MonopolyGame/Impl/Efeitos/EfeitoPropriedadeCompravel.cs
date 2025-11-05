@@ -1,6 +1,8 @@
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Interface.Efeitos;
+using MonopolyGame.Model.PropostasTroca;
+using MonopolyGame.Utils;
 
 namespace MonopolyGame.Impl.Efeitos;
 
@@ -12,6 +14,19 @@ public class EfeitoPropriedadeCompravel(Propriedade propriedade) : IEfeitoJogado
     public void Aplicar(Jogador jogador)
     {
         if (jogador == null) throw new ArgumentNullException(nameof(jogador));
+
+        if (propriedade.Proprietario == null)
+        {
+            PropostaTroca propostaTroca = new(null, jogador);
+            propostaTroca.PossesOfertadas.Add(propriedade);
+
+            Log.WriteLine("Jogador " + jogador.Nome + " caiu em uma casa comprável sem dono, iniciando fase de proposta troca.");
+            jogador.Partida.IniciarPropostaTroca(propostaTroca);
+        } else
+        {
+            // paga aluguel
+        }
+
 
         //    // Se a propriedade tem dono, calcula e cobra o aluguel.
         //    if (propriedade.Proprietario != null)

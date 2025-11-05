@@ -19,9 +19,9 @@ namespace MonopolyGame.Interface;
  * + darLanceLeilão(int delta): Jogador
  * + desistirLeilão(): Jogador
  * ---------------------------------------------
- * + getPropostaVenda(): PropostaVenda
- * + iniciarPropostaVenda(): PropostaVenda
- * + encerrarPropostaVenda(bool aceite)
+ * + getPropostaTroca(): PropostaTroca
+ * + iniciarPropostaTroca(): PropostaTroca
+ * + encerrarPropostaTroca(bool aceite)
  */
 
 interface IControlePartida
@@ -40,7 +40,7 @@ interface IControlePartida
     Leilao IniciarLeilao(IPosseJogador posse);
     void DarLanceLeilao(int delta);
     void DesistirLeilao();
-    //PropostaVenda? GetPropostaVenda();
-    //PropostaVenda IniciarPropostaVenda();
-    void EncerrarPropostaVenda(bool aceite);
+    //PropostaTroca? GetPropostaTroca();
+    //PropostaTroca IniciarPropostaTroca();
+    void EncerrarPropostaTroca(bool aceite);
 }

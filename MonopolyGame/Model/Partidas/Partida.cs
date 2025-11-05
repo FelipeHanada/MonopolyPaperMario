@@ -1,15 +1,13 @@
 ﻿using MonopolyGame.Utils;
 using MonopolyGame.Impl.Cartas;
 using MonopolyGame.Impl.Efeitos;
-using MonopolyGame.Interface;
 using MonopolyGame.Interface.Cartas;
 using MonopolyGame.Interface.Efeitos;
 using MonopolyGame.Interface.Partidas;
 using MonopolyGame.Model.Cartas;
-using MonopolyGame.Model.Leiloes;
 using MonopolyGame.Model.PossesJogador;
-using MonopolyGame.Model.PropostasTroca;
 using MonopolyGame.Model.Tabuleiros;
+using MonopolyGame.Model.PropostasTroca;
 
 namespace MonopolyGame.Model.Partidas;
 
@@ -25,7 +23,7 @@ public class Partida
     public IDeck? DeckCofre { get; }
     public IDeck? DeckSorte { get; }
 
-    public IEstadoTurno EstadoTurnoAtual { get; private set; }
+    public IEstadoTurno EstadoTurnoAtual { get; internal set; }
 
     private readonly List<object[]> EfeitosAReverter;
 
@@ -50,7 +48,7 @@ public class Partida
 
     private (IDeck, IDeck) CriarDecks()
     {
-        FabricaAbstrataCartaCofre fabricaCartaCofre = new FabricaCartaCofre(this);
+        FabricaAbstrataPropriedade fabricaCartaCofre = new FabricaCartaCofre(this);
         FabricaAbstrataCartaSorte fabricaCartaSorte = new FabricaCartaSorte(this);
 
         var cartasCofre = fabricaCartaCofre.CriaTodasAsCartas();
@@ -81,14 +79,18 @@ public class Partida
         {
             if (pisos[i] != null) continue;
 
-            if (i % 2 == 0 && DeckSorte != null)
-            {
-                pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(DeckSorte));
-            }
-            else if (DeckCofre != null)
-            {
-                pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(DeckCofre));
-            }
+            pisos[i] = new Piso(
+                "Piso Comprável: Casa do Mario",
+                new EfeitoPropriedadeCompravel(new Imovel("Casa do Mario", 10, "teste", [0, 0, 0, 0, 0, 0], 50, 25))
+            );
+            //if (i % 2 == 0 && DeckSorte != null)
+            //{
+            //    pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(DeckSorte));
+            //}
+            //else if (DeckCofre != null)
+            //{
+            //    pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(DeckCofre));
+            //}
         }
 
         return pisos;
@@ -120,7 +122,7 @@ public class Partida
     }
     public bool FinalizarTurno()
     {
-        if (!EstadoTurnoAtual.PodeEncerrarTurno()) return false;
+        if (!EstadoTurnoAtual.PodeEncerrarTurno) return false;
 
         if (JogadorAtualIndex == 0) // para só reverter depois que todo mundo jogar. Uma rodada.
         {
@@ -159,11 +161,28 @@ public class Partida
         return true;
     }
 
-    //public bool IniciarLeilao(IPosseJogador posseJogador)
+    public bool IniciarPropostaTroca(PropostaTroca proposta)
+    {
+        if (!EstadoTurnoAtual.PodeIniciarPropostaTroca) return false;
+        EstadoTurnoAtual = new EstadoTurnoPropostaTroca(JogadorAtual, proposta);
+        return true;
+    }
+
+    public bool EncerrarPropostaTroca(bool aceite)
+    {
+        if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.PropostaTroca)
+            return false;
+
+        EstadoTurnoAtual.EncerrarPropostaTroca(aceite);
+        return true;
+    }
+
+    //public bool IniciarLeilao( leilao)
     //{
     //    if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
     //    EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
     //    return true;
+//    }
     //}
     //public virtual Leilao GetLeilao()
     //{
@@ -176,7 +195,7 @@ public class Partida
     //public Jogador DarLanceLeilao(int delta) { throw new NotImplementedException("Ação DarLanceLeilao não implementada ou inválida neste estado."); }
     //public Jogador DesistirLeilao() { throw new NotImplementedException("Ação DesistirLeilao não implementada ou inválida neste estado."); }
 
-    //public virtual PropostaTroca GetPropostaVenda() { throw new NotImplementedException("Ação GetPropostaVenda não implementada ou inválida neste estado."); }
-    //public virtual PropostaTroca IniciarPropostaVenda() { throw new NotImplementedException("Ação IniciarPropostaVenda não implementada ou inválida neste estado."); }
-    //public virtual void EncerrarPropostaVenda(bool aceite) { throw new NotImplementedException("Ação EncerrarPropostaVenda não implementada ou inválida neste estado."); }
+    //public virtual PropostaTroca GetPropostaTroca() { throw new NotImplementedException("Ação GetPropostaTroca não implementada ou inválida neste estado."); }
+    //public virtual PropostaTroca IniciarPropostaTroca() { throw new NotImplementedException("Ação IniciarPropostaTroca não implementada ou inválida neste estado."); }
+    //public virtual void EncerrarPropostaTroca(bool aceite) { throw new NotImplementedException("Ação EncerrarPropostaTroca não implementada ou inválida neste estado."); }
 }

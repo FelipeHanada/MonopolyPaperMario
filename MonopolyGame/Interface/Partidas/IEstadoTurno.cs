@@ -10,7 +10,7 @@ public enum EstadoTurnoId
 {
     Comum,
     Leilao,
-    PropostaVenda,
+    PropostaTroca,
     Encerrado,
 };
 
@@ -19,18 +19,23 @@ public interface IEstadoTurno
 {
     EstadoTurnoId EstadoId { get; }
     Jogador JogadorAtual { get; }
+
+    // ------------------------------------------------------
+    bool PodeRolarDados { get; }
+    bool PodeEncerrarTurno { get; }
+    bool PodeIniciarPropostaTroca { get; }
     // ------------------------------------------------------
     bool RolarDados(out (int, int) dados, out int posicaoFinal);
     bool HipotecarPropriedade(Propriedade propriedade);
     bool MelhorarImovel(Imovel imovel);
     bool DepreciarImovel(Imovel imovel);
-    bool PodeEncerrarTurno();
-    bool PodeRolarDados();
     // ------------------------------------------------------
     //Leilao Leilao { get; }
     //Jogador JogadorAtualLeilao { get; }
     //Jogador DarLanceLeilao(int aumento);
     //Jogador DesistirLeilao();
     // ------------------------------------------------------
-    //PropostaTroca GetPropostaVenda();
+    PropostaTroca PropostaTroca { get; }
+    void EncerrarPropostaTroca(bool aceite);
+    //PropostaTroca GetPropostaTroca();
 };

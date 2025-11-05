@@ -1,6 +1,7 @@
 using MonopolyGame.Interface;
 using MonopolyGame.Interface.PropostasTroca;
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Utils;
 
 namespace MonopolyGame.Model.PropostasTroca;
 
@@ -15,12 +16,15 @@ public class PropostaTroca(Jogador? ofertante, Jogador destinatario) : IProposta
 
     public bool Valido()
     {
-        foreach (IPosseJogador posseJogador in PossesDesejadas)
+        if (Ofertante != null)
         {
-            if (posseJogador.Proprietario != Ofertante) return false;
+            foreach (IPosseJogador posseJogador in PossesOfertadas)
+            {
+                if (posseJogador.Proprietario != Ofertante) return false;
+            }
         }
 
-        foreach (IPosseJogador posseJogador in PossesOfertadas)
+        foreach (IPosseJogador posseJogador in PossesDesejadas)
         {
             if (posseJogador.Proprietario != Destinatario) return false;
         }
@@ -40,16 +44,21 @@ public class PropostaTroca(Jogador? ofertante, Jogador destinatario) : IProposta
         
         foreach (IPosseJogador posseJogador in PossesDesejadas)
         {
+            Log.WriteLine("Removendo posse " + posseJogador.Nome + " de " + Destinatario.Nome);
+            if (Ofertante != null) Log.WriteLine("Adicionando posse " + posseJogador.Nome + " em " + Ofertante.Nome);
             Destinatario.RemoverPosse(posseJogador);
             Ofertante?.AdicionarPosse(posseJogador);
         }
 
         foreach (IPosseJogador posseJogador in PossesOfertadas)
         {
+            if (Ofertante != null) Log.WriteLine("Removendo posse " + posseJogador.Nome + " de " + Ofertante.Nome);
+            Log.WriteLine("Adicionando posse " + posseJogador.Nome + " em " + Destinatario.Nome);
             Ofertante?.RemoverPosse(posseJogador);
             Destinatario.AdicionarPosse(posseJogador);
         }
 
+        Log.WriteLine("DinheiroOfertado = " + DinheiroOfertado);
         Ofertante?.Dinheiro -= DinheiroOfertado;
         Destinatario.Dinheiro += DinheiroOfertado;
         

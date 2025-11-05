@@ -4,24 +4,24 @@ using MonopolyGame.Model.PossesJogador;
 namespace MonopolyGame.Model.Partidas;
 
 
-public class EstadoTurnoComum(Jogador jogadorAtual) : AbstractEstadoTurno
+public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
 {
     private readonly Random dado = new();
     public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Comum;
     public override Jogador JogadorAtual { get; } = jogadorAtual;
-    
+
+    public override bool PodeRolarDados { get => Rolagem < 3 && RolagemIgual; }
+    public override bool PodeEncerrarTurno { get => !PodeRolarDados || !JogadorAtual.PodeJogar; }
+    public override bool PodeIniciarPropostaTroca { get; } = true;
+
     public int Rolagem { get; private set; } = 0;
     public bool RolagemIgual { get; private set; } = true;
     
-    public override bool PodeRolarDados()
-    {
-        return Rolagem < 3 && RolagemIgual;
-    }
     public override bool RolarDados(out (int, int) dados, out int posicaoFinal)
     {
         dados = (-1, -1);
         posicaoFinal = -1;
-        if (!PodeRolarDados()) return false;
+        if (!PodeRolarDados) return false;
 
         Rolagem++;
 
@@ -74,9 +74,5 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstractEstadoTurno
             return true;
         }
         return false;
-    }
-    public override bool PodeEncerrarTurno()
-    {
-        return !PodeRolarDados() || !JogadorAtual.PodeJogar;
     }
 }

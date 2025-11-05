@@ -1,5 +1,7 @@
-﻿using MonopolyGame.Interface.Partidas;
+﻿using MonopolyGame.Interface;
+using MonopolyGame.Interface.Partidas;
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Model.PropostasTroca;
 
 namespace MonopolyGameConsole;
 
@@ -52,8 +54,8 @@ class Program
                 case EstadoTurnoId.Comum:
                     ApresentarMenuFaseComum();
                     break;
-                case EstadoTurnoId.PropostaVenda:
-                    //ApresentarMenuFasePropostaVenda();
+                case EstadoTurnoId.PropostaTroca:
+                    ApresentarMenuFasePropostaVenda();
                     break;
                 case EstadoTurnoId.Leilao:
                     //ApresentarMenuFaseLeilao();
@@ -65,16 +67,16 @@ class Program
 
     private static void ApresentarMenuFaseComum()
     {
-        Console.WriteLine("\nEscolha uma ação:");
-
-        Console.WriteLine("1. Rolar os dados" + (partida.EstadoTurnoAtual.PodeRolarDados() ? "" : " (bloqueado)"));
+        Console.WriteLine("--------------- [ FASE COMUM ] ---------------");
+        Console.WriteLine("Escolha uma ação:");
+        Console.WriteLine("1. Rolar os dados" + (partida.EstadoTurnoAtual.PodeRolarDados ? "" : " (bloqueado)"));
         Console.WriteLine("2. Fazer uma proposta de troca");
         Console.WriteLine("3. Gerenciar propriedades - (Não implementado)");
-        Console.WriteLine("4. Finalizar Turno" + (partida.EstadoTurnoAtual.PodeEncerrarTurno() ? "" : "(bloqueado)"));
+        Console.WriteLine("4. Finalizar Turno" + (partida.EstadoTurnoAtual.PodeEncerrarTurno ? "" : "(bloqueado)"));
 
         HashSet<string> escolhasDisponiveis = ["1", "2", "3", "4"];
-        if (!partida.EstadoTurnoAtual.PodeRolarDados()) escolhasDisponiveis.Remove("1");
-        if (!partida.EstadoTurnoAtual.PodeEncerrarTurno()) escolhasDisponiveis.Remove("4");
+        if (!partida.EstadoTurnoAtual.PodeRolarDados) escolhasDisponiveis.Remove("1");
+        if (!partida.EstadoTurnoAtual.PodeEncerrarTurno) escolhasDisponiveis.Remove("4");
 
         string escolha;
         while (true)
@@ -100,6 +102,57 @@ class Program
                 partida.FinalizarTurno();
                 break;
         }
+    }
+
+    private static void ApresentarMenuFasePropostaVenda()
+    {
+        PropostaTroca propostaTroca = partida.EstadoTurnoAtual.PropostaTroca;
+        Console.WriteLine("--------------- [ FASE PROPOSTA TROCA ] ---------------");
+        Console.WriteLine("Posses que " + propostaTroca.Destinatario.Nome + " irá receber: ");
+        foreach (IPosseJogador posse in propostaTroca.PossesOfertadas)
+        {
+            Console.WriteLine("- " + posse.Nome);
+        }
+        if (propostaTroca.Ofertante != null)
+        {
+            Console.WriteLine("Posses que " + propostaTroca.Ofertante.Nome + " irá receber: ");
+            foreach (IPosseJogador posse in propostaTroca.PossesDesejadas)
+            {
+                Console.WriteLine("- " + posse.Nome);
+            }
+        }
+        if (propostaTroca.DinheiroOfertado != 0)
+        {
+            Console.Write(propostaTroca.Destinatario.Nome + " ");
+            if (propostaTroca.DinheiroOfertado > 0)
+            {
+                Console.Write("irá receber ");
+            } else
+            {
+                Console.Write("terá que pagar ");
+            }
+            Console.WriteLine(Math.Abs(propostaTroca.DinheiroOfertado));
+        }
+
+
+        Console.WriteLine("Escolha uma ação:");
+        Console.WriteLine("1. Aceitar");
+        Console.WriteLine("2. Recusar");
+
+        string escolha;
+        while (true)
+        {
+            Console.Write("Opção: ");
+            string? escolhaInput = Console.ReadLine();
+            if (escolhaInput == "1" || escolhaInput == "2")
+            {
+                escolha = escolhaInput;
+                break;
+            }
+            Console.WriteLine("Esta escolha não está disponível!");
+        }
+
+        partida.EncerrarPropostaTroca((escolha == "1"));
     }
 
     private static void RolarDados()
