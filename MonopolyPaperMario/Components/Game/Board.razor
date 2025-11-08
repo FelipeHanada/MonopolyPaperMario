@@ -1,4 +1,6 @@
-﻿@namespace MonopolyPaperMario.Components.Game.Board
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyPaperMario.Components.Stores;
+@namespace MonopolyPaperMario.Components.Game.Board
 
 
 <div class="board">
@@ -126,35 +128,25 @@
 
 
 @code {
-    private int[] playerPositions = new int[] { 0, 1, 1, 10, 25, 39 };
+    private IControlePartida controlePartida = ControlePartidaStore.ControlePartida;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
     private bool[] GetCharactersOnTile(int tileIndex)
     {
         var display = new bool[6];
 
-        for (int i = 0; i < playerPositions.Length; i++)
+        for (int i = 0; i < display.Length; i++)
         {
-            if (playerPositions[i] == tileIndex)
+            if (i < controlePartida.Partida.Jogadores.Count && controlePartida.Partida.Tabuleiro.GetPosicao(controlePartida.Partida.Jogadores[i]) == tileIndex)
             {
                 display[i] = true;
             }
         }
         return display;
-    }
-
-    private void MovePlayer(int playerIndex, int steps)
-    {
-        if (playerIndex < 0 || playerIndex >= playerPositions.Length)
-        {
-            return;
-        }
-
-        int currentPosition = playerPositions[playerIndex];
-
-        int newPosition = (currentPosition + steps) % 40;
-
-        playerPositions[playerIndex] = newPosition;
-
-        StateHasChanged();
     }
 
     public record class StreetTileData

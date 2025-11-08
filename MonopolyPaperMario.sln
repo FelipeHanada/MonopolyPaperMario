@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36401.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonopolyPaperMario", "MonopolyPaperMario\MonopolyPaperMario.csproj", "{F23ADD23-2882-2C8E-9375-DCD69685D889}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4454A345-D2D9-4ED2-B222-C1D298B05BF1} = {4454A345-D2D9-4ED2-B222-C1D298B05BF1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonopolyGameConsole", "MonopolyGameConsole\MonopolyGameConsole.csproj", "{2FECFA34-B6BA-EA3B-00F4-4CC914C3AD0E}"
 EndProject

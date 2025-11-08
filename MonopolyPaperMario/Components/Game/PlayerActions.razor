@@ -1,82 +1,18 @@
-﻿<div class="w-90">
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyPaperMario.Components.Stores;
+
+<div class="w-90">
     <h1>O que você deseja fazer?</h1>
 
     <div class="d-flex flex-column align-items-stretch justify-content-center">
-        <button class="btn btn-primary mb-1">Rolar Dados</button>
 
-        @* HIPOTECAR PROPRIEDADE *@
-        <div class="mb-1">
-            <div class="dropdown">
-                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    Hipotecar Propriedade
-                </button>
-                <form class="w-100 dropdown-menu p-2">
-                    <div class="mb-2">
-                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
-
-                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
-                            <option selected disabled>Escolha uma propriedade</option>
-
-                            <option value="1">Propriedade 1</option>
-                            <option value="2">Propriedade 2</option>
-                            <option value="3">Propriedade 3</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Hipotecar Propriedade</button>
-                </form>
-            </div>
-        </div>
-
-        @* MELHORAR PROPRIEDADE *@
-        <div class="mb-1">
-            <div class="dropdown">
-                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    Comprar Casa
-                </button>
-                <form class="w-100 dropdown-menu p-2">
-                    <div class="mb-2">
-                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
-
-                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
-                            <option selected disabled>Escolha uma propriedade</option>
-
-                            <option value="1">Propriedade 1</option>
-                            <option value="2">Propriedade 2</option>
-                            <option value="3">Propriedade 3</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Comprar Casa</button>
-                </form>
-            </div>
-        </div>
-
-        @* DEPRECIAR PROPRIEDADE *@
-        <div class="mb-1">
-            <div class="dropdown">
-                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                    Vender Casa
-                </button>
-                <form class="w-100 dropdown-menu p-2">
-                    <div class="mb-2">
-                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
-
-                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
-                            <option selected disabled>Escolha uma propriedade</option>
-
-                            <option value="1">Propriedade 1</option>
-                            <option value="2">Propriedade 2</option>
-                            <option value="3">Propriedade 3</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Vender Casa</button>
-                </form>
-            </div>
-        </div>
-
-        <button class="btn btn-primary mb-1">Fazer uma Proposta de Troca</button>
+        @if (ControlePartida.Partida.EstadoTurnoAtual.EstadoId == MonopolyGame.Interface.Partidas.EstadoTurnoId.Comum)
+        {
+            <PlayerActionsComum />
+        } else if (ControlePartida.Partida.EstadoTurnoAtual.EstadoId == MonopolyGame.Interface.Partidas.EstadoTurnoId.PropostaTroca)
+        {
+            <PlayerActionsTroca />
+        }
 
         @* ADICIONAR EM TROCA *@
         @* <div class="mb-1">
@@ -167,11 +103,14 @@
                 </form>
             </div>
         </div> *@
-
-        <button class="btn btn-primary mb-2">Encerrar Turno</button>
     </div>
 </div>
 
 @code {
+    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
 
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
 }

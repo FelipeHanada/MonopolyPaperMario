@@ -1,0 +1,149 @@
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyGame.Interface.PosseJogador;
+@using MonopolyGame.Model.PossesJogador;
+@using MonopolyPaperMario.Components.Stores;
+
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_RolarDados) ? "" : "disabled")"
+          @onclick=HandleRolarDados
+          >
+    Rolar Dados
+</button>
+
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarPropostaTroca) ? "" : "disabled")">Fazer uma Proposta de Troca</button>
+
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarLeilao) ? "" : "disabled")">Iniciar Leilao</button>
+
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_MelhorarImovel))
+{
+    @* MELHORAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Comprar Casa
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses.OfType<Imovel>())
+                        {
+                            <option value="@imovel">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Comprar Casa</button>
+            </form>
+        </div>
+    </div>
+}
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_DepreciarImovel))
+{
+    @* DEPRECIAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Vender Casa
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses.OfType<Imovel>())
+                        {
+                            <option value="@imovel">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Vender Casa</button>
+            </form>
+        </div>
+    </div>
+}
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_HipotecarPropriedade))
+{
+    @* HIPOTECAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Hipotecar Propriedade
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses.OfType<Propriedade>())
+                        {
+                            <option value="@imovel">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Hipotecar Propriedade</button>
+            </form>
+        </div>
+    </div>
+}
+
+<button class="btn btn-primary mb-2 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_EncerrarTurno) ? "" : "disabled")"
+    @onclick=HandleEncerrarTurno>
+    Encerrar Turno
+</button>
+
+@code {
+    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
+    private void HandleRolarDados()
+    {
+        ControlePartida.Comum_RolarDados();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    // private void HandleIniciarPropostaTroca()
+    // {
+    //     ControlePartida.Comum_IniciarPropostaTroca();
+    //     StateHasChanged();
+    // }
+
+    // private void HandleIniciarLeilao()
+    // {
+    //     ControlePartida.Comum_IniciarLeilao();
+    //     StateHasChanged();
+    // }
+
+    private void HandleEncerrarTurno()
+    {
+        ControlePartida.Comum_EncerrarTurno();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleMelhorarImovel()
+    {
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleDepreciarImovel()
+    {
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleHipotecarPropriedade()
+    {
+        ControlePartidaStore.NotifyStateChanged();
+    }
+}

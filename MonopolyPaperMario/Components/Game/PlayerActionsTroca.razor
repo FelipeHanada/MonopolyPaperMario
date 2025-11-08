@@ -1,0 +1,65 @@
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyGame.Interface.PosseJogador;
+@using MonopolyGame.Model.PossesJogador;
+@using MonopolyPaperMario.Components.Stores;
+
+<h3>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h3>
+<ul>
+    @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesOfertadas)
+    {
+        <li>@posse.Nome</li>
+    }
+</ul>
+
+@if (ControlePartida.Troca_GetJogadorProponente() != null)
+{
+    <h3>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h3>
+    <ul>
+        @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesDesejadas)
+        {
+            <li>@posse.Nome</li>
+        }
+    </ul>
+}
+
+@if (ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado > 0)
+{
+    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+}
+else
+{
+    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+}
+
+<div class="d-flex justify-content-between">
+    <button class="btn btn-primary mb-1"
+            @onclick=HandleRecusar>
+        Recusar
+    </button>
+
+    <button class="btn btn-primary mb-1"
+            @onclick=HandleAceitar>
+        Aceitar
+    </button>
+</div>
+
+@code {
+    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
+    private void HandleAceitar()
+    {
+        ControlePartida.Troca_Aceitar();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleRecusar()
+    {
+        ControlePartida.Troca_Recusar();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+}
