@@ -23,8 +23,9 @@ public abstract class AbstratoEstadoTurno : IEstadoTurno
     public virtual bool DepreciarImovel(Imovel imovel) { throw new NotImplementedException("Ação DepreciarImovel não implementada ou inválida neste estado."); }
 
     public virtual Leilao Leilao { get => throw new NotImplementedException("Leilao não implementada ou inválida neste estado."); }
-    public virtual Jogador DarLanceLeilao(int delta) { throw new NotImplementedException("Ação DarLanceLeilao não implementada ou inválida neste estado."); }
-    public virtual Jogador DesistirLeilao() { throw new NotImplementedException("Ação DesistirLeilao não implementada ou inválida neste estado."); }
+    public virtual Jogador? JogadorAtualLeilao { get => throw new NotImplementedException("JogadorAtualLeilao não implementada ou inválida neste estado."); }
+    public virtual void DarLanceLeilao(int delta) { throw new NotImplementedException("Ação DarLanceLeilao não implementada ou inválida neste estado."); }
+    public virtual void DesistirLeilao() { throw new NotImplementedException("Ação DesistirLeilao não implementada ou inválida neste estado."); }
 
     public virtual PropostaTroca PropostaTroca { get => throw new NotImplementedException("PropostaTroca não implementada ou inválida neste estado."); }
     public virtual PropostaTroca IniciarPropostaTroca() { throw new NotImplementedException("Ação IniciarPropostaTroca não implementada ou inválida neste estado."); }

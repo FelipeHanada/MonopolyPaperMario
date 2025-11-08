@@ -20,7 +20,6 @@ public class Leilao
 
     public Leilao(Jogador jogadorAtual, IPosseJogador posseJogador)
     {
-        Partida = partida;
         PosseJogador = posseJogador;
 
         Participantes = [.. jogadorAtual.Partida.Jogadores];

@@ -5,22 +5,22 @@ using MonopolyGame.Model.Leiloes;
 namespace MonopolyGame.Model.Partidas;
 
 
-public class TurnoLeilao(Jogador jogadorAtual, IPosseJogador posseLeilaoda) : AbstractEstadoTurno
+public class EstadoTurnoLeilao(Jogador jogadorAtual, IPosseJogador posseLeilaoda) : AbstratoEstadoTurno
 {
    public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Leilao;
    public override Jogador JogadorAtual { get; } = jogadorAtual;
 
-   public Leilao LeilaoAtual { get; } = new Leilao(jogadorAtual, posseLeilaoda);
+   public override Leilao Leilao { get; } = new Leilao(jogadorAtual, posseLeilaoda);
 
-   public Jogador? JogadorAtualLeilao { get => LeilaoAtual.JogadorAtual; }
+   public override Jogador? JogadorAtualLeilao { get => Leilao.JogadorAtual; }
 
    public override void DarLanceLeilao(int aumento)
    {
-       LeilaoAtual.DarLance(aumento);
+       Leilao.DarLance(aumento);
    }
 
     public override void DesistirLeilao()
     {
-        LeilaoAtual.Desistir();
+        Leilao.Desistir();
     }
 }

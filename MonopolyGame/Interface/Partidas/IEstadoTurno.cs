@@ -32,10 +32,10 @@ public interface IEstadoTurno
     bool MelhorarImovel(Imovel imovel);
     bool DepreciarImovel(Imovel imovel);
     // ------------------------------------------------------
-    //Leilao Leilao { get; }
-    //Jogador JogadorAtualLeilao { get; }
-    //Jogador DarLanceLeilao(int aumento);
-    //Jogador DesistirLeilao();
+    Leilao Leilao { get; }
+    Jogador? JogadorAtualLeilao { get; }
+    void DarLanceLeilao(int aumento);
+    void DesistirLeilao();
     // ------------------------------------------------------
     PropostaTroca PropostaTroca { get; }
     void EncerrarPropostaTroca(bool aceite);

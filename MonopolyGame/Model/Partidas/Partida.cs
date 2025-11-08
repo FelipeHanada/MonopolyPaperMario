@@ -8,6 +8,8 @@ using MonopolyGame.Model.Cartas;
 using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Model.Tabuleiros;
 using MonopolyGame.Model.PropostasTroca;
+using MonopolyGame.Model.Partidas;
+using MonopolyGame.Interface;
 
 namespace MonopolyGame.Model.Partidas;
 
@@ -177,10 +179,24 @@ public class Partida
         return true;
     }
 
-    public bool IniciarLeilao()
+    public bool IniciarLeilao(Jogador jogadorAtual, IPosseJogador posseJogador)
     {
         if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
         EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
+        return true;
+    }
+
+    public bool EncerrarLeilao()
+    {
+        if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Leilao || !EstadoTurnoAtual.Leilao.Finalizado || EstadoTurnoAtual.Leilao.MaiorLicitante == null)
+            return false;
+
+        Jogador vencedor = EstadoTurnoAtual.Leilao.MaiorLicitante;
+
+        EstadoTurnoAtual.Leilao.PosseJogador.Proprietario?.RemoverPosse(EstadoTurnoAtual.Leilao.PosseJogador);
+        vencedor.AdicionarPosse(EstadoTurnoAtual.Leilao.PosseJogador);
+
+        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
         return true;
     }
     
