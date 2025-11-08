@@ -25,7 +25,9 @@ public interface IEstadoTurno
     bool PodeEncerrarTurno { get; }
     bool PodeIniciarPropostaTroca { get; }
     // ------------------------------------------------------
+    List<(int, int)> GetDadosRolados();
     bool RolarDados(out (int, int) dados, out int posicaoFinal);
+    bool UsarPasseLivreDaCadeia();
     bool HipotecarPropriedade(Propriedade propriedade);
     bool MelhorarImovel(Imovel imovel);
     bool DepreciarImovel(Imovel imovel);
