@@ -1,8 +1,8 @@
 using MonopolyGame.Utils;
-using MonopolyGame.Interface;
 using MonopolyGame.Interface.PropostasTroca;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Model.PropostasTroca;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyGame.Model.PossesJogador;
 

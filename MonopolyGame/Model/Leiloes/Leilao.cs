@@ -1,6 +1,6 @@
 using MonopolyGame.Utils;
-using MonopolyGame.Interface;
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyGame.Model.Leiloes;
 

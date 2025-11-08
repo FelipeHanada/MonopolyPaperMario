@@ -1,4 +1,5 @@
-﻿using MonopolyGame.Model.Partidas;
+﻿using MonopolyGame.Interface.PosseJogador;
+using MonopolyGame.Model.Partidas;
 
 namespace MonopolyGame.Interface.PropostasTroca;
 

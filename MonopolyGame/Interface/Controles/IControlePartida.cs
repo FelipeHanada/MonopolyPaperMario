@@ -37,13 +37,13 @@ public enum ControlePartidaComando
     Comum_DepreciarImovel,
     Comum_EncerrarTurno,
     Comum_UsarPasseDaCadeia,
-    
+    Comum_IniciarLeilao,
+    Comum_IniciarPropostaTroca,
+
     Leilao_GetJogadorAtual,
-    Leilao_Iniciar,
     Leilao_DarLance,
     Leilao_Desistir,
 
-    Troca_Iniciar,
     Troca_Aceitar,
     Troca_Recusar,
 }

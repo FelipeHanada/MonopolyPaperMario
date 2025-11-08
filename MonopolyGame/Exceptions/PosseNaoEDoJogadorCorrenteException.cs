@@ -1,5 +1,5 @@
 ﻿using System;
-using MonopolyGame.Interface;
+using MonopolyGame.Interface.PosseJogador;
 using MonopolyGame.Model.Partidas;
 
 namespace MonopolyGame.Exceptions

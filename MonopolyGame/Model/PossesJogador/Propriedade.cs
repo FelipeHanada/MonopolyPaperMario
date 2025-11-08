@@ -1,6 +1,6 @@
-﻿using MonopolyGame.Interface;
-using MonopolyGame.Exceptions;
+﻿using MonopolyGame.Exceptions;
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyGame.Model.PossesJogador
 {

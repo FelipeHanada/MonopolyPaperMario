@@ -1,6 +1,6 @@
 using MonopolyGame.Model.Partidas;
 
-namespace MonopolyGame.Interface
+namespace MonopolyGame.Interface.PosseJogador
 {
     public interface IPosseJogador
     {

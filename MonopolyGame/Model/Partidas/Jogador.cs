@@ -1,7 +1,7 @@
 ﻿using MonopolyGame.Utils;
 using MonopolyGame.Exceptions;
-using MonopolyGame.Interface;
 using MonopolyGame.Impl.Efeitos;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyGame.Model.Partidas;
 

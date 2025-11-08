@@ -1,5 +1,5 @@
-using MonopolyGame.Interface;
 using MonopolyGame.Interface.Partidas;
+using MonopolyGame.Interface.PosseJogador;
 using MonopolyGame.Model.Leiloes;
 using MonopolyGame.Model.PropostasTroca;
 

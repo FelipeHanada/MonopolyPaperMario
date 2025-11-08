@@ -9,7 +9,7 @@ using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Model.Tabuleiros;
 using MonopolyGame.Model.PropostasTroca;
 using MonopolyGame.Model.Partidas;
-using MonopolyGame.Interface;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyGame.Model.Partidas;
 
@@ -106,22 +106,22 @@ public class Partida
 
     // ================================================================================================================
 
-    public bool RolarDados(out (int, int) dados, out int posicaoFinal)
-    {
-        return EstadoTurnoAtual.RolarDados(out dados, out posicaoFinal);
-    }
-    public bool HipotecarPropriedade(Propriedade propriedade)
-    {
-        return EstadoTurnoAtual.HipotecarPropriedade(propriedade);
-    }
-    public bool MelhorarImovel(Imovel imovel)
-    {
-        return EstadoTurnoAtual.MelhorarImovel(imovel);
-    }
-    public bool DepreciarImovel(Imovel imovel)
-    {
-        return EstadoTurnoAtual.DepreciarImovel(imovel);
-    }
+    //public bool RolarDados(out (int, int) dados, out int posicaoFinal)
+    //{
+    //    return EstadoTurnoAtual.RolarDados(out dados, out posicaoFinal);
+    //}
+    //public bool HipotecarPropriedade(Propriedade propriedade)
+    //{
+    //    return EstadoTurnoAtual.HipotecarPropriedade(propriedade);
+    //}
+    //public bool MelhorarImovel(Imovel imovel)
+    //{
+    //    return EstadoTurnoAtual.MelhorarImovel(imovel);
+    //}
+    //public bool DepreciarImovel(Imovel imovel)
+    //{
+    //    return EstadoTurnoAtual.DepreciarImovel(imovel);
+    //}
     public bool FinalizarTurno()
     {
         if (!EstadoTurnoAtual.PodeEncerrarTurno) return false;

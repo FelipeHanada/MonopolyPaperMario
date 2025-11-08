@@ -1,4 +1,5 @@
 ﻿using MonopolyGame.Interface.Controles;
+using MonopolyGame.Interface.Partidas;
 using MonopolyGame.Model.Leiloes;
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Model.PossesJogador;
@@ -12,7 +13,27 @@ public class ControlePartida(Partida partida) : IControlePartida
 
     public bool ComandoDisponivel(ControlePartidaComando comando)
     {
-        return false;
+        return comando switch
+        {
+            ControlePartidaComando.Comum_GetDadosRolados => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_RolarDados => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum && Partida.EstadoTurnoAtual.PodeRolarDados,
+            ControlePartidaComando.Comum_HipotecarPropriedade => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_MelhorarImovel => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_DepreciarImovel => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_EncerrarTurno => Partida.EstadoTurnoAtual.PodeEncerrarTurno,
+            ControlePartidaComando.Comum_UsarPasseDaCadeia => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_IniciarLeilao => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+            ControlePartidaComando.Comum_IniciarPropostaTroca => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
+
+            ControlePartidaComando.Leilao_GetJogadorAtual => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Leilao,
+            ControlePartidaComando.Leilao_DarLance => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Leilao,
+            ControlePartidaComando.Leilao_Desistir => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Leilao,
+
+            ControlePartidaComando.Troca_Aceitar => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.PropostaTroca,
+            ControlePartidaComando.Troca_Recusar => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.PropostaTroca,
+
+            _ => false,
+        };
     }
 
     public List<(int, int)> Comum_GetDadosRolados()
