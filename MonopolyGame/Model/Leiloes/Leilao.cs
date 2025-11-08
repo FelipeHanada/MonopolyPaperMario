@@ -8,8 +8,6 @@ namespace MonopolyGame.Model.Leiloes;
 public class Leilao
 {
     public IPosseJogador PosseJogador { get; private set; }
-    public Partida Partida { get; private set; }
-
     public List<Jogador> Participantes { get; }
 
     public int MaiorLance { get; private set; }
@@ -20,12 +18,12 @@ public class Leilao
 
     public bool Finalizado { get => JogadorAtual == null; }
 
-    public Leilao(Partida partida, IPosseJogador posseJogador)
+    public Leilao(Jogador jogadorAtual, IPosseJogador posseJogador)
     {
         Partida = partida;
         PosseJogador = posseJogador;
 
-        Participantes = [.. Partida.JogadoresAtivos];
+        Participantes = [.. jogadorAtual.Partida.Jogadores];
 
         MaiorLance = 0;
         MaiorLicitante = null;
@@ -103,8 +101,8 @@ public class Leilao
     }
 }
 
-//public void Executar()
-//{
+// public void Executar()
+// {
 
 //    Jogador? proprietarioOriginal = PosseJogador.Proprietario;
 //    List<Jogador> licitantesAtivos = new List<Jogador>(Participantes);
@@ -192,4 +190,4 @@ public class Leilao
 //    {
 //        Log.WriteLine("O leilão terminou sem um vencedor. A PosseJogador permanece com seu dono original ou com o banco.");
 //    }
-//}
+// }

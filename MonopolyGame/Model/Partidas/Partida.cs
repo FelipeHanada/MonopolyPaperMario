@@ -177,13 +177,13 @@ public class Partida
         return true;
     }
 
-    //public bool IniciarLeilao( leilao)
-    //{
-    //    if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
-    //    EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
-    //    return true;
-//    }
-    //}
+    public bool IniciarLeilao()
+    {
+        if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
+        EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
+        return true;
+    }
+    
     //public virtual Leilao GetLeilao()
     //{
     //    return EstadoTurnoAtual.GetLeilao();
