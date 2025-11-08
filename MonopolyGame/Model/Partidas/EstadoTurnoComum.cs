@@ -14,19 +14,24 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
     public override bool PodeEncerrarTurno { get => !PodeRolarDados || !JogadorAtual.PodeJogar; }
     public override bool PodeIniciarPropostaTroca { get; } = true;
 
-    public int Rolagem { get; private set; } = 0;
-    public bool RolagemIgual { get; private set; } = true;
-    
+    public List<(int, int)> DadosRolados { get; } = [];
+    public int Rolagem { get => DadosRolados.Count; }
+    public bool RolagemIgual { get => (DadosRolados.Count == 0) || (DadosRolados.Last().Item1 == DadosRolados.Last().Item2); }
+   
+    public override List<(int, int)> GetDadosRolados()
+    {
+        return DadosRolados;
+    }
+
     public override bool RolarDados(out (int, int) dados, out int posicaoFinal)
     {
         dados = (-1, -1);
         posicaoFinal = -1;
         if (!PodeRolarDados) return false;
 
-        Rolagem++;
-
         dados = (dado.Next(1, 7), dado.Next(1, 7));
-        RolagemIgual = dados.Item1 == dados.Item2;
+        DadosRolados.Add(dados);
+        
         int totalDados = dados.Item1 + dados.Item2;
 
         if (JogadorAtual.Preso)
@@ -34,7 +39,6 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
             if (RolagemIgual)
             {
                 JogadorAtual.Preso = false;
-                RolagemIgual = false;
             }
             return true;
         }
@@ -46,6 +50,13 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         }
         JogadorAtual.Partida.Tabuleiro.MoveJogador(JogadorAtual, totalDados);
         posicaoFinal = JogadorAtual.Partida.Tabuleiro.GetPosicao(JogadorAtual);
+        return true;
+    }
+    public override bool UsarPasseLivreDaCadeia()
+    {
+        if (!JogadorAtual.Preso || JogadorAtual.CartasPasseLivre == 0) return false;
+        JogadorAtual.CartasPasseLivre--;
+        JogadorAtual.Preso = false;
         return true;
     }
     public override bool HipotecarPropriedade(Propriedade propriedade)

@@ -15,6 +15,8 @@ public abstract class AbstratoEstadoTurno : IEstadoTurno
     public virtual bool PodeEncerrarTurno { get; } = false;
     public virtual bool PodeIniciarPropostaTroca { get; } = false;
 
+    public virtual List<(int, int)> GetDadosRolados() { throw new NotImplementedException("Ação GetDadosRolados não implementada ou inválida neste estado."); }
+    public virtual bool UsarPasseLivreDaCadeia() { throw new NotImplementedException("Ação UsarPasseLivreDaCadeia não implementada ou inválida neste estado."); }
     public virtual bool RolarDados(out (int, int) dados, out int posicaoFinal) { throw new NotImplementedException("Ação RolarDados não implementada ou inválida neste estado."); }
     public virtual bool HipotecarPropriedade(Propriedade propriedade) { throw new NotImplementedException("Ação HipotecarPropriedade não implementada ou inválida neste estado."); }
     public virtual bool MelhorarImovel(Imovel imovel) { throw new NotImplementedException("Ação MelhorarImovel não implementada ou inválida neste estado."); }
