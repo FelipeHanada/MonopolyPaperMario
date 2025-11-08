@@ -10,7 +10,7 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
     public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Comum;
     public override Jogador JogadorAtual { get; } = jogadorAtual;
 
-    public override bool PodeRolarDados { get => Rolagem < 3 && RolagemIgual; }
+    public override bool PodeRolarDados { get => (Rolagem < 3 && RolagemIgual); }
     public override bool PodeEncerrarTurno { get => !PodeRolarDados || !JogadorAtual.PodeJogar; }
     public override bool PodeIniciarPropostaTroca { get; } = true;
 

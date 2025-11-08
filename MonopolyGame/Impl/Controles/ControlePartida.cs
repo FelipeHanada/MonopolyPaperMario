@@ -16,7 +16,7 @@ public class ControlePartida(Partida partida) : IControlePartida
         return comando switch
         {
             ControlePartidaComando.Comum_GetDadosRolados => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
-            ControlePartidaComando.Comum_RolarDados => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum && Partida.EstadoTurnoAtual.PodeRolarDados,
+            ControlePartidaComando.Comum_RolarDados => (Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum && Partida.EstadoTurnoAtual.PodeRolarDados),
             ControlePartidaComando.Comum_HipotecarPropriedade => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
             ControlePartidaComando.Comum_MelhorarImovel => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,
             ControlePartidaComando.Comum_DepreciarImovel => Partida.EstadoTurnoAtual.EstadoId == EstadoTurnoId.Comum,

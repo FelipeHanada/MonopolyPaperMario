@@ -19,6 +19,7 @@ public class EfeitoPropriedadeCompravel(Propriedade propriedade) : IEfeitoJogado
         {
             PropostaTroca propostaTroca = new(null, jogador);
             propostaTroca.PossesOfertadas.Add(propriedade);
+            propostaTroca.DinheiroOfertado = -propriedade.Preco;
 
             Log.WriteLine("Jogador " + jogador.Nome + " caiu em uma casa comprável sem dono, iniciando fase de proposta troca.");
             jogador.Partida.IniciarPropostaTroca(propostaTroca);
