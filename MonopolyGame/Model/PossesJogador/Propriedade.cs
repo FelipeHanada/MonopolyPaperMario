@@ -2,39 +2,54 @@
 using MonopolyGame.Model.Partidas;
 using MonopolyGame.Interface.PosseJogador;
 
-namespace MonopolyGame.Model.PossesJogador
-{
-    public abstract class Propriedade : IPosseJogador
-    {
-        public string Nome { get; private set; }
-        public int Preco { get; private set; }
-        public int ValorHipoteca { get; private set; }
-        public bool Hipotecada { get; set; }
-        public Jogador? Proprietario { get; set; }
+namespace MonopolyGame.Model.PossesJogador;
 
-        protected Propriedade(string nome, int preco)
+public enum PropriedadeCor
+{
+    Marrom = 0,
+    Ciano,
+    Rosa,
+    Laranja,
+    Vermelho,
+    Amarelo,
+    Verde,
+    Azul,
+    Companhia,
+    Trem
+}
+
+public abstract class Propriedade : IPosseJogador
+{
+    public string Nome { get; private set; }
+    public PropriedadeCor Cor { get; }
+    public int Preco { get; private set; }
+    public int ValorHipoteca { get; private set; }
+    public bool Hipotecada { get; set; }
+    public Jogador? Proprietario { get; set; }
+
+    protected Propriedade(string nome, int preco, PropriedadeCor cor)
+    {
+        Nome = nome;
+        Preco = preco;
+        Cor = cor;
+        ValorHipoteca = preco / 2;
+        Hipotecada = false;
+        Proprietario = null;
+    }
+
+    public abstract int CalcularPagamento(Jogador jogador);
+
+    public void PagarHipoteca()
+    {
+        if (Proprietario == null)
         {
-            Nome = nome;
-            Preco = preco;
-            ValorHipoteca = preco / 2;
-            Hipotecada = false;
-            Proprietario = null;
+            throw new JogadoresNaoInformadosException();
         }
 
-        public abstract int CalcularPagamento(Jogador jogador);
-
-        public void PagarHipoteca()
+        if (Hipotecada == true)
         {
-            if (Proprietario == null)
-            {
-                throw new JogadoresNaoInformadosException();
-            }
-
-            if (Hipotecada == true)
-            {
-                int valor = CalcularPagamento(Proprietario);
-                Proprietario!.Debitar(valor);
-            }
+            int valor = CalcularPagamento(Proprietario);
+            Proprietario!.Debitar(valor);
         }
     }
 }

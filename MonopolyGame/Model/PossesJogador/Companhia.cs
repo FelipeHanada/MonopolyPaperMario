@@ -7,7 +7,7 @@ namespace MonopolyGame.Model.PossesJogador
     {
         private static readonly int[] multiplicadores = { 4, 10 };
 
-        public Companhia(string nome) : base(nome, 150) { }
+        public Companhia(string nome) : base(nome, 150, PropriedadeCor.Companhia) { }
 
         public override int CalcularPagamento(Jogador jogador)
         {

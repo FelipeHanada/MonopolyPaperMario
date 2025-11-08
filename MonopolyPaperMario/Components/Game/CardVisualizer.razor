@@ -1,14 +1,31 @@
-﻿@namespace MonopolyPaperMario.Components.Game.PlayerUI
-@using MonopolyPaperMario.Components.Game.PropertyCard
+﻿@using MonopolyPaperMario.Components.Game.PropertyCard
+@using MonopolyPaperMario.Components.Stores;
+
+@namespace MonopolyPaperMario.Components.Game.PlayerUI
 
 <div class="w-25 h-100 d-flex flex-column align-items-center justify-content-center gap-2">
-    <PropertyCard>
-        <TitleDeedCardContent PropertyName="Parada do Mario"
-                              Rents="new int[] { 2, 10, 30, 90, 160, 250 }"
-                              MortgageValue="10"
-                              HouseCost="50"
-                              HotelCost="50" />
-    </PropertyCard>
+    @switch (cardVisualizerStore.CurrentCardType)
+    {
+        case CardType.TitleDeed:
+            {
+                <PropertyCard>
+                    <TitleDeedCardContent PropertyName=@(cardVisualizerStore.Imovel?.Nome)
+                                          Color=@(cardVisualizerStore.Imovel?.Cor != null ? (int)cardVisualizerStore.Imovel.Cor : -1)
+                                          Rents=@(cardVisualizerStore.Imovel?.Alugueis)
+                                          MortgageValue=@(cardVisualizerStore.Imovel?.ValorHipoteca ?? -1)
+                                          HouseCost=@(cardVisualizerStore.Imovel?.PrecoComprarCasa ?? -1)
+                                          HotelCost=@(cardVisualizerStore.Imovel?.PrecoVenderCasa ?? -1) />
+                </PropertyCard>
+                break;
+            }
+        case CardType.Company:
+        case CardType.TrainStation:
+        default:
+            {
+                <p>Not yet implemented.</p>
+                break;
+            }
+    }
 
     @* <div class="container">
         <div class="row mb-2">
@@ -38,5 +55,10 @@
 </div>
 
 @code {
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    private CardVisualizerStore cardVisualizerStore = CardVisualizerStore.Instance;
+
+    protected override void OnInitialized()
+    {
+        cardVisualizerStore.OnStateChanged += StateHasChanged;
+    }
 }

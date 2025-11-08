@@ -83,7 +83,7 @@ public class Partida
 
             pisos[i] = new Piso(
                 "Piso Comprável: Casa do Mario",
-                new EfeitoPropriedadeCompravel(new Imovel("Casa do Mario", 10, "teste", [0, 0, 0, 0, 0, 0], 50, 25))
+                new EfeitoPropriedadeCompravel(new Imovel("Casa do Mario", 10, PropriedadeCor.Marrom, [0, 0, 0, 0, 0, 0], 50, 25))
             );
             //if (i % 2 == 0 && DeckSorte != null)
             //{

@@ -1,6 +1,6 @@
 ﻿@namespace MonopolyPaperMario.Components.Game.PropertyCard
 
-<div class="title-deed-body-title d-flex justify-content-center align-items-center flex-column">
+<div class="title-deed-body-title d-flex justify-content-center align-items-center flex-column" style="background-color: var(--color-@(Color + 1))">
     <h1>@PropertyName</h1>
     <h2>Título de Propriedade</h2>
 </div>
@@ -36,6 +36,8 @@
 
 @code {
     [Parameter] public required string PropertyName { get; set; }
+    
+    [Parameter] public int Color { get; set; } = -1;
 
     // Rents[0] = aluguel base, Rents[1..4] = casas, Rents[5] = hotel
     [Parameter] public required int[] Rents { get; set; }
