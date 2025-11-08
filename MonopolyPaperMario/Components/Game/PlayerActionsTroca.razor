@@ -13,7 +13,9 @@
 
 @if (ControlePartida.Troca_GetJogadorProponente() != null)
 {
-    <h3>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h3>
+    <h3>
+        @(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber:
+    </h3>
     <ul>
         @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesDesejadas)
         {
@@ -24,11 +26,19 @@
 
 @if (ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado > 0)
 {
-    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    @if (ControlePartida.Troca_GetJogadorProponente() != null)
+    {
+        <h4>@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    }
+    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
 }
 else
 {
     <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    @if (ControlePartida.Troca_GetJogadorProponente() != null)
+    {
+        <h4>@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    }
 }
 
 <div class="d-flex justify-content-between">

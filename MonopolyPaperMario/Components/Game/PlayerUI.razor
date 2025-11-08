@@ -31,7 +31,7 @@
     </div>
 
     <div class="player-bar">
-        @for (int i = 0; i < 6; i++)
+        @for (int i = 0; i < ControlePartida.Partida.Jogadores.Count; i++)
         {
             <div class="player-bar-character @(CurrentPlayer == i ? "bar-current-player" : "")">
                 <img src="@spriteStore.GetSpritePath(i)" />

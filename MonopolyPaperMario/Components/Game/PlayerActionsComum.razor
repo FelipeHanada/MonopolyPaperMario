@@ -3,13 +3,17 @@
 @using MonopolyGame.Model.PossesJogador;
 @using MonopolyPaperMario.Components.Stores;
 
+
 <button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_RolarDados) ? "" : "disabled")"
           @onclick=HandleRolarDados
           >
     Rolar Dados
 </button>
 
-<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarPropostaTroca) ? "" : "disabled")">Fazer uma Proposta de Troca</button>
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarPropostaTroca) ? "" : "disabled")"
+    @onclick=HandleIniciarPropostaTroca>
+    Fazer uma Proposta de Troca
+</button>
 
 <button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarLeilao) ? "" : "disabled")">Iniciar Leilao</button>
 
@@ -100,8 +104,14 @@
     Encerrar Turno
 </button>
 
+<ModalPropostaTroca IsVisible="@_showTradeModal" OnClose="@(() => _showTradeModal = false)" />
+
+
 @code {
     private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+    
+    // NOVO CAMPO para controlar a visibilidade do modal
+    private bool _showTradeModal = false; 
 
     protected override void OnInitialized()
     {
@@ -114,11 +124,10 @@
         ControlePartidaStore.NotifyStateChanged();
     }
 
-    // private void HandleIniciarPropostaTroca()
-    // {
-    //     ControlePartida.Comum_IniciarPropostaTroca();
-    //     StateHasChanged();
-    // }
+    private void HandleIniciarPropostaTroca()
+    {
+        _showTradeModal = true;
+    }
 
     // private void HandleIniciarLeilao()
     // {
