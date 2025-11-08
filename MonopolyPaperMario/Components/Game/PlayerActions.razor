@@ -1,0 +1,177 @@
+﻿<div class="w-90">
+    <h1>O que você deseja fazer?</h1>
+
+    <div class="d-flex flex-column align-items-stretch justify-content-center">
+        <button class="btn btn-primary mb-1">Rolar Dados</button>
+
+        @* HIPOTECAR PROPRIEDADE *@
+        <div class="mb-1">
+            <div class="dropdown">
+                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Hipotecar Propriedade
+                </button>
+                <form class="w-100 dropdown-menu p-2">
+                    <div class="mb-2">
+                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                            <option selected disabled>Escolha uma propriedade</option>
+
+                            <option value="1">Propriedade 1</option>
+                            <option value="2">Propriedade 2</option>
+                            <option value="3">Propriedade 3</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Hipotecar Propriedade</button>
+                </form>
+            </div>
+        </div>
+
+        @* MELHORAR PROPRIEDADE *@
+        <div class="mb-1">
+            <div class="dropdown">
+                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Comprar Casa
+                </button>
+                <form class="w-100 dropdown-menu p-2">
+                    <div class="mb-2">
+                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                            <option selected disabled>Escolha uma propriedade</option>
+
+                            <option value="1">Propriedade 1</option>
+                            <option value="2">Propriedade 2</option>
+                            <option value="3">Propriedade 3</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Comprar Casa</button>
+                </form>
+            </div>
+        </div>
+
+        @* DEPRECIAR PROPRIEDADE *@
+        <div class="mb-1">
+            <div class="dropdown">
+                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Vender Casa
+                </button>
+                <form class="w-100 dropdown-menu p-2">
+                    <div class="mb-2">
+                        <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                        <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                            <option selected disabled>Escolha uma propriedade</option>
+
+                            <option value="1">Propriedade 1</option>
+                            <option value="2">Propriedade 2</option>
+                            <option value="3">Propriedade 3</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Vender Casa</button>
+                </form>
+            </div>
+        </div>
+
+        <button class="btn btn-primary mb-1">Fazer uma Proposta de Troca</button>
+
+        @* ADICIONAR EM TROCA *@
+        @* <div class="mb-1">
+            <div class="dropdown">
+                <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                    Fazer Proposta de Troca
+                </button>
+                <form class="w-100 dropdown-menu p-2">
+                    <div class="form-group mb-2">
+                        <label class="form-label">Selecione uma Jogador</label>
+
+                        <select class="form-select" id="selectPropriedade">
+                            <option selected disabled>Escolha um jogador</option>
+
+                            <option value="1">Jogador 1</option>
+                            <option value="2">Jogador 2</option>
+                            <option value="3">Jogador 3</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Selecione as suas propriedades:</label>
+                        <div class="list-group" id="propriedades-oferecidas" style="max-height: 200px; overflow-y: auto;">
+
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck1">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck1">
+                                    Propriedade 1
+                                </label>
+                            </div>
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck2">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck2">
+                                    Propriedade 2
+                                </label>
+                            </div>
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck3">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck3">
+                                    Propriedade 3
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label>Selecione as propriedades desejadas:</label>
+                        <div class="list-group" id="propriedades-desejadas" style="max-height: 200px; overflow-y: auto;">
+
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck1">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck1">
+                                    Propriedade 1
+                                </label>
+                            </div>
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck2">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck2">
+                                    Propriedade 2
+                                </label>
+                            </div>
+                            <div class="list-group-item">
+                                <label class="form-check-label" for="dropdownCheck3">
+                                    <input type="checkbox" class="form-check-input me-1" id="dropdownCheck3">
+                                    Propriedade 3
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label class="form-label">Dinheiro</label>
+                        <input type="number"
+                               class="form-control"
+                               id="valor-proposto"
+                               min="0"
+                               step="1"
+                               placeholder="0">
+
+                        <select class="form-select" id="selectPropriedade">
+                            <option selected disabled>Pagador</option>
+
+                            <option value="1">Jogador Ofertante</option>
+                            <option value="2">Jogador Destinatario</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Fazer Proposta</button>
+                </form>
+            </div>
+        </div> *@
+
+        <button class="btn btn-primary mb-2">Encerrar Turno</button>
+    </div>
+</div>
+
+@code {
+
+}
