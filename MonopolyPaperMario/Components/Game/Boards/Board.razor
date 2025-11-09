@@ -39,7 +39,7 @@
             <svg src="assets/board/jail_tile.svg" style="width: 100%; height: 100%;" />
         </Tile> *@
         <JailTile DisplayCharacters="GetCharactersOnTile(10)">
-            <img src="assets/board/jail-tile.svg" style="width: 100%; height: 100%;" />
+            <CornerTile ImgPath="assets/board/jail-tile.svg" />
         </JailTile>
     </div>
 
@@ -66,7 +66,7 @@
 
     <div class="corner" id="corner-2-3">
         <Tile DisplayCharacters="GetCharactersOnTile(20)">
-            @* <CornerTile /> *@
+            <CornerTile ImgPath="assets/board/parking.png" />
         </Tile>
     </div>
 
@@ -93,7 +93,7 @@
 
     <div class="corner" id="corner-3-4">
         <Tile DisplayCharacters="GetCharactersOnTile(30)">
-            @* <CornerTile/> *@
+            <CornerTile ImgPath="assets/board/go-to-jail.png" />
         </Tile>
     </div>
 
@@ -120,7 +120,7 @@
 
     <div class="corner" id="corner-4-1">
         <Tile DisplayCharacters="GetCharactersOnTile(0)">
-            @* <CornerTile/> *@
+            <CornerTile ImgPath="assets/board/start.png" />
         </Tile>
     </div>
 </div>
@@ -227,7 +227,12 @@
             return new() { Title = "Baú Comunitário", IconPath = "assets/icon/gift-solid-full.svg" };
         }
 
-        return new() { };
+        if (piso is PisoTaxaRiquesa taxaRiquesa)
+        {
+            return new() { Title = taxaRiquesa.Nome, Cost = taxaRiquesa.Taxa };
+        }
+
+        return new() { Title = piso.Nome };
     }
 
     // private readonly List<StreetTileData> allStreetTiles = new()
