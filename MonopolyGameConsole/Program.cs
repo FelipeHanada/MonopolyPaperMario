@@ -324,7 +324,7 @@ class Program
         var jogadorAtual = partida.JogadorAtual;
         var presoAntes = jogadorAtual.Preso;
 
-        partida.RolarDados(out (int dado1, int dado2) dados, out int posicaoFinal);
+        partida.EstadoTurnoAtual.RolarDados(out (int dado1, int dado2) dados, out int posicaoFinal);
         int totalDados = dados.dado1 + dados.dado2;
 
         Console.WriteLine($"🎲 {jogadorAtual.Nome} rolou os dados e tirou {dados.dado1} e {dados.dado2}, totalizando {totalDados}.");
