@@ -199,10 +199,10 @@ public class Partida
         return true;
     }
 
-    public bool IniciarPropostaTroca(PropostaTroca proposta)
+    public bool IniciarPropostaTroca(PropostaTroca proposta, bool comecarLeilaoSeRecusado = false)
     {
         if (!EstadoTurnoAtual.PodeIniciarPropostaTroca) return false;
-        EstadoTurnoAtual = new EstadoTurnoPropostaTroca(JogadorAtual, proposta);
+        EstadoTurnoAtual = (comecarLeilaoSeRecusado ? new EstadoTurnoPropostaTrocaComLeilao(JogadorAtual, proposta, proposta.PossesOfertadas[0]) : new EstadoTurnoPropostaTroca(JogadorAtual, proposta));
         return true;
     }
 

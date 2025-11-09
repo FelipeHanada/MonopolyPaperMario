@@ -19,7 +19,10 @@ public class EstadoTurnoPropostaTroca(Jogador jogadorAtual, PropostaTroca propos
     {
         if (aceite)
         {
-            PropostaTroca.Efetuar();
+            if (!PropostaTroca.Efetuar())
+            {
+                return;
+            }
         }
         
         // troca o estado do turno para o anterior
@@ -35,7 +38,7 @@ public class EstadoTurnoPropostaTrocaComLeilao(Jogador jogadorAtual, PropostaTro
         if (aceite) base.EncerrarPropostaTroca(aceite);
         else
         {
-            //JogadorAtual.Partida.IniciarLeilao(new Leilao(JogadorAtual.Partida, posse));
+            JogadorAtual.Partida.IniciarLeilao(JogadorAtual, posse);
         }
     }
 }
