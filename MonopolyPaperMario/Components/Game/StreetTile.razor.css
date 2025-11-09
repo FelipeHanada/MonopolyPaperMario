@@ -72,12 +72,12 @@
     margin: 0;
 }
 
-.rotated-90 span, .rotated-90 h3, .rotated-270 span, .rotated-270 h3 {
+.rotated-90 span, .rotated-90 h1, .rotated-270 span, .rotated-270 h1 {
     writing-mode: vertical-rl;
     text-orientation: mixed;
     text-align: center;
 }
-.rotated-90 span, .rotated-90 h3 {
+.rotated-90 span, .rotated-90 h1 {
     transform: rotate(180deg);
 }
 

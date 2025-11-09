@@ -3,8 +3,8 @@
 @using MonopolyGame.Model.PossesJogador;
 @using MonopolyPaperMario.Components.Stores;
 
-<h3>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h3>
-<ul>
+<h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h2>
+<ul class="m-0">
     @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesOfertadas)
     {
         <li>@posse.Nome</li>
@@ -13,10 +13,10 @@
 
 @if (ControlePartida.Troca_GetJogadorProponente() != null)
 {
-    <h3>
+    <h2 class="m-0">
         @(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber:
-    </h3>
-    <ul>
+    </h2>
+    <ul class="m-0">
         @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesDesejadas)
         {
             <li>@posse.Nome</li>
@@ -28,19 +28,20 @@
 {
     @if (ControlePartida.Troca_GetJogadorProponente() != null)
     {
-        <h4>@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+        <h2 class="m-0">@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
     }
-    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    <h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
 }
 else
 {
-    <h4>@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+    <h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
     @if (ControlePartida.Troca_GetJogadorProponente() != null)
     {
-        <h4>@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h4>
+        <h2 class="m-0">@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
     }
 }
 
+<h2 class="m-0 mt-2 mb-1 text-center">@(ControlePartida.Partida.EstadoTurnoAtual.PropostaTroca.Destinatario.Nome) você deseja:</h2>
 <div class="d-flex justify-content-between">
     <button class="btn btn-primary mb-1"
             @onclick=HandleRecusar>
