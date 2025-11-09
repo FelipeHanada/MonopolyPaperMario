@@ -1,0 +1,44 @@
+﻿@using MonopolyGame.Interface.Controles
+@using MonopolyPaperMario.Components.Stores
+
+@namespace MonopolyPaperMario.Components.Game.Boards
+
+<div class="tile">
+    @ChildContent
+
+    <div class="characters">
+        @for (int i = 0; i < DisplayCharacters.Length; i++)
+        {
+            if (DisplayCharacters[i] && !controlePartida.Partida.Jogadores[i].Preso)
+            {
+                <div class="character-pawn-img-wrapper">
+                    <img src="@spriteStore.GetSpritePath(i)"
+                            class="character-pawn" />
+                </div>
+            }
+        }
+    </div>
+
+    <div class="jailed-characters">
+        @for (int i = 0; i < DisplayCharacters.Length; i++)
+        {
+            if (DisplayCharacters[i] && controlePartida.Partida.Jogadores[i].Preso)
+            {
+                <div class="character-pawn-img-wrapper">
+                    <img src="@spriteStore.GetSpritePath(i)"
+                         class="character-pawn" />
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
+    private IControlePartida controlePartida = ControlePartidaStore.ControlePartida;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Horizontal { get; set; } = true;
+    [Parameter] public int StreetSize { get; set; } = 1;
+    [Parameter] public bool[] DisplayCharacters { get; set; } = { false, false, false, false, false, false };
+}
