@@ -6,7 +6,7 @@ namespace MonopolyGame.Model.PossesJogador;
 
 public enum PropriedadeCor
 {
-    Marrom = 0,
+    Marrom = 1,
     Ciano,
     Rosa,
     Laranja,

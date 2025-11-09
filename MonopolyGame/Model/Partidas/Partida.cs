@@ -73,18 +73,14 @@ public class Partida
     private Piso[] CriarPisos()
     {
         var pisos = new Piso[40];
-        pisos[0] = new Piso("Ponto de Partida");
-        pisos[10] = new Piso("Cadeia (Apenas Visitando)");
-        pisos[20] = new Piso("Parada Livre");
-
         for (int i = 1; i < 40; i++)
         {
-            if (pisos[i] != null) continue;
+            pisos[i] = new PisoCompravel("piso", new Imovel("Casa do Mario", 10, PropriedadeCor.Marrom, [0, 0, 0, 0, 0, 0], 50, 25));
 
-            pisos[i] = new Piso(
-                "Piso Comprável: Casa do Mario",
-                new EfeitoPropriedadeCompravel(new Imovel("Casa do Mario", 10, PropriedadeCor.Marrom, [0, 0, 0, 0, 0, 0], 50, 25))
-            );
+            //pisos[i] = new Piso(
+            //    "Piso Comprável: Casa do Mario",
+            //    new EfeitoPropriedadeCompravel(new Imovel("Casa do Mario", 10, PropriedadeCor.Marrom, [0, 0, 0, 0, 0, 0], 50, 25))
+            //);
             //if (i % 2 == 0 && DeckSorte != null)
             //{
             //    pisos[i] = new Piso("Sorte ou Revés", new EfeitoComprarCarta(DeckSorte));
@@ -94,6 +90,11 @@ public class Partida
             //    pisos[i] = new Piso("Cofre Comunitário", new EfeitoComprarCarta(DeckCofre));
             //}
         }
+
+        pisos[0] = new Piso("Ponto de Partida");
+        pisos[10] = new Piso("Cadeia (Apenas Visitando)");
+        pisos[20] = new Piso("Parada Livre");
+        pisos[20] = new Piso("Vá para a cadeia", new EfeitoIrParaCadeia());
 
         return pisos;
     }
