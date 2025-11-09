@@ -38,7 +38,7 @@ public class EstadoTurnoPropostaTrocaComLeilao(Jogador jogadorAtual, PropostaTro
         if (aceite) base.EncerrarPropostaTroca(aceite);
         else
         {
-            JogadorAtual.Partida.IniciarLeilao(JogadorAtual, posse);
+            JogadorAtual.Partida.IniciarLeilao(new Leilao(JogadorAtual, posse));
         }
     }
 }

@@ -69,19 +69,19 @@ public class ControlePartida(Partida partida) : IControlePartida
 
     public Jogador Leilao_GetJogadorAtual()
     {
-        throw new NotImplementedException("Este método ainda não foi implementado.");
+        return Partida.EstadoTurnoAtual.JogadorAtualLeilao!;
     }
     public bool Leilao_Iniciar(Leilao leilao)
     {
-        throw new NotImplementedException("Este método ainda não foi implementado.");
+        return Partida.IniciarLeilao(leilao);
     }
     public bool Leilao_DarLance(int delta)
     {
-        throw new NotImplementedException("Este método ainda não foi implementado.");
+        return Partida.EstadoTurnoAtual.DarLanceLeilao(delta);
     }
     public bool Leilao_Desistir()
     {
-        throw new NotImplementedException("Este método ainda não foi implementado.");
+        return Partida.EstadoTurnoAtual.DesistirLeilao();
     }
 
     public bool Troca_Iniciar(PropostaTroca propostaTroca)

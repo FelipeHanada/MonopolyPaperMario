@@ -12,6 +12,7 @@ using MonopolyGame.Model.Tabuleiros;
 using MonopolyGame.Model.Historicos;
 using MonopolyGame.Utils;
 using System.Drawing;
+using MonopolyGame.Model.Leiloes;
 
 namespace MonopolyGame.Model.Partidas;
 
@@ -215,10 +216,10 @@ public class Partida
         return true;
     }
 
-    public bool IniciarLeilao(Jogador jogadorAtual, IPosseJogador posseJogador)
+    public bool IniciarLeilao(Leilao leilao)
     {
         if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
-        EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, posseJogador);
+        EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, leilao);
         return true;
     }
 

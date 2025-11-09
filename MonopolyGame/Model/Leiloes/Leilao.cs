@@ -38,9 +38,9 @@ public class Leilao
         }
     }
 
-    public void DarLance(int aumento)
+    public bool DarLance(int aumento)
     {
-        if (JogadorAtual == null || JogadorAtual.Dinheiro < MaiorLance + aumento) return;
+        if (JogadorAtual == null || JogadorAtual.Dinheiro < MaiorLance + aumento) return false;
 
         int novoLance = MaiorLance + aumento;
 
@@ -49,13 +49,15 @@ public class Leilao
 
         indiceJogadorAtual++;
         AvancarTurno();
+        return true;
     }
 
-    public void Desistir()
+    public bool Desistir()
     {
-        if (JogadorAtual == null) return;
+        if (JogadorAtual == null) return false;
         Participantes.Remove(JogadorAtual);
         AvancarTurno();
+        return true;
     }
 
     private void AvancarTurno()

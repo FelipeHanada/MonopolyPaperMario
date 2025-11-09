@@ -13,7 +13,7 @@ namespace MonopolyGameTest
         {
             Partida partida = new(["J1", "J2", "J3", "J4"]);
 
-            partida.IniciarLeilao(partida.JogadorAtual, new Imovel("leiloada", 100, 50, PropriedadeCor.Vermelho, [1, 2, 3, 4, 5, 6], 50, 25));
+            partida.IniciarLeilao(new Leilao(partida.JogadorAtual, new Imovel("leiloada", 100, 50, PropriedadeCor.Vermelho, [1, 2, 3, 4, 5, 6], 50, 25)));
 
             partida.EstadoTurnoAtual.DarLanceLeilao(50);
             Assert.AreEqual(50, partida.EstadoTurnoAtual.Leilao.MaiorLance);

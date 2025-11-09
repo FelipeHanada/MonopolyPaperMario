@@ -34,8 +34,8 @@ public interface IEstadoTurno
     // ------------------------------------------------------
     Leilao Leilao { get; }
     Jogador? JogadorAtualLeilao { get; }
-    void DarLanceLeilao(int aumento);
-    void DesistirLeilao();
+    bool DarLanceLeilao(int aumento);
+    bool DesistirLeilao();
     // ------------------------------------------------------
     PropostaTroca PropostaTroca { get; }
     void EncerrarPropostaTroca(bool aceite);
