@@ -1,6 +1,7 @@
 ﻿@using MonopolyGame.Interface.Controles;
 @using MonopolyGame.Interface.PosseJogador;
 @using MonopolyGame.Model.PossesJogador;
+@using MonopolyGame.Model.Leiloes;
 @using MonopolyPaperMario.Components.Stores;
 
 
@@ -24,17 +25,17 @@
             <div class="mb-2">
                 <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
 
-                <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
-                    <option selected disabled>Escolha uma propriedade</option>
+                <select class="form-select" @onchange=HandlePosseLeilaoChange>
+                    <option value=null selected disabled>Escolha uma propriedade</option>
 
                     @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses)
                     {
-                        <option value="@imovel">@imovel.Nome</option>
+                        <option value="@imovel.Nome">@imovel.Nome</option>
                     }
                 </select>
             </div>
 
-            <button class="btn btn-primary">Começar Leilão</button>
+            <button class="btn btn-primary @(posseLeilao == null ? "disabled" : "")" @onclick=HandleComecarLeilao>Começar Leilão</button>
         </form>
     </div>
 </div>
@@ -131,9 +132,11 @@
 
 @code {
     private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
-    
+
     // NOVO CAMPO para controlar a visibilidade do modal
-    private bool _showTradeModal = false; 
+    private bool _showTradeModal = false;
+
+    private IPosseJogador? posseLeilao;
 
     protected override void OnInitialized()
     {
@@ -151,10 +154,25 @@
         _showTradeModal = true;
     }
 
-    private void HandleIniciarLeilao()
+    private void HandlePosseLeilaoChange(ChangeEventArgs e)
     {
-        // ControlePartida.Comum_IniciarLeilao();
-        StateHasChanged();
+        var posseLeilaoNome = e.Value?.ToString();
+
+        if (string.IsNullOrEmpty(posseLeilaoNome))
+        {
+            posseLeilao = null;
+        }
+        else
+        {
+            posseLeilao = ControlePartida.Partida.JogadorAtual.Posses.First(posse => posse.Nome == posseLeilaoNome);
+        }
+    }
+
+    private void HandleComecarLeilao()
+    {
+        if (posseLeilao == null) return;
+        ControlePartida.Leilao_Iniciar(new Leilao(ControlePartida.Partida.JogadorAtual, posseLeilao));
+        ControlePartidaStore.NotifyStateChanged();
     }
 
     private void HandleEncerrarTurno()
