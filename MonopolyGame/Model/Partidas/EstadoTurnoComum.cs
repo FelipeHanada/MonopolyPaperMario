@@ -40,16 +40,22 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
             {
                 JogadorAtual.Preso = false;
             }
+
+            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} saiu da prisão por tirar dados iguais");
             return true;
         }
 
         if (RolagemIgual && Rolagem == 3)
         {
             JogadorAtual.Preso = true;
+            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} foi preso");
             return true;
         }
         JogadorAtual.Partida.Tabuleiro.MoveJogador(JogadorAtual, totalDados);
         posicaoFinal = JogadorAtual.Partida.Tabuleiro.GetPosicao(JogadorAtual);
+
+        JogadorAtual.Partida.AdicionarRegistro($"Valor Total dos dados: {totalDados}");
+        
         return true;
     }
     public override bool UsarPasseLivreDaCadeia()
@@ -57,6 +63,8 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         if (!JogadorAtual.Preso || JogadorAtual.CartasPasseLivre == 0) return false;
         JogadorAtual.CartasPasseLivre--;
         JogadorAtual.Preso = false;
+
+        JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} usou um passe livre da prisão");
         return true;
     }
     public override bool HipotecarPropriedade(Propriedade propriedade)
@@ -64,6 +72,8 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         if (propriedade.Proprietario != JogadorAtual || propriedade.Hipotecada) return false;
         propriedade.Hipotecada = true;
         JogadorAtual.Dinheiro += propriedade.ValorHipoteca;
+
+        JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} hipotecou {propriedade.Nome}");
         return true;
     }
     public override bool MelhorarImovel(Imovel imovel)
@@ -72,6 +82,8 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         if (imovel.AdicionarCasa())
         {
             JogadorAtual.Dinheiro -= imovel.PrecoComprarCasa;
+
+            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} melhorou {imovel.Nome}");
             return true;
         }
         return false;
@@ -82,6 +94,8 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         if (imovel.RemoverCasa())
         {
             JogadorAtual.Dinheiro += imovel.PrecoVenderCasa;
+
+            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} depreciou {imovel.Nome}");
             return true;
         }
         return false;

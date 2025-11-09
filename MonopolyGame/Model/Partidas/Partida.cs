@@ -9,6 +9,7 @@ using MonopolyGame.Model.Partidas;
 using MonopolyGame.Model.PossesJogador;
 using MonopolyGame.Model.PropostasTroca;
 using MonopolyGame.Model.Tabuleiros;
+using MonopolyGame.Model.Historicos;
 using MonopolyGame.Utils;
 using System.Drawing;
 
@@ -18,6 +19,7 @@ public class Partida
 {
     public List<Jogador> Jogadores { get; }
     public List<Jogador> JogadoresAtivos { get => [.. Jogadores.Where(j => j.Falido == false)]; }
+    public Historico Historico { get; }
     public Tabuleiro Tabuleiro { get; private set; }
     public int CasasDisponiveis { get; private set; } = 32;
     public int HoteisDisponiveis { get; private set; } = 12;
@@ -43,8 +45,11 @@ public class Partida
 
         (DeckCofre, DeckSorte) = CriarDecks();
         Tabuleiro = CriarTabuleiro();
+        Historico = new Historico();
 
         EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+        AdicionarRegistro($"A partida começou!");
+        AdicionarRegistro($"Novo Turno: {JogadorAtual.Nome}");
 
         Log.WriteLine("A partida começou!");
     }
@@ -184,6 +189,8 @@ public class Partida
         } while (Jogadores[JogadorAtualIndex].Falido);
 
         EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+
+        AdicionarRegistro($"Novo Turno: {JogadorAtual.Nome}");
         return true;
     }
 
@@ -222,6 +229,11 @@ public class Partida
 
         EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
         return true;
+    }
+
+    public void AdicionarRegistro(string jogada)
+    {
+        Historico.AddJogada(jogada);
     }
     
     //public virtual Leilao GetLeilao()
