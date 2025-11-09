@@ -12,21 +12,36 @@
             {
                 <PropertyCard>
                     <TitleDeedCardContent PropertyName=@(cardVisualizerStore.Imovel?.Nome)
-                                          Color=@(cardVisualizerStore.Imovel?.Cor != null ? (int)cardVisualizerStore.Imovel.Cor : -1)
-                                          Rents=@(cardVisualizerStore.Imovel?.Alugueis)
-                                          MortgageValue=@(cardVisualizerStore.Imovel?.ValorHipoteca ?? -1)
-                                          HouseCost=@(cardVisualizerStore.Imovel?.PrecoComprarCasa ?? -1)
-                                          HotelCost=@(cardVisualizerStore.Imovel?.PrecoVenderCasa ?? -1) />
+                                        Color=@(cardVisualizerStore.Imovel?.Cor != null ? (int)cardVisualizerStore.Imovel.Cor : -1)
+                                        Rents=@(cardVisualizerStore.Imovel?.Alugueis)
+                                        MortgageValue=@(cardVisualizerStore.Imovel?.ValorHipoteca ?? -1)
+                                        HouseCost=@(cardVisualizerStore.Imovel?.PrecoComprarCasa ?? -1)
+                                        HotelCost=@(cardVisualizerStore.Imovel?.PrecoVenderCasa ?? -1) />
                 </PropertyCard>
                 break;
             }
         case CardType.Company:
-        case CardType.TrainStation:
-        default:
             {
-                <p>Not yet implemented.</p>
+                <PropertyCard>
+                    <CompanyCardContent PropertyName=@(cardVisualizerStore.Companhia?.Nome)
+                                        MortgageValue=@(cardVisualizerStore.Companhia?.ValorHipoteca ?? -1) />
+                </PropertyCard>
                 break;
             }
+        case CardType.TrainStation:
+            {
+                <PropertyCard>
+                    <TrainStationCardContent PropertyName=@(cardVisualizerStore.LinhaTrem?.Nome)
+                                             Rents=@([25, 50, 100, 200])
+                                             MortgageValue=@(cardVisualizerStore.LinhaTrem?.ValorHipoteca ?? -1) />
+                </PropertyCard>
+                break;
+            }
+        default:
+        {
+            <p>Not yet implemented.</p>
+            break;
+        }
     }
 
     @* <div class="container">

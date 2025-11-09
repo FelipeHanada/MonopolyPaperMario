@@ -1,0 +1,30 @@
+﻿@namespace MonopolyPaperMario.Components.Game.PropertyCard
+
+<div class="h-100 d-flex flex-column align-items-center justify-content-center g-2">
+    <img class="train-icon" src="assets/icon/train-solid-full.svg" />
+    
+    <div class="w-100 company-title d-flex justify-content-center align-items-center flex-column">
+        <h1>@PropertyName</h1>
+    </div>
+
+    <div class="w-100 company-body d-flex flex-column align-items-center">
+        @for (int i=0; i<4; i++)
+        {
+            <div class="w-100 d-flex justify-content-between">
+                <span>Se você possui @(i + 1)</span>
+                <span>@Rents[i]★</span>
+            </div>
+        }
+        
+        <div class="mt-3 w-100 d-flex justify-content-between">
+            <span>Valor de Hipoteca</span>
+            <span>@MortgageValue★</span>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public required string PropertyName { get; set; }
+    [Parameter] public required int[] Rents { get; set; }
+    [Parameter] public required int MortgageValue { get; set; }
+}

@@ -1,4 +1,10 @@
-﻿h1 {
+﻿.train-icon {
+    width: 80px;
+    height: 80px;
+    margin: 16px;
+}
+
+h1 {
     font-size: 32px;
 }
 
@@ -7,7 +13,7 @@ div {
 }
 
 span {
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .company-body {
