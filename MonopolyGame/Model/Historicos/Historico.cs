@@ -1,11 +1,12 @@
 namespace MonopolyGame.Model.Historicos;
 
-public class Historico
-{
-    private List<string> jogadas { get; } = [];
 
-    public void AddJogada(string jogada)
+public class Historico()
+{
+    public List<string> Registros { get; } = [];
+
+    public void AddRegistro(string registro)
     {
-        jogadas.Add(jogada);
+        Registros.Add(registro);
     }
 }

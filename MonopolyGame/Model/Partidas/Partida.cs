@@ -233,7 +233,7 @@ public class Partida
 
     public void AdicionarRegistro(string jogada)
     {
-        Historico.AddJogada(jogada);
+        Historico.AddRegistro(jogada);
     }
     
     //public virtual Leilao GetLeilao()

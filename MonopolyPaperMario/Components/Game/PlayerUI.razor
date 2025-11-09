@@ -9,21 +9,10 @@
         <h1 class="text-center">HISTÓRICO DE JOGADAS</h1>
 
         <div class="previous-plays-content overflow-auto w-100 container d-flex flex-column justify-content-start">
-            <span>m1</span>
-            <span>m2</span>
-            <span>m3</span>
-            <span>m4</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
+            @foreach (string registro in ControlePartida.Partida.Historico.Registros)
+            {
+                <span class="m-0">> @registro</span>
+            }
         </div>
     </div>
     <div class="player-turn-counter">
