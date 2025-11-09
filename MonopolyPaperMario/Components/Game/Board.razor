@@ -17,7 +17,7 @@
         @for (int tileIndex = 1; tileIndex < 10; tileIndex++)
         {
             StreetTileData tile = GetStreetTileData(tileIndex);
-            <div>
+            <div @onclick="() => HandleMouseClickTile(tile)" class="tile-wrapper @(tile.MousePointer ? "pointer" : "")">
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
                     <StreetTile Title="@tile.Title"
                                 Color="@tile.Color"
@@ -42,7 +42,7 @@
         @for (int tileIndex = 11; tileIndex < 20; tileIndex++)
         {
             StreetTileData tile = GetStreetTileData(tileIndex);
-            <div>
+            <div @onclick="() => HandleMouseClickTile(tile)" class="tile-wrapper @(tile.MousePointer ? "pointer" : "")">
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
                     <StreetTile Rotation="3"
                                 Title="@tile.Title"
@@ -68,7 +68,7 @@
         @for (int tileIndex = 21; tileIndex < 30; tileIndex++)
         {
             StreetTileData tile = GetStreetTileData(tileIndex);
-            <div>
+            <div @onclick="() => HandleMouseClickTile(tile)" class="tile-wrapper @(tile.MousePointer ? "pointer" : "")">
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
                     <StreetTile Rotation="2"
                                 Title="@tile.Title"
@@ -94,7 +94,7 @@
         @for (int tileIndex = 31; tileIndex < 40; tileIndex++)
         {
             StreetTileData tile = GetStreetTileData(tileIndex);
-            <div>
+            <div @onclick="() => HandleMouseClickTile(tile)" class="tile-wrapper @(tile.MousePointer ? "pointer" : "")">
                 <Tile DisplayCharacters="GetCharactersOnTile(tileIndex)">
                     <StreetTile Rotation="1"
                     Title="@tile.Title"
@@ -120,9 +120,8 @@
 
 @code {
     private IControlePartida controlePartida = ControlePartidaStore.ControlePartida;
+    private CardVisualizerStore cardVisualizerStore = CardVisualizerStore.Instance;
 
-
-    private readonly List<StreetTileData> allStreetTiles = new(40);
 
     protected override void OnInitialized()
     {
@@ -150,6 +149,42 @@
         public int? Cost { get; init; }
         public int? HousingLevel { get; init; }
         public string? IconPath { get; init; }
+        public bool MousePointer { get; init; } = false;
+        public CardType? CardType { get; init; }
+        public Imovel? Imovel { get; init; }
+        public Companhia? Companhia { get; init; }
+        public LinhaTrem? LinhaTrem { get; init; }
+    }
+
+    private void HandleMouseClickTile(StreetTileData tile)
+    {
+        if (tile.CardType != null)
+        {
+            switch (tile.CardType)
+            {
+                case CardType.TitleDeed:
+                    if (tile.Imovel != null)
+                    {
+                        cardVisualizerStore.SetImovel(tile.Imovel);
+                    }
+                    break;
+                case CardType.Company:
+                    if (tile.Companhia != null)
+                    {
+                        cardVisualizerStore.SetCompanhia(tile.Companhia);
+                    }
+                    break;
+                case CardType.TrainStation:
+                    if (tile.LinhaTrem != null)
+                    {
+                        cardVisualizerStore.SetLinhaTrem(tile.LinhaTrem);
+                    }
+                    break;
+            }
+        }
+        else
+        {
+        }
     }
 
     private StreetTileData GetStreetTileData(int tileIndex)
@@ -160,15 +195,15 @@
         {
             if (pisoCompravel.Propriedade is Imovel imovel)
             {
-                return new() { Title = imovel.Nome, Color = (int)imovel.Cor, Cost = imovel.Preco, HousingLevel = 0 };
+                return new() { Title = imovel.Nome, Color = (int)imovel.Cor, Cost = imovel.Preco, HousingLevel = 0, CardType = CardType.TitleDeed, Imovel = imovel, MousePointer = true };
             }
             if (pisoCompravel.Propriedade is Companhia companhia)
             {
-                return new() { Title = companhia.Nome, Cost = companhia.Preco };
+                return new() { Title = companhia.Nome, Cost = companhia.Preco, CardType = CardType.Company, Companhia = companhia, MousePointer = true };
             }
             if (pisoCompravel.Propriedade is LinhaTrem linhaTrem)
             {
-                return new() { Title = linhaTrem.Nome, Cost = linhaTrem.Preco, IconPath = "assets/icon/train-solid-full.svg" };
+                return new() { Title = linhaTrem.Nome, Cost = linhaTrem.Preco, IconPath = "assets/icon/train-solid-full.svg", CardType = CardType.TrainStation, LinhaTrem = linhaTrem, MousePointer = true };
             }
 
             throw new Exception("Tipo de propriedade desconhecido.");

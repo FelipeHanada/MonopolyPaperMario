@@ -3,7 +3,7 @@
 namespace MonopolyPaperMario.Components.Stores;
 
 
-enum CardType
+public enum CardType
 {
     TitleDeed,
     Company,
@@ -11,7 +11,7 @@ enum CardType
 }
 
 
-internal class CardVisualizerStore
+public class CardVisualizerStore
 {
     public event Action? OnStateChanged;
 
@@ -19,9 +19,9 @@ internal class CardVisualizerStore
 
     public static CardVisualizerStore Instance => instance ??= new CardVisualizerStore();
 
-    public CardType CurrentCardType { get; private set; } = CardType.TitleDeed;
+    public CardType? CurrentCardType { get; private set; }
 
-    public Imovel? Imovel { get; private set; } = new Imovel("Teste", 100, PropriedadeCor.Vermelho, [10, 50, 150, 450, 625, 750], 50, 25);
+    public Imovel? Imovel { get; private set; }
     public Companhia? Companhia { get; private set; }
     public LinhaTrem? LinhaTrem { get; private set; }
 

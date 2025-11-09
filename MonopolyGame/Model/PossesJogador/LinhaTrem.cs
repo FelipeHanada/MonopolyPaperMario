@@ -7,7 +7,7 @@ namespace MonopolyGame.Model.PossesJogador
     {
         private static readonly int[] aluguelPorQuantidade = { 25, 50, 100, 200 };
 
-        public LinhaTrem(string nome) : base(nome, 200, PropriedadeCor.Trem) { }
+        public LinhaTrem(string nome) : base(nome, 200, 100, PropriedadeCor.Trem) { }
 
         public override int CalcularPagamento(Jogador jogador)
         {

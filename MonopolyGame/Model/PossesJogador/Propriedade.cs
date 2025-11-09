@@ -27,12 +27,12 @@ public abstract class Propriedade : IPosseJogador
     public bool Hipotecada { get; set; }
     public Jogador? Proprietario { get; set; }
 
-    protected Propriedade(string nome, int preco, PropriedadeCor cor)
+    protected Propriedade(string nome, int preco, int hipoteca, PropriedadeCor cor)
     {
         Nome = nome;
         Preco = preco;
         Cor = cor;
-        ValorHipoteca = preco / 2;
+        ValorHipoteca = hipoteca;
         Hipotecada = false;
         Proprietario = null;
     }

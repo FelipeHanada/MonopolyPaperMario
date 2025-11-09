@@ -4,7 +4,7 @@ using MonopolyGame.Utils;
 namespace MonopolyGame.Model.PossesJogador;
 
 
-public class Imovel(string nome, int preco, PropriedadeCor cor, int[] alugueis, int precoComprarCasa, int precoVenderCasa) : Propriedade(nome, preco, cor)
+public class Imovel(string nome, int preco, int hipoteca, PropriedadeCor cor, int[] alugueis, int precoComprarCasa, int precoVenderCasa) : Propriedade(nome, preco, hipoteca, cor)
 {
     public int[] Alugueis { get; private set; } = alugueis; // 6 posições: terreno, 1-4 casas, hotel
     public int NivelConstrucao { get; private set; } = 0; // 0 = terreno, 5 = hotel

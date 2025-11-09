@@ -6,6 +6,8 @@
 <div class="w-25 h-100 d-flex flex-column align-items-center justify-content-center gap-2">
     @switch (cardVisualizerStore.CurrentCardType)
     {
+        case null:
+            break;
         case CardType.TitleDeed:
             {
                 <PropertyCard>
