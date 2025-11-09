@@ -183,6 +183,11 @@ public class Partida
 
         if (Jogadores.Count(j => !j.Falido) <= 1) return false;
 
+        if (JogadorAtual.Dinheiro < 0)
+        {
+            JogadorAtual.Falido = true;
+        }
+
         do
         {
             JogadorAtualIndex = (JogadorAtualIndex + 1) % Jogadores.Count;
