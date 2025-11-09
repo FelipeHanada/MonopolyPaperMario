@@ -1,0 +1,19 @@
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyGame.Interface.PosseJogador;
+@using MonopolyGame.Model.PossesJogador;
+@using MonopolyPaperMario.Components.Stores;
+
+
+<h1>LEILÃO</h1>
+
+<h2>Lote: @(ControlePartida.Partida.EstadoTurnoAtual.Leilao.PosseJogador.Nome)</h2>
+
+
+@code {
+    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+}

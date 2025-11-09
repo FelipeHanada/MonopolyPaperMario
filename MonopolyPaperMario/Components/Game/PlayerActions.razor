@@ -6,12 +6,23 @@
 
     <div class="d-flex flex-column align-items-stretch justify-content-center">
 
-        @if (ControlePartida.Partida.EstadoTurnoAtual.EstadoId == MonopolyGame.Interface.Partidas.EstadoTurnoId.Comum)
+        @switch (ControlePartida.Partida.EstadoTurnoAtual.EstadoId)
         {
-            <PlayerActionsComum />
-        } else if (ControlePartida.Partida.EstadoTurnoAtual.EstadoId == MonopolyGame.Interface.Partidas.EstadoTurnoId.PropostaTroca)
-        {
-            <PlayerActionsTroca />
+            case MonopolyGame.Interface.Partidas.EstadoTurnoId.Comum:
+                {
+                    <PlayerActionsComum />
+                    break;
+                }
+            case MonopolyGame.Interface.Partidas.EstadoTurnoId.PropostaTroca:
+                {
+                    <PlayerActionsTroca />
+                    break;
+                }
+            case MonopolyGame.Interface.Partidas.EstadoTurnoId.Leilao:
+                {
+                    <PlayerActionsLeilao />
+                    break;
+                }
         }
 
         @* ADICIONAR EM TROCA *@
@@ -99,7 +110,7 @@
                             <option value="2">Jogador Destinatario</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Fazer Proposta</button>
+                    <button class="btn btn-primary">Fazer Proposta</button>
                 </form>
             </div>
         </div> *@

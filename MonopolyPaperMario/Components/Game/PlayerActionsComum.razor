@@ -12,10 +12,32 @@
 
 <button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarPropostaTroca) ? "" : "disabled")"
     @onclick=HandleIniciarPropostaTroca>
-    Fazer uma Proposta de Troca
+    Criar Proposta de Troca
 </button>
 
-<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarLeilao) ? "" : "disabled")">Iniciar Leilao</button>
+<div class="mb-1">
+    <div class="dropdown">
+        <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            Criar Leilão
+        </button>
+        <form class="w-100 dropdown-menu p-2">
+            <div class="mb-2">
+                <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                <select class="form-select" id="selectPropriedade" aria-label="Seleção de Propriedade">
+                    <option selected disabled>Escolha uma propriedade</option>
+
+                    @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses)
+                    {
+                        <option value="@imovel">@imovel.Nome</option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn btn-primary">Começar Leilão</button>
+        </form>
+    </div>
+</div>
 
 @if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_MelhorarImovel))
 {
@@ -39,7 +61,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Comprar Casa</button>
+                <button class="btn btn-primary">Comprar Casa</button>
             </form>
         </div>
     </div>
@@ -66,7 +88,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Vender Casa</button>
+                <button class="btn btn-primary">Vender Casa</button>
             </form>
         </div>
     </div>
@@ -93,7 +115,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Hipotecar Propriedade</button>
+                <button class="btn btn-primary">Hipotecar Propriedade</button>
             </form>
         </div>
     </div>
@@ -129,11 +151,11 @@
         _showTradeModal = true;
     }
 
-    // private void HandleIniciarLeilao()
-    // {
-    //     ControlePartida.Comum_IniciarLeilao();
-    //     StateHasChanged();
-    // }
+    private void HandleIniciarLeilao()
+    {
+        // ControlePartida.Comum_IniciarLeilao();
+        StateHasChanged();
+    }
 
     private void HandleEncerrarTurno()
     {

@@ -68,11 +68,11 @@ public interface IControlePartida
     bool Comum_DepreciarImovel(Imovel imovel);
     bool Comum_EncerrarTurno();
     bool Comum_UsarPasseDaCadeia();
-Jogador Leilao_GetJogadorAtual();
+    Jogador Leilao_GetJogadorAtual();
     bool Leilao_Iniciar(Leilao leilao);
     bool Leilao_DarLance(int delta);
     bool Leilao_Desistir();
-bool Troca_Iniciar(PropostaTroca propostaTroca);
+    bool Troca_Iniciar(PropostaTroca propostaTroca);
     PropostaTroca Troca_GetPropostaTroca();
     Jogador? Troca_GetJogadorProponente();
     Jogador Troca_GetJogadorDestinatario();
