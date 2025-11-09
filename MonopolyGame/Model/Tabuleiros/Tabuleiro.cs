@@ -46,6 +46,8 @@ public class Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
 
         Log.WriteLine($"{jogador.Nome} moveu-se para a casa {novaPosicao}: '{pisoAtual.Nome}'.");
         pisoAtual.Efeito(jogador);
+
+        jogador.Partida.AdicionarRegistro($"{jogador.Nome} moveu-se para a casa {novaPosicao}: '{pisoAtual.Nome}'");
     }
 
     public void MoverJogadorPara(Jogador jogador, int posicao, bool coletarSalario)
@@ -61,6 +63,8 @@ public class Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
 
         posAtual.PosicaoAtual = posicao;
         Log.WriteLine($"{jogador.Nome} foi movido para a casa {posicao}: '{Pisos[posicao].Nome}'.");
+
+        jogador.Partida.AdicionarRegistro($"{jogador.Nome} foi movido para a casa {posicao}: '{Pisos[posicao].Nome}'");
     }
 
     public void TrocarPosicao(Jogador jogadorA, Jogador jogadorB)
@@ -81,6 +85,8 @@ public class Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
         // 2. Troca as posições
         posA.PosicaoAtual = posicaoOriginalB;
         posB.PosicaoAtual = posicaoOriginalA;
+
+        jogadorA.Partida.AdicionarRegistro($"POSIÇÃO TROCADA: {jogadorA.Nome} está agora em {posicaoOriginalB}. {jogadorB.Nome} está agora em {posicaoOriginalA}");
 
         Log.WriteLine($"POSIÇÃO TROCADA: {jogadorA.Nome} está agora em {posicaoOriginalB}. {jogadorB.Nome} está agora em {posicaoOriginalA}.");
 

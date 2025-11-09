@@ -61,7 +61,22 @@ public class PropostaTroca(Jogador? ofertante, Jogador destinatario) : IProposta
         Log.WriteLine("DinheiroOfertado = " + DinheiroOfertado);
         Ofertante?.Dinheiro -= DinheiroOfertado;
         Destinatario.Dinheiro += DinheiroOfertado;
-        
+
+        var nomesOfertadas = string.Join(", ", PossesOfertadas.Select(p => p.Nome));
+        var nomesDesejadas = string.Join(", ", PossesDesejadas.Select(p => p.Nome));
+
+        if (DinheiroOfertado >= 0)
+        {
+            Destinatario.Partida.AdicionarRegistro(
+                $"Proposta troca! Dinheiro Ofertado: {DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
+            );
+        }
+        else
+        {
+            Destinatario.Partida.AdicionarRegistro(
+                $"Proposta troca! Dinheiro Desejado: {-DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
+            );
+        }
         return true;
     }
 }

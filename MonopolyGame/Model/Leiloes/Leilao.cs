@@ -71,6 +71,7 @@ public class Leilao
             if (Participantes[0] == MaiorLicitante)
             {
                 FinalizarLeilao();
+                MaiorLicitante.Partida.AdicionarRegistro($"Leilão pela propriedade {PosseJogador.Nome} vencido por {MaiorLicitante.Nome}");
                 return;
             }
         }
