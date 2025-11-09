@@ -25,6 +25,7 @@ public class EfeitoPropriedadeCompravel(Propriedade propriedade) : IEfeitoJogado
             jogador.Partida.IniciarPropostaTroca(propostaTroca);
         } else
         {
+            jogador.Debitar(propriedade.CalcularPagamento(jogador));
             // paga aluguel
         }
 

@@ -10,31 +10,52 @@
             break;
         case CardType.TitleDeed:
             {
-                <PropertyCard>
-                    <TitleDeedCardContent PropertyName=@(cardVisualizerStore.Imovel?.Nome)
-                                        Color=@(cardVisualizerStore.Imovel?.Cor != null ? (int)cardVisualizerStore.Imovel.Cor : -1)
-                                        Rents=@(cardVisualizerStore.Imovel?.Alugueis)
-                                        MortgageValue=@(cardVisualizerStore.Imovel?.ValorHipoteca ?? -1)
-                                        HouseCost=@(cardVisualizerStore.Imovel?.PrecoComprarCasa ?? -1)
-                                        HotelCost=@(cardVisualizerStore.Imovel?.PrecoVenderCasa ?? -1) />
-                </PropertyCard>
+                @if (cardVisualizerStore.Imovel != null)
+                {
+                    <PropertyCard>
+                        <TitleDeedCardContent PropertyName=@(cardVisualizerStore.Imovel.Nome)
+                                            Color=@((int)cardVisualizerStore.Imovel.Cor)
+                                            Rents=@(cardVisualizerStore.Imovel.Alugueis)
+                                            MortgageValue=@(cardVisualizerStore.Imovel.ValorHipoteca)
+                                            HouseCost=@(cardVisualizerStore.Imovel.PrecoComprarCasa)
+                                            HotelCost=@(cardVisualizerStore.Imovel.PrecoVenderCasa) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.Imovel.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.Imovel.Proprietario.Nome</h2>
+                    }
+                }
                 break;
             }
         case CardType.Company:
             {
-                <PropertyCard>
-                    <CompanyCardContent PropertyName=@(cardVisualizerStore.Companhia?.Nome)
-                                        MortgageValue=@(cardVisualizerStore.Companhia?.ValorHipoteca ?? -1) />
-                </PropertyCard>
+                @if (cardVisualizerStore.Companhia != null)
+                {
+                    <PropertyCard>
+                        <CompanyCardContent PropertyName=@(cardVisualizerStore.Companhia.Nome)
+                                            MortgageValue=@(cardVisualizerStore.Companhia.ValorHipoteca) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.Companhia.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.Companhia.Proprietario.Nome</h2>
+                    }
+                }
                 break;
             }
         case CardType.TrainStation:
             {
-                <PropertyCard>
-                    <TrainStationCardContent PropertyName=@(cardVisualizerStore.LinhaTrem?.Nome)
-                                             Rents=@([25, 50, 100, 200])
-                                             MortgageValue=@(cardVisualizerStore.LinhaTrem?.ValorHipoteca ?? -1) />
-                </PropertyCard>
+                @if (cardVisualizerStore.LinhaTrem != null)
+                {
+                    <PropertyCard>
+                        <TrainStationCardContent PropertyName=@(cardVisualizerStore.LinhaTrem.Nome)
+                                                 Rents=@([25, 50, 100, 200])
+                                                 MortgageValue=@(cardVisualizerStore.LinhaTrem.ValorHipoteca) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.LinhaTrem.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.LinhaTrem.Proprietario.Nome</h2>
+                    }
+                }
                 break;
             }
         default:
