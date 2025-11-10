@@ -10,9 +10,10 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
     public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Comum;
     public override Jogador JogadorAtual { get; } = jogadorAtual;
 
-    public override bool PodeRolarDados { get => (Rolagem < 3 && RolagemIgual); }
+    public override bool PodeRolarDados { get => (Rolagem < LimiteRolagems && RolagemIgual); }
     public override bool PodeEncerrarTurno { get => !PodeRolarDados || !JogadorAtual.PodeJogar; }
     public override bool PodeIniciarPropostaTroca { get; } = true;
+    public int LimiteRolagems = 3;
 
     public List<(int, int)> DadosRolados { get; } = [];
     public int Rolagem { get => DadosRolados.Count; }
@@ -39,15 +40,17 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
             if (RolagemIgual)
             {
                 JogadorAtual.Preso = false;
+                LimiteRolagems++;
             }
 
             JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} saiu da prisão por tirar dados iguais");
             return true;
         }
 
-        if (RolagemIgual && Rolagem == 3)
+        if (RolagemIgual && Rolagem == LimiteRolagems)
         {
             JogadorAtual.Preso = true;
+            JogadorAtual.Partida.Tabuleiro.MoverJogadorPara(JogadorAtual, 10, false);
             JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} foi preso");
             return true;
         }
