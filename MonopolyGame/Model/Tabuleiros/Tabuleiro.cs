@@ -39,6 +39,7 @@ public class Tabuleiro(Piso[] pisos, List<Jogador> jogadores)
         {
             Log.WriteLine($"{jogador.Nome} passou pelo Ponto de Partida e coletou $200!");
             jogador.Creditar(200);
+            jogador.Partida.AdicionarRegistro($"{jogador.Nome} pssou pelo ponto de partida e coletou $200");
         }
 
         posAtual.PosicaoAtual = novaPosicao;
