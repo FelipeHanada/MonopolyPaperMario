@@ -1,0 +1,23 @@
+﻿.player-bar {
+    display: flex;
+    gap: 8px;
+}
+
+.player-bar > div {
+    width: 48px;
+    height: 48px;
+    border: 4px solid black;
+}
+
+.bar-current-player {
+    border: 4px solid blue !important;
+}
+
+.player-bar > div > img {
+    width: 100%;
+    height: 100%;
+}
+
+.fora > img {
+    filter: grayscale(100%);
+}

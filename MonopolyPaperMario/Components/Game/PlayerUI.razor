@@ -22,7 +22,9 @@
     <div class="player-bar">
         @for (int i = 0; i < ControlePartida.Partida.Jogadores.Count; i++)
         {
-            <div class="player-bar-character @(CurrentPlayer == i ? "bar-current-player" : "")">
+            <div class="player-bar-character
+                @(CurrentPlayer == i ? "bar-current-player" : "")
+                @(ControlePartida.Partida.Jogadores[i].Falido ? "falido" : "")">
                 <img src="@spriteStore.GetSpritePath(i)" />
             </div>
         }

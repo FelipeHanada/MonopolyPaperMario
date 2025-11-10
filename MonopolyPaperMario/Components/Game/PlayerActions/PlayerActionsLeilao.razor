@@ -3,18 +3,65 @@
 @using MonopolyGame.Model.PossesJogador;
 @using MonopolyPaperMario.Components.Stores;
 
-
-<h1>LEILÃO</h1>
-
 <h1>Lote: @(ControlePartida.Partida.EstadoTurnoAtual.Leilao.PosseJogador.Nome)</h1>
 
+<h2>Maior Licitante: @(ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLicitante?.Nome)</h2>
+<h2>Maior Lance: @(ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance)</h2>
 
+<div class="d-flex flex-column align-items-center">
+    <div class="mb-2 player-bar">
+        @for (int i = 0; i < ControlePartida.Partida.Jogadores.Count; i++)
+        {
+            <div class="player-bar-character
+                        @(CurrentPlayer == i ? "bar-current-player" : "")
+                        @(ControlePartida.Partida.EstadoTurnoAtual.Leilao.Participantes.Contains(ControlePartida.Partida.Jogadores[i]) ? "" : "fora")">
+                <img src="@spriteStore.GetSpritePath(i)" />
+            </div>
+        }
+    </div>
+
+    <div class="w-100 mb-2">
+        <label for="inputLance" class="form-label">Valor do Lance</label>
+        <input id="inputLance" type="number" class="form-control mb-2" @bind-value="Lance" min="@MinLance" step="1" />
+        
+        <input type="range" class="form-range" @bind-Value="Lance" @bind-Value:event="oninput" min="@MinLance" max="@(Math.Min(MinLance + 2000, ControlePartida.Leilao_GetJogadorAtual().Dinheiro))" step="1" />
+    </div>
+    
+    <button class="w-100 mb-2 btn btn-primary @(Lance > ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance ? "" : "disabled")" @onclick=HandleDarLance>
+        Dar Lance
+    </button>
+
+    <button class="w-100 mb-2 btn btn-primary" @onclick=HandleDesistir>
+        Desistir
+    </button>
+</div>
 
 @code {
     private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
+
+    private int MinLance => ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance + 10;
+
+    private int Lance { get; set; }
+
+    public int CurrentPlayer { get => ControlePartida.Partida.Jogadores.IndexOf(ControlePartida.Partida.EstadoTurnoAtual.JogadorAtualLeilao); }
 
     protected override void OnInitialized()
     {
         ControlePartidaStore.OnStateChanged += StateHasChanged;
+        Lance = MinLance;
+    }
+
+    private void HandleDarLance()
+    {
+        if (Lance < ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance) return;
+        ControlePartida.Partida.EstadoTurnoAtual.DarLanceLeilao(Lance - ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance);
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleDesistir()
+    {
+        ControlePartida.Partida.EstadoTurnoAtual.DesistirLeilao();
+        ControlePartidaStore.NotifyStateChanged();
     }
 }

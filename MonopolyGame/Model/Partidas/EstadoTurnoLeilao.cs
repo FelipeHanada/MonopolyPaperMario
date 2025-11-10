@@ -1,3 +1,4 @@
+using MonopolyGame.Exceptions;
 using MonopolyGame.Interface.Partidas;
 using MonopolyGame.Interface.PosseJogador;
 using MonopolyGame.Model.Leiloes;
@@ -7,10 +8,12 @@ namespace MonopolyGame.Model.Partidas;
 
 public class EstadoTurnoLeilao(Jogador jogadorAtual, Leilao leilao) : AbstratoEstadoTurno
 {
-   public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Leilao;
-   public override Jogador JogadorAtual { get; } = jogadorAtual;
+    public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Leilao;
+    public override Jogador JogadorAtual { get; } = jogadorAtual;
+    public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoTurnoAtual;
 
-   public override Leilao Leilao { get; } = leilao;
+
+    public override Leilao Leilao { get; } = leilao;
 
    public override Jogador? JogadorAtualLeilao { get => Leilao.JogadorAtual; }
 
@@ -21,6 +24,15 @@ public class EstadoTurnoLeilao(Jogador jogadorAtual, Leilao leilao) : AbstratoEs
 
     public override bool DesistirLeilao()
     {
-        return Leilao.Desistir();
+        if (!Leilao.Desistir()) return false;
+
+        if (Leilao.Finalizado)
+        {
+            Leilao.MaiorLicitante?.AdicionarPosse(Leilao.PosseJogador);
+            Leilao.MaiorLicitante?.Debitar(Leilao.MaiorLance);
+            JogadorAtual.Partida.EstadoTurnoAtual = EstadoTurnoAnterior;
+        }
+
+        return true;
     }
 }

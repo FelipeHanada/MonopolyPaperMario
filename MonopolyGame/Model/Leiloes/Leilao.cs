@@ -16,7 +16,7 @@ public class Leilao
     private int indiceJogadorAtual;
     public Jogador? JogadorAtual { get; private set; }
 
-    public bool Finalizado { get => JogadorAtual == null; }
+    public bool Finalizado { get => Participantes.Count == 1; }
 
     public Leilao(Jogador jogadorAtual, IPosseJogador posseJogador)
     {

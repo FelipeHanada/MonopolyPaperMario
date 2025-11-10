@@ -1,6 +1,8 @@
 ﻿using MonopolyGame.Interface.Controles;
 using MonopolyGame.Impl.Controles;
 using MonopolyGame.Model.Partidas;
+using MonopolyGame.Model.PossesJogador;
+using MonopolyGame.Interface.PosseJogador;
 
 namespace MonopolyPaperMario.Components.Stores;
 

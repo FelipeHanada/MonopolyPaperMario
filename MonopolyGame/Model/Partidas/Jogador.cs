@@ -70,7 +70,10 @@ public class Jogador
 
     public bool AdicionarPosse(IPosseJogador possesJogador)
     {
-        if (possesJogador.Proprietario != null) return false;
+        if (possesJogador.Proprietario != null)
+        {
+            possesJogador.Proprietario.RemoverPosse(possesJogador);
+        }
         possesJogador.Proprietario = this;
         Posses.Add(possesJogador);
         return true;
