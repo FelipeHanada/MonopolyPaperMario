@@ -62,7 +62,7 @@
                     </select>
                 </div>
 
-                <button class="btn btn-primary">Comprar Casa</button>
+                <button class="btn btn-primary" @onclick=HandleMelhorarImovel>Comprar Casa</button>
             </form>
         </div>
     </div>
@@ -89,7 +89,7 @@
                     </select>
                 </div>
 
-                <button class="btn btn-primary">Vender Casa</button>
+                <button class="btn btn-primary" @onclick=HandleDepreciarImovel>Vender Casa</button>
             </form>
         </div>
     </div>
@@ -116,7 +116,7 @@
                     </select>
                 </div>
 
-                <button class="btn btn-primary">Hipotecar Propriedade</button>
+                <button class="btn btn-primary" @onclick=HandleHipotecarPropriedade>Hipotecar Propriedade</button>
             </form>
         </div>
     </div>
@@ -289,6 +289,8 @@
 
     private void HandleHipotecarPropriedade()
     {
+        if (hipotecarPropriedade == null) return;
+        ControlePartida.Comum_HipotecarPropriedade(hipotecarPropriedade);
         ControlePartidaStore.NotifyStateChanged();
     }
 }
