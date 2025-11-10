@@ -24,9 +24,28 @@ public class Imovel(string nome, int preco, int hipoteca, PropriedadeCor cor, in
         return Alugueis[NivelConstrucao];
     }
 
-    public bool AdicionarCasa()
+    public override bool PodeHipotecar()
     {
-        if (Proprietario == null) {
+        if (Proprietario == null)
+        {
+            Log.WriteLine(" Este imóvel não tem proprietário.");
+            return false;
+        }
+
+        var imoveisMesmaCor = Proprietario.Posses
+            .OfType<Imovel>()
+            .Where(imovel => imovel.Cor == Cor)
+            .ToList();
+
+        int maiorNivel = imoveisMesmaCor.Max(imovel => imovel.NivelConstrucao);
+
+        return base.PodeHipotecar() && maiorNivel == 0;
+    }
+
+    public bool PodeAdicionarCasa()
+    {
+        if (Proprietario == null)
+        {
             Log.WriteLine(" Este imóvel não tem proprietário.");
             return false;
         }
@@ -51,14 +70,23 @@ public class Imovel(string nome, int preco, int hipoteca, PropriedadeCor cor, in
             .Where(imovel => imovel.Cor == Cor)
             .ToList();
 
+        if (imoveisMesmaCor.Count(imovel => imovel.Hipotecada) > 0) return false;
+
         int menorNivel = imoveisMesmaCor.Min(imovel => imovel.NivelConstrucao);
 
         if (NivelConstrucao > menorNivel)
-        {  
+        {
             Log.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
             //Log.WriteLine("Você só pode construir na propriedade com menor número de casas do conjunto!");
             return false;
         }
+
+        return true;
+    }
+
+    public bool AdicionarCasa()
+    {
+        if (!PodeAdicionarCasa()) return false;
 
         NivelConstrucao++;
         Log.WriteLine("Propriedade adicionada com sucesso!!");
@@ -66,7 +94,7 @@ public class Imovel(string nome, int preco, int hipoteca, PropriedadeCor cor, in
         return true;
     }
 
-    public bool RemoverCasa()
+    public bool PodeRemoverCasa()
     {
         if (Proprietario == null)
         {
@@ -90,6 +118,12 @@ public class Imovel(string nome, int preco, int hipoteca, PropriedadeCor cor, in
             return false;
         }
 
+        return true;
+    }
+
+    public bool RemoverCasa()
+    {
+        if (!PodeRemoverCasa()) return false;
         NivelConstrucao--;
         return true;
     }

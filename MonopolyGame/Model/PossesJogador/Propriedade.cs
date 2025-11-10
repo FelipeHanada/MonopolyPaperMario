@@ -39,17 +39,19 @@ public abstract class Propriedade : IPosseJogador
 
     public abstract int CalcularPagamento(Jogador jogador);
 
+    public virtual bool PodeHipotecar()
+    {
+        if (Proprietario == null || Hipotecada)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public void PagarHipoteca()
     {
-        if (Proprietario == null)
-        {
-            throw new JogadoresNaoInformadosException();
-        }
-
-        if (Hipotecada == true)
-        {
-            int valor = CalcularPagamento(Proprietario);
-            Proprietario!.Debitar(valor);
-        }
+        if (Proprietario == null || !PodeHipotecar()) return;
+        int valor = CalcularPagamento(Proprietario);
+        Proprietario!.Debitar(valor);
     }
 }
