@@ -122,11 +122,11 @@ public class Jogador
     {
         valor = AplicarDesconto(valor);
         if (valor < 0) throw new ArgumentException("O valor a ser debitado não pode ser negativo.");
-        if (Dinheiro < valor)
-        {
-            // Corrigido: Passa uma string como segundo argumento, não um int.
-            throw new FundosInsuficientesException(this, $"Não há fundos suficientes para debitar ${valor}.");
-        }
+        //if (Dinheiro < valor)
+        //{
+        //    // Corrigido: Passa uma string como segundo argumento, não um int.
+        //    throw new FundosInsuficientesException(this, $"Não há fundos suficientes para debitar ${valor}.");
+        //}
         Dinheiro -= valor;
     }
 
