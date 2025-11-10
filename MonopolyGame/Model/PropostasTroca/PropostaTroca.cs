@@ -68,13 +68,13 @@ public class PropostaTroca(Jogador? ofertante, Jogador destinatario) : IProposta
         if (DinheiroOfertado >= 0)
         {
             Destinatario.Partida.AdicionarRegistro(
-                $"Proposta troca! Dinheiro Ofertado: {DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
+                $"Proposta troca Aceita! Dinheiro Ofertado: {DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
             );
         }
         else
         {
             Destinatario.Partida.AdicionarRegistro(
-                $"Proposta troca! Dinheiro Desejado: {-DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
+                $"Proposta troca Aceita! Dinheiro Desejado: {-DinheiroOfertado}. Posses Ofertadas: {nomesOfertadas}. Posses Desejadas: {nomesDesejadas}"
             );
         }
         return true;

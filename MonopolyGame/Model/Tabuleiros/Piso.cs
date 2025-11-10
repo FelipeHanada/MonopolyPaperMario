@@ -31,6 +31,7 @@ public class Piso
         if (EfeitoAcao != null)
         {
             EfeitoAcao.Aplicar(jogador);
+            jogador.Partida.AdicionarRegistro($"Efeito do piso '{Nome}' aplicado sobre {jogador.Nome}");
         }
         else
         {

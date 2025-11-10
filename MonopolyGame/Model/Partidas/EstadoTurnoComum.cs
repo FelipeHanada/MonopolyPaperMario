@@ -51,7 +51,7 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         {
             JogadorAtual.Preso = true;
             JogadorAtual.Partida.Tabuleiro.MoverJogadorPara(JogadorAtual, 10, false);
-            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} foi preso");
+            JogadorAtual.Partida.AdicionarRegistro($"{JogadorAtual.Nome} foi para a prisão");
             return true;
         }
         JogadorAtual.Partida.Tabuleiro.MoveJogador(JogadorAtual, totalDados);
