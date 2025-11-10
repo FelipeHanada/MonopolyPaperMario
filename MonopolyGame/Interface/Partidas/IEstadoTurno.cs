@@ -38,6 +38,6 @@ public interface IEstadoTurno
     bool DesistirLeilao();
     // ------------------------------------------------------
     PropostaTroca PropostaTroca { get; }
-    void EncerrarPropostaTroca(bool aceite);
+    bool EncerrarPropostaTroca(bool aceite);
     //PropostaTroca GetPropostaTroca();
 };

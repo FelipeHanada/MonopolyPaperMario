@@ -214,7 +214,8 @@ public class Partida
             return false;
 
         var estadoAtual = EstadoTurnoAtual;
-        EstadoTurnoAtual.EncerrarPropostaTroca(aceite);
+
+        if (!EstadoTurnoAtual.EncerrarPropostaTroca(aceite)) return false;
         if (estadoAtual == EstadoTurnoAtual)
         {
             EstadoTurnoAtual = EstadoComumAtual;

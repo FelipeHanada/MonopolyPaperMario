@@ -13,32 +13,35 @@ public class EstadoTurnoPropostaTroca(Jogador jogadorAtual, PropostaTroca propos
 
     public override PropostaTroca PropostaTroca { get; } = propostaTroca;
 
-    public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoComumAtual;
+    //public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoComumAtual;
 
-    public override void EncerrarPropostaTroca(bool aceite)
+    public override bool EncerrarPropostaTroca(bool aceite)
     {
         if (aceite)
         {
             if (!PropostaTroca.Efetuar())
             {
-                return;
+                return false;
             }
         }
+
+        return true;
         
         // troca o estado do turno para o anterior
-        JogadorAtual.Partida.EstadoTurnoAtual = EstadoTurnoAnterior;
+        //JogadorAtual.Partida.EstadoTurnoAtual = EstadoTurnoAnterior;
     }
 }
 
 public class EstadoTurnoPropostaTrocaComLeilao(Jogador jogadorAtual, PropostaTroca propostaTroca, IPosseJogador posse)
     : EstadoTurnoPropostaTroca(jogadorAtual, propostaTroca)
 {
-    public override void EncerrarPropostaTroca(bool aceite)
+    public override bool EncerrarPropostaTroca(bool aceite)
     {
-        if (aceite) base.EncerrarPropostaTroca(true);
+        if (aceite) return base.EncerrarPropostaTroca(true);
         else
         {
             JogadorAtual.Partida.IniciarLeilao(new Leilao(JogadorAtual, posse));
         }
+        return true;
     }
 }
