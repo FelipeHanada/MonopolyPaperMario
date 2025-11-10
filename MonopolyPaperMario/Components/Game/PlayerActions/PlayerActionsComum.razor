@@ -129,6 +129,30 @@
 
 <ModalPropostaTroca IsVisible="@_showTradeModal" OnClose="@(() => _showTradeModal = false)" />
 
+@if (_showEndTurnConfirmationModal)
+{
+    <div class="modal-backdrop fade show"></div>
+
+    <div class="modal fade show" tabindex="-1" style="display: block;" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Fim de Turno</h5>
+                    <button type="button" class="btn-close" @onclick="CancelEndTurn" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Seu saldo é R$ @ControlePartida.Partida.JogadorAtual.Dinheiro.</p>
+                    <p>Você não tem saldo positivo. Se você encerrar o turno agora, você irá à falência!</p>
+                    <p>Deseja realmente encerrar o turno?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelEndTurn">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="ConfirmEndTurn">Encerrar (Ir à Falência)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @code {
     private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
@@ -175,8 +199,8 @@
     }
 
 
-    // NOVO CAMPO para controlar a visibilidade do modal
     private bool _showTradeModal = false;
+    private bool _showEndTurnConfirmationModal = false;
 
     private IPosseJogador? posseLeilao;
 
@@ -217,11 +241,37 @@
         ControlePartidaStore.NotifyStateChanged();
     }
 
+    // private void HandleEncerrarTurno()
+    // {
+    //     ControlePartida.Comum_EncerrarTurno();
+    //     ControlePartidaStore.NotifyStateChanged();
+    // }
+
     private void HandleEncerrarTurno()
     {
-        ControlePartida.Comum_EncerrarTurno();
+        if (ControlePartida.Partida.JogadorAtual.Dinheiro < 0)
+        {
+            _showEndTurnConfirmationModal = true;
+        }
+        else
+        {
+            ControlePartida.Comum_EncerrarTurno();
+            ControlePartidaStore.NotifyStateChanged();
+        }
+    }
+
+    private void ConfirmEndTurn()
+    {
+        _showEndTurnConfirmationModal = false;
+        ControlePartida.Comum_EncerrarTurno();
         ControlePartidaStore.NotifyStateChanged();
     }
+
+    private void CancelEndTurn()
+    {
+        _showEndTurnConfirmationModal = false;
+        StateHasChanged();
+    }
 
     private Imovel? melhorarImovel;
 
