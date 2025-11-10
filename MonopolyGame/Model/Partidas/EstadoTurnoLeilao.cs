@@ -10,8 +10,6 @@ public class EstadoTurnoLeilao(Jogador jogadorAtual, Leilao leilao) : AbstratoEs
 {
     public override EstadoTurnoId EstadoId { get; } = EstadoTurnoId.Leilao;
     public override Jogador JogadorAtual { get; } = jogadorAtual;
-    public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoTurnoAtual;
-
 
     public override Leilao Leilao { get; } = leilao;
 
@@ -30,7 +28,7 @@ public class EstadoTurnoLeilao(Jogador jogadorAtual, Leilao leilao) : AbstratoEs
         {
             Leilao.MaiorLicitante?.AdicionarPosse(Leilao.PosseJogador);
             Leilao.MaiorLicitante?.Debitar(Leilao.MaiorLance);
-            JogadorAtual.Partida.EstadoTurnoAtual = EstadoTurnoAnterior;
+            JogadorAtual.Partida.EstadoTurnoAtual = JogadorAtual.Partida.EstadoComumAtual;
         }
 
         return true;

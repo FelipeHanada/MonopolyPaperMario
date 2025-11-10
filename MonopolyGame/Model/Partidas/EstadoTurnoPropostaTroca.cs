@@ -13,7 +13,7 @@ public class EstadoTurnoPropostaTroca(Jogador jogadorAtual, PropostaTroca propos
 
     public override PropostaTroca PropostaTroca { get; } = propostaTroca;
 
-    public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoTurnoAtual;
+    public IEstadoTurno EstadoTurnoAnterior { get; } = jogadorAtual.Partida.EstadoComumAtual;
 
     public override void EncerrarPropostaTroca(bool aceite)
     {
@@ -35,7 +35,7 @@ public class EstadoTurnoPropostaTrocaComLeilao(Jogador jogadorAtual, PropostaTro
 {
     public override void EncerrarPropostaTroca(bool aceite)
     {
-        if (aceite) base.EncerrarPropostaTroca(aceite);
+        if (aceite) base.EncerrarPropostaTroca(true);
         else
         {
             JogadorAtual.Partida.IniciarLeilao(new Leilao(JogadorAtual, posse));

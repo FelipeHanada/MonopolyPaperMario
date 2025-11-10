@@ -1,6 +1,5 @@
 ﻿.player-ui {
     height: 90%;
-    background-color: lavender;
 }
 
 .previous-plays-content {
@@ -54,7 +53,6 @@
 }
 
 .current-player-ui {
-    background-color: aliceblue;
     height: 60%;
 }
 

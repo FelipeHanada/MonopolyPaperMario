@@ -29,6 +29,7 @@ public class Partida
     public IDeck? DeckCofre { get; }
     public IDeck? DeckSorte { get; }
 
+    public IEstadoTurno EstadoComumAtual { get; internal set; }
     public IEstadoTurno EstadoTurnoAtual { get; internal set; }
 
     private readonly List<object[]> EfeitosAReverter;
@@ -48,7 +49,7 @@ public class Partida
         Tabuleiro = CriarTabuleiro();
         Historico = new Historico();
 
-        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+        EstadoComumAtual = EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
         AdicionarRegistro($"A partida começou!");
         AdicionarRegistro($"Novo Turno: {JogadorAtual.Nome}");
 
@@ -194,7 +195,7 @@ public class Partida
             JogadorAtualIndex = (JogadorAtualIndex + 1) % Jogadores.Count;
         } while (Jogadores[JogadorAtualIndex].Falido);
 
-        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+        EstadoComumAtual = EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
 
         AdicionarRegistro($"Novo Turno: {JogadorAtual.Nome}");
         return true;
@@ -212,13 +213,18 @@ public class Partida
         if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.PropostaTroca)
             return false;
 
+        var estadoAtual = EstadoTurnoAtual;
         EstadoTurnoAtual.EncerrarPropostaTroca(aceite);
+        if (estadoAtual == EstadoTurnoAtual)
+        {
+            EstadoTurnoAtual = EstadoComumAtual;
+        }
         return true;
     }
 
     public bool IniciarLeilao(Leilao leilao)
     {
-        if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum) return false;
+        if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Comum && EstadoTurnoAtual.EstadoId != EstadoTurnoId.PropostaTroca) return false;
         EstadoTurnoAtual = new EstadoTurnoLeilao(JogadorAtual, leilao);
         return true;
     }
@@ -228,12 +234,7 @@ public class Partida
         if (EstadoTurnoAtual.EstadoId != EstadoTurnoId.Leilao || !EstadoTurnoAtual.Leilao.Finalizado || EstadoTurnoAtual.Leilao.MaiorLicitante == null)
             return false;
 
-        Jogador vencedor = EstadoTurnoAtual.Leilao.MaiorLicitante;
-
-        EstadoTurnoAtual.Leilao.PosseJogador.Proprietario?.RemoverPosse(EstadoTurnoAtual.Leilao.PosseJogador);
-        vencedor.AdicionarPosse(EstadoTurnoAtual.Leilao.PosseJogador);
-
-        EstadoTurnoAtual = new EstadoTurnoComum(JogadorAtual);
+        EstadoTurnoAtual = EstadoComumAtual;
         return true;
     }
 
