@@ -99,7 +99,8 @@
 }
 
 @code {
-    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
 
     private Jogador? Destinatario;
     private List<IPosseJogador> PossesOfertadas = new();

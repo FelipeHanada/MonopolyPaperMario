@@ -61,7 +61,8 @@
 </div>
 
 @code {
-    private IControlePartida ControlePartida = ControlePartidaStore.ControlePartida;
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
     private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
     private IconStore iconStore = IconStore.GetInstance();
 

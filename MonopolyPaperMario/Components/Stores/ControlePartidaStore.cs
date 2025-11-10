@@ -10,17 +10,29 @@ internal class ControlePartidaStore
 {
     public static event Action? OnStateChanged;
 
-    private static IControlePartida? instance;
+    private static ControlePartidaStore? instance;
+    private ControlePartida? controlePartida;
 
-    public static IControlePartida ControlePartida
+    public static ControlePartidaStore GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new();
+        }
+        return instance;
+    }
+
+    public void IniciarPartida(Partida partida)
+    {
+        controlePartida = new ControlePartida(partida);
+    }
+
+    public IControlePartida ControlePartida
     {
         get
         {
-            if (instance == null)
-            {
-                instance = new ControlePartida(new Partida(["mario", "papagaio", "princesa"]));
-            }
-            return instance;
+            if (controlePartida == null) throw new Exception("não tem partida.");
+            return controlePartida;
         }
     }
 

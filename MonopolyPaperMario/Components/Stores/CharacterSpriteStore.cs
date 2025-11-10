@@ -24,6 +24,8 @@ internal class CharacterSpriteStore
         "assets/characters/parakarry.png",
     };
 
+    public List<CharacterId> characterIdByPlayer { get; } = new();
+
     private CharacterSpriteStore()
     {
     }
@@ -43,5 +45,10 @@ internal class CharacterSpriteStore
     public string GetSpritePath(CharacterId id)
     {
         return GetSpritePath((int)id);
+    }
+
+    public string GetSpritePathByPlayerId(int playerId)
+    {
+        return GetSpritePath(characterIdByPlayer[playerId]);
     }
 }

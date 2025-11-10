@@ -127,7 +127,8 @@
 
 
 @code {
-    private IControlePartida controlePartida = ControlePartidaStore.ControlePartida;
+    private ControlePartidaStore controlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida controlePartida { get => controlePartidaStore.ControlePartida; }
     private CardVisualizerStore cardVisualizerStore = CardVisualizerStore.Instance;
 
 
