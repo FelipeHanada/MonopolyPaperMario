@@ -1,0 +1,118 @@
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyGame.Interface.PosseJogador;
+@using MonopolyGame.Model.PossesJogador;
+@using MonopolyPaperMario.Components.Stores;
+
+<h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: </h2>
+<ul class="m-0">
+    @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesOfertadas)
+    {
+        <li>@posse.Nome</li>
+    }
+</ul>
+
+@if (ControlePartida.Troca_GetJogadorProponente() != null)
+{
+    <h2 class="m-0">
+        @(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber:
+    </h2>
+    <ul class="m-0">
+        @foreach (IPosseJogador posse in ControlePartida.Troca_GetPropostaTroca().PossesDesejadas)
+        {
+            <li>@posse.Nome</li>
+        }
+    </ul>
+}
+
+@if (ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado > 0)
+{
+    @if (ControlePartida.Troca_GetJogadorProponente() != null)
+    {
+        <h2 class="m-0">@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá pagar: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
+    }
+    <h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá receber: R$ @(ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
+}
+else
+{
+    <h2 class="m-0">@(ControlePartida.Troca_GetJogadorDestinatario().Nome) irá pagar: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
+    @if (ControlePartida.Troca_GetJogadorProponente() != null)
+    {
+        <h2 class="m-0">@(ControlePartida.Troca_GetJogadorProponente()?.Nome) irá receber: R$ @(-ControlePartida.Troca_GetPropostaTroca().DinheiroOfertado)</h2>
+    }
+}
+
+<h2 class="m-0 mt-2 mb-1 text-center">@(ControlePartida.Partida.EstadoTurnoAtual.PropostaTroca.Destinatario.Nome) você deseja:</h2>
+<div class="d-flex justify-content-between">
+    <button class="btn btn-primary mb-1"
+                  @onclick=HandleRecusar>
+        Recusar
+    </button>
+
+    <button class="btn btn-primary mb-1"
+                  @onclick=HandleAceitar>
+        Aceitar
+    </button>
+</div>
+
+@if (showTransactionErrorModal)
+{
+    <div class="modal-backdrop fade show"></div>
+
+    <div class="modal fade show" tabindex="-1" style="display: block;" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Troca não realizada!</h5>
+                    <button type="button" class="btn-close" @onclick="CloseErrorModal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>A transação não pôde ser realizada.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" @onclick="CloseErrorModal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
+
+    // NOVO: Flag para controlar a exibição do modal de erro
+    private bool showTransactionErrorModal = false;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
+    private void HandleAceitar()
+    {
+        // NOVO: Reseta a flag antes de tentar
+        showTransactionErrorModal = false;
+
+        if (!ControlePartida.Troca_Aceitar())
+        {
+            // NOVO: Em vez do comentário, agora ativamos a flag do modal
+            showTransactionErrorModal = true;
+        }
+
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleRecusar()
+    {
+        ControlePartida.Troca_Recusar();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    // NOVO: Método para fechar o modal de erro
+    private void CloseErrorModal()
+    {
+        showTransactionErrorModal = false;
+        StateHasChanged(); // Pede ao Blazor para redesenhar a UI sem o modal
+    }
+}

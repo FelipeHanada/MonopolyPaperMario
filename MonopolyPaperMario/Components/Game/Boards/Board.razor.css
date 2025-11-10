@@ -1,0 +1,110 @@
+﻿.board {
+    width: 720px;
+    height: 720px;
+    display: grid;
+    grid-template-columns: 3fr repeat(9, 2fr) 3fr;
+    grid-template-rows: 3fr repeat(9, 2fr) 3fr;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+}
+
+.board-center {
+    grid-column: 2 / 11;
+    grid-row: 2 / 11;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.corner, .street > div {
+    border: 1px solid black;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+}
+
+/* --- Posicionamento dos Cantos --- */
+#corner-4-1 {
+    grid-row: 11;
+    grid-column: 11;
+}
+
+#corner-1-2 {
+    grid-row: 11;
+    grid-column: 1;
+}
+
+#corner-2-3 {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+#corner-3-4 {
+    grid-row: 1;
+    grid-column: 11;
+}
+
+/* --- Posicionamento das Ruas (Streets) --- */
+#street-1 {
+    grid-row: 11;
+    grid-column: 2 / 11;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#street-2 {
+    grid-row: 2 / 11;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#street-3 {
+    grid-row: 1;
+    grid-column: 2 / 11;
+    display: flex;
+    flex-direction: row;
+}
+
+#street-4 {
+    grid-row: 2 / 11;
+    grid-column: 11;
+    display: flex;
+    flex-direction: column;
+}
+
+#street-1 > div,
+#street-3 > div {
+    width: calc(100% / 9);
+    height: 100%;
+}
+
+#street-2 > div,
+#street-4 > div {
+    width: 100%;
+    height: calc(100% / 9);
+}
+
+.street-tile-icon {
+    width: 40px;
+    height: 40px;
+}
+
+#street-2 .street-tile-icon {
+    transform: rotate(90deg);
+}
+
+#street-3 .street-tile-icon {
+    transform: rotate(180deg);
+}
+
+#street-4 .street-tile-icon {
+    transform: rotate(-90deg);
+}
+
+.tile-wrapper.pointer:hover {
+    cursor: pointer;
+}

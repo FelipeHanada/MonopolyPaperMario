@@ -1,26 +1,183 @@
 ﻿@page "/"
-@using MonopolyPaperMario.Components.Game.PropertyCard
-@using MonopolyPaperMario.Components.Game.Board
-@using MonopolyPaperMario.Components.Game.PlayerUI
+@using MonopolyGame.Model.Partidas
+@using MonopolyPaperMario.Components.Stores
+@inject NavigationManager NavigationManager
 
+<div class="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+    <h1 class="mb-5">Monopoly Paper Mario</h1>
 
-<div class="h-100 d-flex align-items-center justify-content-around">
-    <CardVisualizer />
-    @* <PropertyCard>
-    <TitleDeedCardContent
-        PropertyName="Parada do Mario" 
-        Rents="new int[] { 2, 10, 30, 90, 160, 250 }"
-        MortgageValue="10"
-        HouseCost="50"
-        HotelCost="50" />
-    </PropertyCard> *@
+    <div class="mb-4 d-flex align-content-center gap-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="mb-2">
+                <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(0, false)">◄</button>
+                <img src=@CharacterSpriteStore.GetSpritePath(characters[0]) style="width: 80px; height: 80px;" />
+                <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(0, true)">►</button>
+            </div>
+            <input type="text"
+                   class="form-control @(!string.IsNullOrEmpty(validationErrors[0]) ? "is-invalid" : "")"
+                   placeholder="Nome do Jogador 1"
+                   @bind="playerNames[0]"
+                   @bind:event="oninput"
+                   @bind:after="ValidateAllNames" />
+            <div class="validation-message">@validationErrors[0]</div>
+        </div>
 
-    @* <PropertyCard>
-        <CompanyCardContent PropertyName="Nome" MortgageValue="75" />
-    </PropertyCard> *@
+        <div class="d-flex flex-column align-items-center">
+            <div class="mb-2">
+                <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(1, false)">◄</button>
+                <img src=@CharacterSpriteStore.GetSpritePath(characters[1]) style="width: 80px; height: 80px;" />
+                <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(1, true)">►</button>
+            </div>
+            <input type="text"
+                   class="form-control @(!string.IsNullOrEmpty(validationErrors[1]) ? "is-invalid" : "")"
+                   placeholder="Nome do Jogador 2"
+                   @bind="playerNames[1]"
+                   @bind:event="oninput"
+                   @bind:after="ValidateAllNames" />
+            <div class="validation-message">@validationErrors[1]</div>
+        </div>
 
-    <Board />
+        @for (int i = 2; i < characters.Count; i++)
+        {
+            var playerIndex = i;
 
-    <PlayerUI />
+            <div class="d-flex flex-column align-items-center">
+                <div class="mb-2">
+                    <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(playerIndex, false)">◄</button>
+                    <img src=@CharacterSpriteStore.GetSpritePath(characters[i]) style="width: 80px; height: 80px;" />
+                    <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(playerIndex, true)">►</button>
+                </div>
+                <input type="text"
+                       class="form-control @(!string.IsNullOrEmpty(validationErrors[playerIndex]) ? "is-invalid" : "")"
+                       placeholder="@($"Nome do Jogador {i + 1}")"
+                       @bind="playerNames[playerIndex]"
+                       @bind:event="oninput"
+                       @bind:after="ValidateAllNames" />
+                @if (validationErrors[playerIndex].Length > 0)
+                {
+                    <div class="validation-message mb-0">@validationErrors[playerIndex]</div>
+                }
+                <button class="mt-1 btn btn-primary" @onclick="() => HandleRemovePlayer(playerIndex)">Remover</button>
+            </div>
+        }
+
+        @if (characters.Count < maxCharacters)
+        {
+            <button class="btn btn-primary" @onclick=HandleAddPlayer>+</button>
+        }
+    </div>
+
+    <button class="btn btn-primary" @onclick=HandleComecarJogo disabled="@(!areAllNamesValid)">Começar Jogo</button>
 </div>
 
+<style>
+    .validation-message {
+        min-height: 20px;
+        font-size: 0.8em;
+        color: var(--bs-danger);
+    }
+</style>
+
+@code {
+    private CharacterSpriteStore CharacterSpriteStore = CharacterSpriteStore.GetInstance();
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+
+    private List<int> characters = [0, 1];
+    private List<string> playerNames = new List<string> { "Jogador 1", "Jogador 2" };
+
+    private List<string> validationErrors = new List<string> { "", "" };
+    private bool areAllNamesValid = false;
+
+    private const int maxCharacters = 6;
+
+    protected override void OnInitialized()
+    {
+        ValidateAllNames();
+    }
+
+    private int GetNextCharacter(int after = 0, bool right = true)
+    {
+        int inc = right ? 1 : -1;
+        for (int i = after; i < after + maxCharacters; i += inc)
+        {
+            int character = (i % maxCharacters + maxCharacters) % maxCharacters;
+            if (characters.Contains(character)) continue;
+            return character;
+        }
+        return -1;
+    }
+
+    private void HandleChangeCharacter(int playerId, bool right)
+    {
+        characters[playerId] = GetNextCharacter(characters[playerId], right);
+        StateHasChanged();
+    }
+
+    private void HandleAddPlayer()
+    {
+        if (characters.Count == maxCharacters) return;
+        characters.Add(GetNextCharacter());
+        playerNames.Add($"Jogador {characters.Count}");
+        validationErrors.Add("");
+        ValidateAllNames();
+    }
+
+    private void HandleRemovePlayer(int i)
+    {
+        characters.RemoveAt(i);
+        playerNames.RemoveAt(i);
+        validationErrors.RemoveAt(i);
+        ValidateAllNames();
+    }
+
+    private void ValidateAllNames()
+    {
+        bool globalValidity = true;
+        var nameCounts = new Dictionary<string, int>();
+
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            var name = playerNames[i];
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                validationErrors[i] = "O nome não pode estar vazio.";
+                globalValidity = false;
+            }
+            else
+            {
+                validationErrors[i] = "";
+
+                if (!nameCounts.ContainsKey(name))
+                {
+                    nameCounts[name] = 0;
+                }
+                nameCounts[name]++;
+            }
+        }
+
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            var name = playerNames[i];
+            if (!string.IsNullOrWhiteSpace(name) && nameCounts[name] > 1)
+            {
+                validationErrors[i] = "Este nome está duplicado.";
+                globalValidity = false;
+            }
+        }
+
+        areAllNamesValid = globalValidity;
+
+        StateHasChanged();
+    }
+
+    private void HandleComecarJogo()
+    {
+        Partida partida = new(playerNames);
+        ControlePartidaStore.IniciarPartida(partida);
+
+        CharacterSpriteStore.CharacterIdByPlayer.Clear();
+        foreach (int c in characters) CharacterSpriteStore.CharacterIdByPlayer.Add((CharacterId)c);
+
+        NavigationManager.NavigateTo("/game");
+    }
+}

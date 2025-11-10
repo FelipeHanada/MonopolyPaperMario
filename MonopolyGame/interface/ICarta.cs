@@ -1,9 +1,0 @@
-using MonopolyPaperMario.MonopolyGame.Model;
-
-namespace MonopolyPaperMario.MonopolyGame.Interface
-{
-    public interface ICarta
-    {
-        void QuandoPegada(Jogador jogador);
-    }
-}

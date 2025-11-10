@@ -1,0 +1,192 @@
+﻿@using MonopolyGame.Interface.Controles
+@using MonopolyGame.Interface.PosseJogador
+@using MonopolyGame.Model.Partidas
+@using MonopolyPaperMario.Components.Stores
+@using MonopolyGame.Model.PropostasTroca
+
+
+<div class="modal fade @(IsVisible ? "show d-block" : "")" tabindex="-1" role="dialog" style="background-color: @(IsVisible ? "rgba(0,0,0,0.5)" : "transparent");" @onclick="HandleModalBackgroundClick">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Fazer Proposta de Troca</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseModal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="jogadorAlvo" class="form-label">Trocar com:</label>
+                        <select class="form-select" id="jogadorAlvo" @onchange="HandleDestinatarioChange">
+                            <option selected disabled value="">Selecione um jogador</option>
+                            @foreach (Jogador jogador in ControlePartida.Partida.Jogadores.Where(j => j != ControlePartida.Partida.JogadorAtual))
+                            {
+                                <option value="@jogador.Nome">@jogador.Nome</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">O que você oferece:</label>
+
+                        @foreach (IPosseJogador posse in ControlePartida.Partida.JogadorAtual.Posses)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox"
+                                       id="checkOferta_@posse.Nome"
+                                       checked="@PossesOfertadas.Contains(posse)"
+                                       @onchange="@((e) => HandleOfertaCheck(e, posse))">
+                                <label class="form-check-label" for="checkOferta_@posse.Nome">
+                                    @posse.Nome
+                                </label>
+                            </div>
+                        }
+
+                        @if (ControlePartida.Partida.JogadorAtual.Posses.Count == 0)
+                        {
+                            <p>Você não tem posses para oferecer.</p>
+                        }
+                    </div>
+
+                    @if (Destinatario != null)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">O que você pede:</label>
+                            @foreach (IPosseJogador posse in Destinatario.Posses)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="checkDesejo_@posse.Nome"
+                                           checked="@PossesDesejadas.Contains(posse)"
+                                           @onchange="@((e) => HandleDesejoCheck(e, posse))">
+                                    <label class="form-check-label" for="checkDesejo_@posse.Nome">
+                                        @posse.Nome
+                                    </label>
+                                </div>
+                            }
+
+                            @if (Destinatario.Posses.Count == 0)
+                            {
+                                <p>@(Destinatario.Nome) não tem posses para oferecer.</p>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="sliderDinheiro" class="form-label">
+                                Dinheiro que você oferece:
+                            </label>
+                            <input type="range" class="form-range" id="sliderDinheiro"
+                                   min="-@Destinatario.Dinheiro"
+                                   max="@ControlePartida.Partida.JogadorAtual.Dinheiro"
+                                   step="1"
+                                   @bind-value="DinheiroOferecido"
+                                   @bind-value:event="oninput">
+                            <p>Valor oferecido por @(DinheiroOferecido > 0 ? ControlePartida.Partida.JogadorAtual.Nome : Destinatario.Nome): @(Math.Abs(DinheiroOferecido))★</p>
+                        </div>
+                    }
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancelar</button>
+                <button type="button" class="btn btn-primary @(Destinatario != null ? "" : "disabled")" @onclick="HandleEnviarProposta">Enviar Proposta</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (IsVisible)
+{
+}
+
+@code {
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
+
+    private Jogador? Destinatario;
+    private List<IPosseJogador> PossesOfertadas = new();
+    private List<IPosseJogador> PossesDesejadas = new();
+    private int DinheiroOferecido = 0;
+
+    [Parameter]
+    public bool IsVisible { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private async Task CloseModal()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+    private void HandleDestinatarioChange(ChangeEventArgs e)
+    {
+        var nomeJogadorSelecionado = e.Value?.ToString();
+
+        if (Destinatario?.Nome != nomeJogadorSelecionado)
+        {
+            PossesDesejadas.Clear();
+        }
+
+        if (!string.IsNullOrEmpty(nomeJogadorSelecionado))
+        {
+            Destinatario = ControlePartida.Partida.Jogadores
+                .FirstOrDefault(j => j.Nome == nomeJogadorSelecionado);
+        }
+        else
+        {
+            Destinatario = null;
+        }
+
+        StateHasChanged();
+    }
+
+    private void HandleOfertaCheck(ChangeEventArgs e, IPosseJogador posse)
+    {
+        bool isChecked = (bool)(e.Value ?? false);
+
+        if (isChecked && !PossesOfertadas.Contains(posse))
+        {
+            PossesOfertadas.Add(posse);
+        }
+        else if (!isChecked)
+        {
+            PossesOfertadas.Remove(posse);
+        }
+    }
+
+    private void HandleDesejoCheck(ChangeEventArgs e, IPosseJogador posse)
+    {
+        bool isChecked = (bool)(e.Value ?? false);
+
+        if (isChecked && !PossesDesejadas.Contains(posse))
+        {
+            PossesDesejadas.Add(posse);
+        }
+        else if (!isChecked)
+        {
+            PossesDesejadas.Remove(posse);
+        }
+    }
+
+    private void HandleEnviarProposta()
+    {
+        if (Destinatario == null) return;
+
+        PropostaTroca propostaTroca = new(ControlePartida.Partida.JogadorAtual, Destinatario);
+        foreach (IPosseJogador posse in PossesOfertadas)
+        {
+            propostaTroca.PossesOfertadas.Add(posse);
+        }
+        foreach (IPosseJogador posse in PossesDesejadas)
+        {
+            propostaTroca.PossesDesejadas.Add(posse);
+        }
+        propostaTroca.DinheiroOfertado = DinheiroOferecido;
+        ControlePartida.Troca_Iniciar(propostaTroca);
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleModalBackgroundClick(MouseEventArgs e)
+    {
+    }
+}

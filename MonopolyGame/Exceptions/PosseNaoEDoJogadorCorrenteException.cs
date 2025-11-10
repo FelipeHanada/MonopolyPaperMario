@@ -1,8 +1,8 @@
 ﻿using System;
-using MonopolyPaperMario.MonopolyGame.Interface;
-using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyGame.Interface.PosseJogador;
+using MonopolyGame.Model.Partidas;
 
-namespace MonopolyPaperMario.MonopolyGame.Exceptions
+namespace MonopolyGame.Exceptions
 {
     public class PosseNaoEDoJogadorCorrenteException : Exception
     {

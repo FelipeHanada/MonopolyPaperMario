@@ -1,0 +1,10 @@
+﻿@namespace MonopolyPaperMario.Components.Game.Boards
+
+@if (!string.IsNullOrEmpty(ImgPath))
+{
+    <img src="@ImgPath" style="width: 100%; height: 100%;" />
+}
+
+@code {
+    [Parameter] public string ImgPath { get; set; } = string.Empty;
+}

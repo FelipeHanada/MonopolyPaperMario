@@ -1,0 +1,102 @@
+﻿@using MonopolyPaperMario.Components.Game.PropertyCard
+@using MonopolyPaperMario.Components.Stores;
+
+@namespace MonopolyPaperMario.Components.Game.PlayerUI
+
+<div class="w-25 h-100 d-flex flex-column align-items-center justify-content-center gap-2">
+    @switch (cardVisualizerStore.CurrentCardType)
+    {
+        case null:
+            break;
+        case CardType.TitleDeed:
+            {
+                @if (cardVisualizerStore.Imovel != null)
+                {
+                    <PropertyCard>
+                        <TitleDeedCardContent PropertyName=@(cardVisualizerStore.Imovel.Nome)
+                                            Color=@((int)cardVisualizerStore.Imovel.Cor)
+                                            Rents=@(cardVisualizerStore.Imovel.Alugueis)
+                                            MortgageValue=@(cardVisualizerStore.Imovel.ValorHipoteca)
+                                            HouseCost=@(cardVisualizerStore.Imovel.PrecoComprarCasa)
+                                            HotelCost=@(cardVisualizerStore.Imovel.PrecoVenderCasa) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.Imovel.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.Imovel.Proprietario.Nome</h2>
+                    }
+                }
+                break;
+            }
+        case CardType.Company:
+            {
+                @if (cardVisualizerStore.Companhia != null)
+                {
+                    <PropertyCard>
+                        <CompanyCardContent PropertyName=@(cardVisualizerStore.Companhia.Nome)
+                                            MortgageValue=@(cardVisualizerStore.Companhia.ValorHipoteca) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.Companhia.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.Companhia.Proprietario.Nome</h2>
+                    }
+                }
+                break;
+            }
+        case CardType.TrainStation:
+            {
+                @if (cardVisualizerStore.LinhaTrem != null)
+                {
+                    <PropertyCard>
+                        <TrainStationCardContent PropertyName=@(cardVisualizerStore.LinhaTrem.Nome)
+                                                 Rents=@([25, 50, 100, 200])
+                                                 MortgageValue=@(cardVisualizerStore.LinhaTrem.ValorHipoteca) />
+                    </PropertyCard>
+                    @if (cardVisualizerStore.LinhaTrem.Proprietario != null)
+                    {
+                        <h2>de: @cardVisualizerStore.LinhaTrem.Proprietario.Nome</h2>
+                    }
+                }
+                break;
+            }
+        default:
+        {
+            <p>Not yet implemented.</p>
+            break;
+        }
+    }
+
+    @* <div class="container">
+        <div class="row mb-2">
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-casa">Comprar Casa</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-hotel">Comprar Hotel</button>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-hipotecar">Hipotecar</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-primary w-100 btn-deshipotecar">Deshipotecar</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary w-100 btn-leilao">Fazer Leilão</button>
+            </div>
+        </div>
+    </div> *@
+</div>
+
+@code {
+    private CardVisualizerStore cardVisualizerStore = CardVisualizerStore.Instance;
+
+    protected override void OnInitialized()
+    {
+        cardVisualizerStore.OnStateChanged += StateHasChanged;
+    }
+}

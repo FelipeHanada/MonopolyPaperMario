@@ -1,51 +1,44 @@
-﻿@namespace MonopolyPaperMario.Components.Game.PlayerUI
+﻿@using MonopolyGame.Interface.Controles;
 @using MonopolyPaperMario.Components.Stores
+
+@namespace MonopolyPaperMario.Components.Game.PlayerUI
 
 
 <div class="player-ui w-25 d-flex flex-column align-items-center justify-content-center gap-2">
     <div class="previous-plays container d-flex flex-column align-items-center">
-        <h2 class="text-center">HISTÓRICO DE JOGADAS</h2>
+        <h1 class="text-center">HISTÓRICO DE JOGADAS</h1>
 
         <div class="previous-plays-content overflow-auto w-100 container d-flex flex-column justify-content-start">
-            <span>m1</span>
-            <span>m2</span>
-            <span>m3</span>
-            <span>m4</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
-            <span>m5</span>
+            @foreach (string registro in ControlePartida.Partida.Historico.Registros)
+            {
+                <span class="m-0">> @registro</span>
+            }
         </div>
     </div>
     <div class="player-turn-counter">
-        <h2>VEZ DO JOGADOR @(CurrentPlayer + 1)</h2>
+        <h1>VEZ DO JOGADOR @(CurrentPlayer + 1): @(ControlePartida.Partida.JogadorAtual.Nome)</h1>
     </div>
 
     <div class="player-bar">
-        @for (int i = 0; i < 6; i++)
+        @for (int i = 0; i < ControlePartida.Partida.Jogadores.Count; i++)
         {
-            <div class="player-bar-character @(CurrentPlayer == i ? "bar-current-player" : "")">
-                <img src="@spriteStore.GetSpritePath(i)" />
+            <div class="player-bar-character
+                @(CurrentPlayer == i ? "bar-current-player" : "")
+                @(ControlePartida.Partida.Jogadores[i].Falido ? "falido" : "")">
+                <img src="@SpriteStore.GetSpritePathByPlayerId(i)" />
             </div>
         }
     </div>
 
     <div class="current-player">
-        <img src="@spriteStore.GetSpritePath(CurrentPlayer)"/>
+        <img src="@SpriteStore.GetSpritePathByPlayerId(CurrentPlayer)"/>
         <div class="current-player-offset"></div>
         <div class="current-player-ui container d-flex flex-column justify-content-center">
             <div class="row m-1 mt-3">
-                <h2 class="col-8 p-0">Dinheiro:</h2>
-                <h2 class="col-4 p-0 text-md-end">1500★</h2>
+                <h1 class="col-8 p-0">Dinheiro:</h1>
+                <h1 class="col-4 p-0 text-md-end @(ControlePartida.Partida.JogadorAtual.Dinheiro < 0 ? "text-danger" : "")">@(ControlePartida.Partida.JogadorAtual.Dinheiro)★</h1>
             </div>
-            <div class="row m-1">
+            @* <div class="row m-1">
                 @if (DiceRolled) {
                     <button class="btn btn-primary col-8"
                             @onclick="() => MockPassarAVez()">
@@ -62,35 +55,23 @@
                         Rolar Dados
                     </button>
                 }
-            </div>
+            </div> *@
         </div>
     </div>
 </div>
 
 @code {
-    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
+    private CharacterSpriteStore SpriteStore = CharacterSpriteStore.GetInstance();
     private IconStore iconStore = IconStore.GetInstance();
 
     private Random random = new Random(); // remover depois
 
-    [Parameter] public int CurrentPlayer { get; set; } = 0;
+    public int CurrentPlayer { get => ControlePartida.Partida.JogadorAtualIndex; }
 
-    [Parameter] public bool DiceRolled { get; set; } = false;
-    [Parameter] public int Dice1 { get; set; } = 1;
-    [Parameter] public int Dice2 { get; set; } = 1;
-
-    public void MockPassarAVez()
+    protected override void OnInitialized()
     {
-        CurrentPlayer = (CurrentPlayer + 1) % 6;
-        DiceRolled = false;
-        StateHasChanged();
-    }
-
-    public void MockRolarDados()
-    {
-        Dice1 = random.Next(1, 7);
-        Dice2 = random.Next(1, 7);
-        DiceRolled = true;
-        StateHasChanged();
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
     }
 }

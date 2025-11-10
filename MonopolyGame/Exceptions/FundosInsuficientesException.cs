@@ -1,7 +1,7 @@
 ﻿using System;
-using MonopolyPaperMario.MonopolyGame.Model;
+using MonopolyGame.Model.Partidas;
 
-namespace MonopolyPaperMario.MonopolyGame.Exceptions
+namespace MonopolyGame.Exceptions
 {
     public class FundosInsuficientesException : Exception
     {

@@ -1,0 +1,47 @@
+﻿@namespace MonopolyPaperMario.Components.Game.Boards
+
+<div class="tile rotated-@(((90 * Rotation) % 360 + 360) % 360)">
+    @if (Color != null)
+    {
+        <div class="tile-color" style="background-color:var(--color-@(Color))">
+            @if (HousingLevel is not null && HousingLevel.Value > 0 && HousingLevel.Value < PathByHousingLevel.Length)
+            {
+                <img class="housing-marker" src="@PathByHousingLevel[HousingLevel.Value - 1]" />
+            }
+        </div>
+    }
+
+    <div class="tile-content">
+        @if (!string.IsNullOrEmpty(Title))
+        {
+            <h1 class="tile-title">@Title</h1>
+        }
+
+        @ChildContent
+
+        @if (Cost is not null)
+        {
+            <span class="tile-cost">★@Cost</span>
+        }
+    </div>
+</div>
+
+@code {
+    private static readonly string[] PathByHousingLevel =
+    {
+        "assets/housing-markers/1.png",
+        "assets/housing-markers/2.png",
+        "assets/housing-markers/3.png",
+        "assets/housing-markers/4.png",
+        "assets/housing-markers/5.png",
+    };
+
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public int? Color { get; set; } = -1;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public int? Cost { get; set; }
+    [Parameter] public int? HousingLevel { get; set; }
+    [Parameter] public int Rotation { get; set; } = 0;
+}

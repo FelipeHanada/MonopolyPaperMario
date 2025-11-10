@@ -1,0 +1,15 @@
+﻿h1 {
+    font-size: 32px;
+}
+
+div {
+    font-size: 24px;
+}
+
+span {
+    font-size: 20px;
+}
+
+.company-body {
+    padding: 16px;
+}

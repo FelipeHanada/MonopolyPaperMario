@@ -1,0 +1,354 @@
+﻿@using MonopolyGame.Interface.Controles;
+@using MonopolyGame.Interface.PosseJogador;
+@using MonopolyGame.Model.PossesJogador;
+@using MonopolyGame.Model.Leiloes;
+@using MonopolyPaperMario.Components.Stores;
+@inject NavigationManager NavigationManager
+
+
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_RolarDados) ? "" : "disabled")"
+          @onclick=HandleRolarDados
+          >
+    Rolar Dados
+</button>
+
+<button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_IniciarPropostaTroca) ? "" : "disabled")"
+    @onclick=HandleIniciarPropostaTroca>
+    Criar Proposta de Troca
+</button>
+
+<div class="mb-1">
+    <div class="dropdown">
+        <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+            Criar Leilão
+        </button>
+        <form class="w-100 dropdown-menu p-2">
+            <div class="mb-2">
+                <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                <select class="form-select" @onchange=HandlePosseLeilaoChange>
+                    <option value=null selected disabled>Escolha uma propriedade</option>
+
+                    @foreach (var imovel in ControlePartida.Partida.JogadorAtual.Posses)
+                    {
+                        <option value="@imovel.Nome">@imovel.Nome</option>
+                    }
+                </select>
+            </div>
+
+            <button class="btn btn-primary @(posseLeilao == null ? "disabled" : "")" @onclick=HandleComecarLeilao>Começar Leilão</button>
+        </form>
+    </div>
+</div>
+
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_MelhorarImovel))
+{
+    @* MELHORAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Comprar Casa
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" @onchange=HandleMelhorarImovelChange>
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in imoveisMelhoraveis)
+                        {
+                            <option value="@imovel.Nome">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" @onclick=HandleMelhorarImovel>Comprar Casa</button>
+            </form>
+        </div>
+    </div>
+}
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_DepreciarImovel))
+{
+    @* DEPRECIAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Vender Casa
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" @onchange=HandleDepreciarImovelChange>
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in imoveisDepreciaveis)
+                        {
+                            <option value="@imovel.Nome">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" @onclick=HandleDepreciarImovel>Vender Casa</button>
+            </form>
+        </div>
+    </div>
+}
+@if (ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_HipotecarPropriedade))
+{
+    @* HIPOTECAR PROPRIEDADE *@
+    <div class="mb-1">
+        <div class="dropdown">
+            <button type="button" class="w-100 btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                Hipotecar Propriedade
+            </button>
+            <form class="w-100 dropdown-menu p-2">
+                <div class="mb-2">
+                    <label for="selectPropriedade" class="form-label">Selecione uma Propriedade</label>
+
+                    <select class="form-select" @onchange=HandleHipotecarPropriedadeChange>
+                        <option selected disabled>Escolha uma propriedade</option>
+
+                        @foreach (var imovel in propriedadesHipotecaveis)
+                        {
+                            <option value="@imovel.Nome">@imovel.Nome</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="btn btn-primary" @onclick=HandleHipotecarPropriedade>Hipotecar Propriedade</button>
+            </form>
+        </div>
+    </div>
+}
+
+<button class="btn btn-primary mb-2 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_EncerrarTurno) ? "" : "disabled")"
+    @onclick=HandleEncerrarTurno>
+    Encerrar Turno
+</button>
+
+<ModalPropostaTroca IsVisible="@_showTradeModal" OnClose="@(() => _showTradeModal = false)" />
+
+@if (_showEndTurnConfirmationModal)
+{
+    <div class="modal-backdrop fade show"></div>
+
+    <div class="modal fade show" tabindex="-1" style="display: block;" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Fim de Turno</h5>
+                    <button type="button" class="btn-close" @onclick="CancelEndTurn" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Seu saldo é R$ @ControlePartida.Partida.JogadorAtual.Dinheiro.</p>
+                    <p>Você não tem saldo positivo. Se você encerrar o turno agora, você irá à falência!</p>
+                    <p>Deseja realmente encerrar o turno?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CancelEndTurn">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="ConfirmEndTurn">Encerrar (Ir à Falência)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
+
+    private List<Propriedade> propriedades
+    {
+        get
+        {
+            return [.. ControlePartida.Partida.JogadorAtual.Posses.OfType<Propriedade>()];
+        }
+    }
+
+    private List<Propriedade> propriedadesHipotecaveis
+    {
+        get
+        {
+            return [.. propriedades.Where(propriedade => propriedade.PodeHipotecar())];
+        }
+    }
+
+    private List<Imovel> imoveis
+    {
+        get
+        {
+            return [.. ControlePartida.Partida.JogadorAtual.Posses.OfType<Imovel>()];
+        }
+    }
+
+    private List<Imovel> imoveisMelhoraveis
+    {
+        get
+        {
+            return [.. imoveis.Where(imovel => imovel.PodeAdicionarCasa())];
+        }
+    }
+
+    private List<Imovel> imoveisDepreciaveis
+    {
+        get
+        {
+            return [.. imoveis.Where(imovel => imovel.PodeRemoverCasa())];
+        }
+    }
+
+
+    private bool _showTradeModal = false;
+    private bool _showEndTurnConfirmationModal = false;
+
+    private IPosseJogador? posseLeilao;
+
+    protected override void OnInitialized()
+    {
+        ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
+    private void HandleRolarDados()
+    {
+        ControlePartida.Comum_RolarDados();
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void HandleIniciarPropostaTroca()
+    {
+        _showTradeModal = true;
+    }
+
+    private void HandlePosseLeilaoChange(ChangeEventArgs e)
+    {
+        var posseLeilaoNome = e.Value?.ToString();
+
+        if (string.IsNullOrEmpty(posseLeilaoNome))
+        {
+            posseLeilao = null;
+        }
+        else
+        {
+            posseLeilao = ControlePartida.Partida.JogadorAtual.Posses.First(posse => posse.Nome == posseLeilaoNome);
+        }
+    }
+
+    private void HandleComecarLeilao()
+    {
+        if (posseLeilao == null) return;
+        ControlePartida.Leilao_Iniciar(new Leilao(ControlePartida.Partida.JogadorAtual, posseLeilao));
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    // private void HandleEncerrarTurno()
+    // {
+    //     ControlePartida.Comum_EncerrarTurno();
+    //     ControlePartidaStore.NotifyStateChanged();
+    // }
+
+    private void HandleEncerrarTurno()
+    {
+        if (ControlePartida.Partida.JogadorAtual.Dinheiro < 0)
+        {
+            _showEndTurnConfirmationModal = true;
+        }
+        else
+        {
+            ControlePartida.Comum_EncerrarTurno();
+            ControlePartidaStore.NotifyStateChanged();
+        }
+    }
+
+    private void ConfirmEndTurn()
+    {
+        _showEndTurnConfirmationModal = false;
+        ControlePartida.Comum_EncerrarTurno();
+
+        if (ControlePartida.Partida.Vencedor != null)
+        {
+            NavigationManager.NavigateTo("/win");
+        }
+
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private void CancelEndTurn()
+    {
+        _showEndTurnConfirmationModal = false;
+        StateHasChanged();
+    }
+
+    private Imovel? melhorarImovel;
+
+    private void HandleMelhorarImovelChange(ChangeEventArgs e)
+    {
+        var imovelNome = e.Value?.ToString();
+        if (string.IsNullOrEmpty(imovelNome))
+        {
+            melhorarImovel = null;
+        }
+        else
+        {
+            melhorarImovel = ControlePartida.Partida.JogadorAtual.Posses
+                .OfType<Imovel>()
+                .FirstOrDefault(imovel => imovel.Nome == imovelNome);
+        }
+    }
+
+    private void HandleMelhorarImovel()
+    {
+        if (melhorarImovel == null) return;
+        ControlePartida.Comum_MelhorarImovel(melhorarImovel);
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private Imovel? depreciarImovel;
+
+    private void HandleDepreciarImovelChange(ChangeEventArgs e)
+    {
+        var imovelNome = e.Value?.ToString();
+        if (string.IsNullOrEmpty(imovelNome))
+        {
+            depreciarImovel = null;
+        }
+        else
+        {
+            depreciarImovel = ControlePartida.Partida.JogadorAtual.Posses
+                .OfType<Imovel>()
+                .FirstOrDefault(imovel => imovel.Nome == imovelNome);
+        }
+    }
+
+    private void HandleDepreciarImovel()
+    {
+        if (depreciarImovel == null) return;
+        ControlePartida.Comum_DepreciarImovel(depreciarImovel);
+        ControlePartidaStore.NotifyStateChanged();
+    }
+
+    private Propriedade? hipotecarPropriedade;
+
+    private void HandleHipotecarPropriedadeChange(ChangeEventArgs e)
+    {
+        var propriedadeNome = e.Value?.ToString();
+        if (string.IsNullOrEmpty(propriedadeNome))
+        {
+            hipotecarPropriedade = null;
+        }
+        else
+        {
+            hipotecarPropriedade = ControlePartida.Partida.JogadorAtual.Posses
+                .OfType<Propriedade>()
+                .FirstOrDefault(propriedade => propriedade.Nome == propriedadeNome);
+        }
+    }
+
+    private void HandleHipotecarPropriedade()
+    {
+        if (hipotecarPropriedade == null) return;
+        ControlePartida.Comum_HipotecarPropriedade(hipotecarPropriedade);
+        ControlePartidaStore.NotifyStateChanged();
+    }
+}

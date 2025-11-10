@@ -1,0 +1,48 @@
+﻿@namespace MonopolyPaperMario.Components.Game.PropertyCard
+
+<div class="title-deed-body-title d-flex justify-content-center align-items-center flex-column" style="background-color: var(--color-@(Color))">
+    <h1>@PropertyName</h1>
+    <h2>Título de Propriedade</h2>
+</div>
+
+<div class="title-deed-body d-flex flex-column align-items-center">
+    <span>Aluguel @Rents[0]★</span>
+
+    @for (int i = 1; i < Rents.Length - 1; i++)
+    {
+        <div class="w-100 d-flex justify-content-between">
+            <span>Com @i Casa@(i > 1 ? "s" : "")</span>
+            <span>@Rents[i]★</span>
+        </div>
+    }
+
+    <span>Com Hotel @Rents[^1]★</span>
+
+    <div class="w-100 d-flex justify-content-between">
+        <span>Valor de Hipoteca</span>
+        <span>@MortgageValue★</span>
+    </div>
+
+    <div class="w-100 d-flex justify-content-between">
+        <span>Casa</span>
+        <span>@HouseCost★</span>
+    </div>
+
+    <div class="w-100 d-flex justify-content-between">
+        <span>Hotel</span>
+        <span>4 Casas + @HotelCost★</span>
+    </div>
+</div>
+
+@code {
+    [Parameter] public required string PropertyName { get; set; }
+    
+    [Parameter] public int Color { get; set; } = -1;
+
+    // Rents[0] = aluguel base, Rents[1..4] = casas, Rents[5] = hotel
+    [Parameter] public required int[] Rents { get; set; }
+
+    [Parameter] public required int MortgageValue { get; set; }
+    [Parameter] public int HouseCost { get; set; } = 50;
+    [Parameter] public int HotelCost { get; set; } = 50;
+}
