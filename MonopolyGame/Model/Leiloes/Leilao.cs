@@ -13,6 +13,8 @@ public class Leilao
     public int MaiorLance { get; private set; }
     public Jogador? MaiorLicitante { get; private set; }
 
+    public Jogador? Vencedor { get => (MaiorLicitante ?? Participantes[0]); }
+
     private int indiceJogadorAtual;
     public Jogador? JogadorAtual { get; private set; }
 

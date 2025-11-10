@@ -26,8 +26,8 @@ public class EstadoTurnoLeilao(Jogador jogadorAtual, Leilao leilao) : AbstratoEs
 
         if (Leilao.Finalizado)
         {
-            Leilao.MaiorLicitante?.AdicionarPosse(Leilao.PosseJogador);
-            Leilao.MaiorLicitante?.Debitar(Leilao.MaiorLance);
+            Leilao.Vencedor?.AdicionarPosse(Leilao.PosseJogador);
+            Leilao.Vencedor?.Debitar(Leilao.MaiorLance);
             JogadorAtual.Partida.EstadoTurnoAtual = JogadorAtual.Partida.EstadoComumAtual;
         }
 
