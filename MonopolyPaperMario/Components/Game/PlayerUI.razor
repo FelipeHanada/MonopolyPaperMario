@@ -25,13 +25,13 @@
             <div class="player-bar-character
                 @(CurrentPlayer == i ? "bar-current-player" : "")
                 @(ControlePartida.Partida.Jogadores[i].Falido ? "falido" : "")">
-                <img src="@spriteStore.GetSpritePath(i)" />
+                <img src="@SpriteStore.GetSpritePathByPlayerId(i)" />
             </div>
         }
     </div>
 
     <div class="current-player">
-        <img src="@spriteStore.GetSpritePath(CurrentPlayer)"/>
+        <img src="@SpriteStore.GetSpritePathByPlayerId(CurrentPlayer)"/>
         <div class="current-player-offset"></div>
         <div class="current-player-ui container d-flex flex-column justify-content-center">
             <div class="row m-1 mt-3">
@@ -63,7 +63,7 @@
 @code {
     private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
     private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
-    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
+    private CharacterSpriteStore SpriteStore = CharacterSpriteStore.GetInstance();
     private IconStore iconStore = IconStore.GetInstance();
 
     private Random random = new Random(); // remover depois

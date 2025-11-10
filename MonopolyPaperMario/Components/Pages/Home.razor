@@ -10,7 +10,7 @@
         <div class="d-flex flex-column align-items-center">
             <div class="mb-2">
                 <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(0, false)">◄</button>
-                <img src=@characterSpriteStore.GetSpritePath(characters[0]) style="width: 80px; height: 80px;" />
+                <img src=@CharacterSpriteStore.GetSpritePath(characters[0]) style="width: 80px; height: 80px;" />
                 <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(0, true)">►</button>
             </div>
             <input type="text"
@@ -25,7 +25,7 @@
         <div class="d-flex flex-column align-items-center">
             <div class="mb-2">
                 <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(1, false)">◄</button>
-                <img src=@characterSpriteStore.GetSpritePath(characters[1]) style="width: 80px; height: 80px;" />
+                <img src=@CharacterSpriteStore.GetSpritePath(characters[1]) style="width: 80px; height: 80px;" />
                 <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(1, true)">►</button>
             </div>
             <input type="text"
@@ -44,7 +44,7 @@
             <div class="d-flex flex-column align-items-center">
                 <div class="mb-2">
                     <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(playerIndex, false)">◄</button>
-                    <img src=@characterSpriteStore.GetSpritePath(characters[i]) style="width: 80px; height: 80px;" />
+                    <img src=@CharacterSpriteStore.GetSpritePath(characters[i]) style="width: 80px; height: 80px;" />
                     <button class="h-100 btn btn-primary @(characters.Count == maxCharacters ? "disabled" : "")" @onclick="() => HandleChangeCharacter(playerIndex, true)">►</button>
                 </div>
                 <input type="text"
@@ -79,8 +79,8 @@
 </style>
 
 @code {
-    private CharacterSpriteStore characterSpriteStore = CharacterSpriteStore.GetInstance();
-    private ControlePartidaStore controlePartidaStore = ControlePartidaStore.GetInstance();
+    private CharacterSpriteStore CharacterSpriteStore = CharacterSpriteStore.GetInstance();
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
 
     private List<int> characters = [0, 1];
     private List<string> playerNames = new List<string> { "Jogador 1", "Jogador 2" };
@@ -173,7 +173,11 @@
     private void HandleComecarJogo()
     {
         Partida partida = new(playerNames);
-        controlePartidaStore.IniciarPartida(partida);
+        ControlePartidaStore.IniciarPartida(partida);
+
+        CharacterSpriteStore.CharacterIdByPlayer.Clear();
+        foreach (int c in characters) CharacterSpriteStore.CharacterIdByPlayer.Add((CharacterId)c);
+
         NavigationManager.NavigateTo("/game");
     }
 }
