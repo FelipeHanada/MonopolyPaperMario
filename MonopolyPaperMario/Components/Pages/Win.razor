@@ -1,0 +1,32 @@
+﻿@page "/win"
+@using MonopolyPaperMario.Components.Game.PropertyCard
+@using MonopolyPaperMario.Components.Game.Boards
+@using MonopolyPaperMario.Components.Game.PlayerUI
+@using MonopolyPaperMario.Components.Stores
+@using MonopolyGame.Interface.Controles
+@inject NavigationManager NavigationManager
+
+
+<div class="h-100 d-flex flex-column align-items-center justify-content-center gap-3">
+
+    <h1 style="font-size: 64px">GRANDE VENCEDOR:</h1>
+
+    @* <img src=@CharacterSpriteStore.GetSpritePathByPlayerId(winner) style="width: 256px; height: 256px;" /> *@
+    <img src=@CharacterSpriteStore.GetSpritePath(0) style="width: 256px; height: 256px;" />
+
+    <button class="btn btn-primary" @onclick=NavigateToHome>Voltar ao Início</button>
+</div>
+
+
+@code {
+    private CharacterSpriteStore CharacterSpriteStore = CharacterSpriteStore.GetInstance();
+    private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
+    private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
+
+    // private int winner { get => ControlePartida.Partida.Jogadores.IndexOf(ControlePartida.Partida.Vencedor); }
+
+    private void NavigateToHome()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}

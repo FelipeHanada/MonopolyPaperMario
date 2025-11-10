@@ -25,6 +25,7 @@ public class Partida
     public int CasasDisponiveis { get; private set; } = 32;
     public int HoteisDisponiveis { get; private set; } = 12;
     public Jogador JogadorAtual { get => Jogadores[JogadorAtualIndex]; }
+    public Jogador? Vencedor { get => JogadoresAtivos.Count == 1 ? JogadoresAtivos[0] : null; }
     public int JogadorAtualIndex { get; private set; }
     public IDeck? DeckCofre { get; }
     public IDeck? DeckSorte { get; }

@@ -3,6 +3,7 @@
 @using MonopolyGame.Model.PossesJogador;
 @using MonopolyGame.Model.Leiloes;
 @using MonopolyPaperMario.Components.Stores;
+@inject NavigationManager NavigationManager
 
 
 <button class="btn btn-primary mb-1 @(ControlePartida.ComandoDisponivel(ControlePartidaComando.Comum_RolarDados) ? "" : "disabled")"
@@ -249,13 +250,13 @@
 
     private void HandleEncerrarTurno()
     {
-        if (ControlePartida.Partida.JogadorAtual.Dinheiro < 0)
+        if (ControlePartida.Partida.JogadorAtual.Dinheiro < 0)
         {
-            _showEndTurnConfirmationModal = true;
+            _showEndTurnConfirmationModal = true;
         }
         else
         {
-            ControlePartida.Comum_EncerrarTurno();
+            ControlePartida.Comum_EncerrarTurno();
             ControlePartidaStore.NotifyStateChanged();
         }
     }
@@ -264,6 +265,12 @@
     {
         _showEndTurnConfirmationModal = false;
         ControlePartida.Comum_EncerrarTurno();
+
+        if (ControlePartida.Partida.Vencedor != null)
+        {
+            NavigationManager.NavigateTo("/win");
+        }
+
         ControlePartidaStore.NotifyStateChanged();
     }
 
