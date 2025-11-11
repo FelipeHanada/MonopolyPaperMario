@@ -39,7 +39,7 @@
 @code {
     private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
     private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
-    private CharacterSpriteStore SpriteStore = CharacterSpriteStore.GetInstance();
+    private SpriteStore SpriteStore = SpriteStore.GetInstance();
 
     private int MinLance => ControlePartida.Partida.EstadoTurnoAtual.Leilao.MaiorLance + 10;
 

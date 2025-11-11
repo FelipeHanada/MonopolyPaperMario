@@ -25,5 +25,5 @@
     [Parameter] public int StreetSize { get; set; } = 1;
     [Parameter] public bool[] DisplayCharacters { get; set; } = { false, false, false, false, false, false };
 
-    private CharacterSpriteStore spriteStore = CharacterSpriteStore.GetInstance();
+    private SpriteStore spriteStore = SpriteStore.GetInstance();
 }

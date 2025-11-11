@@ -11,14 +11,14 @@
 
     <h1 style="font-size: 64px">GRANDE VENCEDOR:</h1>
 
-    <img src=@CharacterSpriteStore.GetSpritePathByPlayerId(winner) style="width: 256px; height: 256px;" />
+    <img src=@SpriteStore.GetSpritePathByPlayerId(winner) style="width: 256px; height: 256px;" />
 
     <button class="btn btn-primary" @onclick=NavigateToHome>Voltar ao Início</button>
 </div>
 
 
 @code {
-    private CharacterSpriteStore CharacterSpriteStore = CharacterSpriteStore.GetInstance();
+    private SpriteStore SpriteStore = SpriteStore.GetInstance();
     private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
     private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
 
