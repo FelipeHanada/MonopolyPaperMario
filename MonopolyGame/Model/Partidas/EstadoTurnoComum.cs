@@ -35,7 +35,7 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
 
         int totalDados = dados.Item1 + dados.Item2;
 
-        JogadorAtual.Partida.AdicionarRegistro($"Dado 1 -> {dados.Item1}, Dado 2 -> {dados.Item2}. Valor Total dos dados: {totalDados}");
+        JogadorAtual.Partida.AdicionarRegistro($"Valor Total dos dados: {dados.Item1} + {dados.Item2} = {totalDados}");
 
         if (RolagemIgual && !JogadorAtual.Preso && Rolagem != LimiteRolagems)
         {
