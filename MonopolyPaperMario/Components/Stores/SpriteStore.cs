@@ -30,16 +30,6 @@ internal class SpriteStore()
 {
     private static SpriteStore? instance;
 
-    private readonly string[] PathByCharId =
-    {
-        "assets/characters/mario.png",
-        "assets/characters/kooper.png",
-        "assets/characters/bombette.png",
-        "assets/characters/goombario.png",
-        "assets/characters/lakilester.png",
-        "assets/characters/parakarry.png",
-    };
-
     private readonly Dictionary<Sprites, string> PathBySpriteId = new()
     {
         { Sprites.Ch_Mario, "assets/characters/mario.png" },
@@ -54,6 +44,17 @@ internal class SpriteStore()
         { Sprites.Brd_GoToJail, "assets/board/go_to_jail.png" },
     };
 
+    private readonly Sprites[] SpriteByCharId =
+    {
+        Sprites.Ch_Mario,
+        Sprites.Ch_Kooper,
+        Sprites.Ch_Bombette,
+        Sprites.Ch_Goombario,
+        Sprites.Ch_Lakilester,
+        Sprites.Ch_Parakarry,
+    };
+
+
     public List<CharacterId> CharacterIdByPlayer { get; } = new();
 
     public static SpriteStore GetInstance()
@@ -63,9 +64,14 @@ internal class SpriteStore()
         return instance;
     }
 
+    public string GetSpritePath(Sprites spriteId)
+    {
+        return PathBySpriteId[spriteId];
+    }
+
     public string GetCharacterSpritePath(int id)
     {
-        return PathByCharId[id];
+        return GetSpritePath(SpriteByCharId[id]);
     }
 
     public string GetCharacterSpritePath(CharacterId id)
@@ -76,10 +82,5 @@ internal class SpriteStore()
     public string GetSpritePathByPlayerId(int playerId)
     {
         return GetCharacterSpritePath(CharacterIdByPlayer[playerId]);
-    }
-
-    public string GetSpritePath(Sprites spriteId)
-    {
-        return PathBySpriteId[spriteId];
     }
 }
