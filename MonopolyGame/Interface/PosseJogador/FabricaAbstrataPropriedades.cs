@@ -7,7 +7,7 @@ enum Imoveis
 }
 
 
-interface FabricaAbstrataPropriedades
+interface FabricaAbstrataCartas
 {
     public CartaCofre CriaCarta(CartasCofre cartaId);
     public List<CartaCofre> CriaTodasAsCartas();

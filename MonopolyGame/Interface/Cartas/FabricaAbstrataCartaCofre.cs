@@ -23,7 +23,7 @@ enum CartasCofre
 }
 
 
-interface FabricaAbstrataPropriedade
+interface FabricaAbstrataCartaCofre
 {
     public CartaCofre CriaCarta(CartasCofre cartaId);
     public List<CartaCofre> CriaTodasAsCartas();

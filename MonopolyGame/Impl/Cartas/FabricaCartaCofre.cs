@@ -6,7 +6,7 @@ using MonopolyGame.Model.Partidas;
 namespace MonopolyGame.Impl.Cartas;
 
 
-class FabricaCartaCofre(Partida partida) : FabricaAbstrataPropriedade
+class FabricaCartaCofre(Partida partida) : FabricaAbstrataCartaCofre
 {
     private const int VALOR_DEBITO_ANTIGUYS = 50;
     private const int VALOR_CREDITO_CHUCKQUIZMO = 50;

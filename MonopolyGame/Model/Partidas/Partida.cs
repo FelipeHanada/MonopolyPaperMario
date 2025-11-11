@@ -59,7 +59,7 @@ public class Partida
 
     private (IDeck, IDeck) CriarDecks()
     {
-        FabricaAbstrataPropriedade fabricaCartaCofre = new FabricaCartaCofre(this);
+        FabricaAbstrataCartaCofre fabricaCartaCofre = new FabricaCartaCofre(this);
         FabricaAbstrataCartaSorte fabricaCartaSorte = new FabricaCartaSorte(this);
 
         var cartasCofre = fabricaCartaCofre.CriaTodasAsCartas();
