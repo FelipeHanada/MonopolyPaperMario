@@ -1,5 +1,6 @@
 ﻿@using MonopolyGame.Interface.Controles;
 @using MonopolyPaperMario.Components.Stores
+@inject IJSRuntime JSRuntime
 
 @namespace MonopolyPaperMario.Components.Game.PlayerUI
 
@@ -8,7 +9,7 @@
     <div class="previous-plays container d-flex flex-column align-items-center">
         <h1 class="text-center">HISTÓRICO DE JOGADAS</h1>
 
-        <div class="previous-plays-content overflow-auto w-100 container d-flex flex-column justify-content-start">
+        <div @ref="_historicoElement" class="previous-plays-content overflow-auto w-100 container d-flex flex-column justify-content-start">
             @foreach (string registro in ControlePartida.Partida.Historico.Registros)
             {
                 <span class="m-0">> @registro</span>
@@ -60,7 +61,17 @@
     </div>
 </div>
 
+<script>
+    function scrollToBottom(element) {
+      if (element) {
+        element.scrollTop = element.scrollHeight;
+      }
+    }
+</script>
+
 @code {
+    private ElementReference _historicoElement;
+
     private ControlePartidaStore ControlePartidaStore = ControlePartidaStore.GetInstance();
     private IControlePartida ControlePartida { get => ControlePartidaStore.ControlePartida; }
     private CharacterSpriteStore SpriteStore = CharacterSpriteStore.GetInstance();
@@ -73,5 +84,23 @@
     protected override void OnInitialized()
     {
         ControlePartidaStore.OnStateChanged += StateHasChanged;
+    }
+
+    private int _previousRegistrosCount = 0;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        int currentRegistrosCount = ControlePartida.Partida.Historico.Registros.Count;
+
+        if (currentRegistrosCount > _previousRegistrosCount)
+        {
+            await JSRuntime.InvokeVoidAsync("scrollToBottom", _historicoElement);
+            
+            _previousRegistrosCount = currentRegistrosCount;
+        }
+        else if (currentRegistrosCount < _previousRegistrosCount)
+        {
+            _previousRegistrosCount = currentRegistrosCount;
+        }
     }
 }
