@@ -4,7 +4,7 @@
     @if (Color != null)
     {
         <div class="tile-color" style="background-color:var(--color-@(Color))">
-            @if (HousingLevel is not null && HousingLevel.Value > 0 && HousingLevel.Value < PathByHousingLevel.Length)
+            @if (HousingLevel is not null && HousingLevel.Value > 0 && HousingLevel.Value <= PathByHousingLevel.Length)
             {
                 <img class="housing-marker" src="@PathByHousingLevel[HousingLevel.Value - 1]" />
             }

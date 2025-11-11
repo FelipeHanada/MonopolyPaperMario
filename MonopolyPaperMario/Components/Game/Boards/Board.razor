@@ -134,7 +134,7 @@
 
     protected override void OnInitialized()
     {
-        ControlePartidaStore.OnStateChanged += StateHasChanged;
+        controlePartidaStore.OnStateChanged += StateHasChanged;
     }
 
     private bool[] GetCharactersOnTile(int tileIndex)
@@ -204,7 +204,7 @@
         {
             if (pisoCompravel.Propriedade is Imovel imovel)
             {
-                return new() { Title = imovel.Nome, Color = (int)imovel.Cor, Cost = imovel.Preco, HousingLevel = 0, CardType = CardType.TitleDeed, Imovel = imovel, MousePointer = true };
+                return new() { Title = imovel.Nome, Color = (int)imovel.Cor, Cost = imovel.Preco, HousingLevel = imovel.NivelConstrucao, CardType = CardType.TitleDeed, Imovel = imovel, MousePointer = true };
             }
             if (pisoCompravel.Propriedade is Companhia companhia)
             {
