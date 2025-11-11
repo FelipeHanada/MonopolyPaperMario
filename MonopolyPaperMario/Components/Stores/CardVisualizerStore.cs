@@ -25,6 +25,11 @@ public class CardVisualizerStore
     public Companhia? Companhia { get; private set; }
     public LinhaTrem? LinhaTrem { get; private set; }
 
+    private CardVisualizerStore()
+    {
+        ControlePartidaStore.GetInstance().OnStateChanged += NotifyStateChanged;
+    }
+
     public void SetImovel(Imovel imovel)
     {
         this.Imovel = imovel;

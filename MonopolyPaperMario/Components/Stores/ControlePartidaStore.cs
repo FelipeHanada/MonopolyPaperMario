@@ -8,10 +8,9 @@ namespace MonopolyPaperMario.Components.Stores;
 
 internal class ControlePartidaStore
 {
-    public static event Action? OnStateChanged;
-
     private static ControlePartidaStore? instance;
     private ControlePartida? controlePartida;
+    public event Action? OnStateChanged;
 
     public static ControlePartidaStore GetInstance()
     {
@@ -36,7 +35,7 @@ internal class ControlePartidaStore
         }
     }
 
-    public static void NotifyStateChanged()
+    public void NotifyStateChanged()
     {
         OnStateChanged?.Invoke();
     }
