@@ -24,7 +24,7 @@ public class Leilao
     {
         PosseJogador = posseJogador;
 
-        Participantes = [.. jogadorAtual.Partida.Jogadores];
+        Participantes = [.. jogadorAtual.Partida.JogadoresAtivos];
 
         MaiorLance = 0;
         MaiorLicitante = null;
