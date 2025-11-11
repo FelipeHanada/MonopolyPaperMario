@@ -19,6 +19,7 @@ public class EfeitoPagarReceber(int valor) : IEfeitoJogador
             // Crédito: Não se aplica desconto.
             jogador.Creditar(valor);
             Log.WriteLine($"{jogador.Nome} recebeu ${valor}.");
+            jogador.Partida.AdicionarRegistro($"{jogador.Nome} recebeu ${valor}.");
         }
         else if (valor < 0)
         {
@@ -36,6 +37,7 @@ public class EfeitoPagarReceber(int valor) : IEfeitoJogador
                 jogador.Debitar(valorFinal);
                 // Informa o valor final pago, que já inclui o desconto
                 Log.WriteLine($"{jogador.Nome} pagou ${valorFinal} (Despesa Base: ${valorDespesaBase}).");
+                jogador.Partida.AdicionarRegistro($"{jogador.Nome} pagou ${valorFinal} (Despesa Base: ${valorDespesaBase}).");
             }
             catch (FundosInsuficientesException ex)
             {

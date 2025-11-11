@@ -18,15 +18,16 @@ public class EfeitoIrParaCadeia : IEfeitoJogador
         //    if (resposta == "s")
         //    {
         //        jogador.CartasPasseLivre--; // Diminui o contador
-                
+
         //        // IMPORTANTE: Adicione aqui a lógica para DEVOLVER a carta
         //        // ao monte 'Sorte' ou 'Reves', se o seu jogo usa essa regra.
-                
+
         //        return; // Encerra a execução: o jogador não vai para a cadeia
         //    }
         //}
 
         Log.WriteLine("O jogador " + jogador.Nome + " foi preso!");
+        jogador.Partida.AdicionarRegistro("O jogador " + jogador.Nome + " foi preso!");
 
         jogador.SetPreso(true);
 

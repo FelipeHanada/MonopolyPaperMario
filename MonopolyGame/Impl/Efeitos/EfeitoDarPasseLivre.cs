@@ -12,6 +12,9 @@ class EfeitoDarPasseLivre(int quantidade) : IEfeitoJogador
     public void Aplicar(Jogador jogador)
     {
         Log.WriteLine("O jogador " + jogador.Nome + " ganhou um passe livre!");
+
+        jogador.Partida.AdicionarRegistro("O jogador " + jogador.Nome + " ganhou um passe livre!");
+        
         jogador.CartasPasseLivre++;
     }
 }

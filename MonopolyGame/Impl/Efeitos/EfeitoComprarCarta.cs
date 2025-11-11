@@ -25,6 +25,10 @@ public class EfeitoComprarCarta(IDeck deck) : IEfeitoJogador
 
         Log.WriteLine("O jogador " + jogador.Nome + " comprou uma carta!");
         Log.WriteLine("Carta sacada: " + carta.GetDescricao());
+
+        jogador.Partida.AdicionarRegistro("O jogador " + jogador.Nome + " comprou uma carta!");
+        jogador.Partida.AdicionarRegistro("Carta sacada: " + carta.GetDescricao());
+
         carta.QuandoPegada(jogador);
     }
 }

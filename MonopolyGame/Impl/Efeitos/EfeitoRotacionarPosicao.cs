@@ -11,6 +11,7 @@ public class EfeitoRotacionarPosicao : IEfeitoJogador
     {
         // O jogador 'jogador' é o que pegou a carta, mas o efeito é GLOBAL.
         Log.WriteLine($"Efeito Sentinel Ativado! Jogador {jogador.Nome} iniciou a rotação de todas as posições.");
+        jogador.Partida.AdicionarRegistro($"Efeito Sentinel Ativado! Jogador {jogador.Nome} iniciou a rotação de todas as posições.");
         
         jogador.Partida.Tabuleiro.RotacionarPosicoesJogadores();
     }

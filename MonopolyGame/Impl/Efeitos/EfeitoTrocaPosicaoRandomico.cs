@@ -22,6 +22,7 @@ public class EfeitoTrocaPosicaoRandomico : IEfeitoJogador
         Random rand = new Random();
         Jogador jogadorAlvo = alvosValidos[rand.Next(alvosValidos.Count)];
         Log.WriteLine($"Efeito: {jogador.Nome} (você) encontrou um cano! Trocando de posição com {jogadorAlvo.Nome}.");
+        jogador.Partida.AdicionarRegistro($"Efeito: {jogador.Nome} (você) encontrou um cano! Trocando de posição com {jogadorAlvo.Nome}.");
 
         jogador.Partida.Tabuleiro.TrocarPosicao(jogador, jogadorAlvo);
     }

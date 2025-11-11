@@ -32,8 +32,15 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
 
         dados = (dado.Next(1, 7), dado.Next(1, 7));
         DadosRolados.Add(dados);
-        
+
         int totalDados = dados.Item1 + dados.Item2;
+
+        JogadorAtual.Partida.AdicionarRegistro($"Dado 1 -> {dados.Item1}, Dado 2 -> {dados.Item2}. Valor Total dos dados: {totalDados}");
+
+        if (RolagemIgual && !JogadorAtual.Preso && Rolagem != LimiteRolagems)
+        {
+            JogadorAtual.Partida.AdicionarRegistro($"Dados iguais, Jogue de novo!");
+        }
 
         if (JogadorAtual.Preso)
         {
@@ -56,8 +63,6 @@ public class EstadoTurnoComum(Jogador jogadorAtual) : AbstratoEstadoTurno
         }
         JogadorAtual.Partida.Tabuleiro.MoveJogador(JogadorAtual, totalDados);
         posicaoFinal = JogadorAtual.Partida.Tabuleiro.GetPosicao(JogadorAtual);
-
-        JogadorAtual.Partida.AdicionarRegistro($"Valor Total dos dados: {totalDados}");
         
         return true;
     }

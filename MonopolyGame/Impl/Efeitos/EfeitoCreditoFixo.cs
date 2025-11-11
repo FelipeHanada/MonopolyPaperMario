@@ -17,6 +17,9 @@ public class EfeitoCreditoFixo(int valor) : IEfeitoJogador
         // O jogador recebe o valor.
         // O Creditar() já deve lidar com a atualização do saldo.
         Log.WriteLine("O jogador " + jogador.Nome + " ganhou " + valor + " moedas!");
+
+        jogador.Partida.AdicionarRegistro("O jogador " + jogador.Nome + " ganhou " + valor + " moedas!");
+
         jogador.Creditar(valor);
     }
 }
