@@ -86,7 +86,7 @@ public class Partida
             new PisoCompravel("Goomba Village", new Imovel("Goomba Village", 60, 30, PropriedadeCor.Marrom, [2, 10, 30, 90, 160, 250], 50, 25)),
             new PisoComprarCartaCofre("Baú Comunitário", DeckCofre),
             new PisoCompravel("Koopa Village", new Imovel("Koopa Village", 60, 30, PropriedadeCor.Marrom, [4, 20, 60, 180, 320, 450], 50, 25)),
-            new PisoTaxaRiquesa("Taxa de Riquesa", 200),
+            new PisoTaxaRiquesa("Taxa de Riqueza", 200),
             new PisoCompravel("Toad Town Station", new LinhaTrem("Toad Town Station")),
             new PisoCompravel("Mt Rugged", new Imovel("Mt Rugged", 100, 50, PropriedadeCor.Ciano, [6, 30, 90, 270, 400, 550], 50, 25)),
             new PisoComprarCartaSorte("Sorte ou Revés", DeckSorte),
@@ -123,7 +123,7 @@ public class Partida
             new PisoCompravel("Star Crusier Station", new LinhaTrem("Star Crusier Station")),
             new PisoComprarCartaSorte("Sorte ou Revés", DeckSorte),
             new PisoCompravel("Star Heaven", new Imovel("Star Heaven", 350, 175, PropriedadeCor.Azul, [35, 175, 500, 1100, 1300, 1500], 200, 100)),
-            new PisoTaxaRiquesa("Taxa de Riquesa", 100),
+            new PisoTaxaRiquesa("Taxa de Riqueza", 100),
             new PisoCompravel("Bowser's Castle", new Imovel("Bowser's Castle", 400, 200, PropriedadeCor.Azul, [50, 200, 600, 1400, 1700, 2000], 200, 100)),
         ];
 
