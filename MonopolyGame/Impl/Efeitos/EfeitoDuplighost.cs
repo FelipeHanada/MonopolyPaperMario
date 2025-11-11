@@ -11,6 +11,7 @@ public class EfeitoDuplighost : IEfeitoJogador
     {
         Log.WriteLine("\n------------------------------------------------");
         Log.WriteLine($"!!! {jogador.Nome} sacou DUPLIGHOST !!!");
+        jogador.Partida.AdicionarRegistro($"!!! {jogador.Nome} sacou DUPLIGHOST !!!");
 
         // 1. Seleciona o 'Duplighost' (o jogador que pagará a próxima conta)
 
@@ -20,6 +21,7 @@ public class EfeitoDuplighost : IEfeitoJogador
         if (jogadoresAtivos.Count == 0)
         {
             Log.WriteLine("Não há outros jogadores ativos para o Duplighost se transformar. Efeito cancelado.");
+            jogador.Partida.AdicionarRegistro("Não há outros jogadores ativos para o Duplighost se transformar. Efeito cancelado.");
             return;
         }
 
@@ -29,6 +31,7 @@ public class EfeitoDuplighost : IEfeitoJogador
         Jogador duplighostAlvo = jogadoresAtivos[indexDuplighost];
 
         Log.WriteLine($"Duplighost transformou-se em {duplighostAlvo.Nome}! Ele pagará a sua próxima despesa de propriedade/aluguel.");
+        jogador.Partida.AdicionarRegistro($"Duplighost transformou-se em {duplighostAlvo.Nome}! Ele pagará a sua próxima despesa de propriedade/aluguel.");
 
         // 2. Cria o Efeito Agendado de Reversão
         IEfeitoJogador efeitoReversor = new EfeitoDuplighostReversor(duplighostAlvo);

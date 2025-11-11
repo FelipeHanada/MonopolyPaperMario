@@ -15,6 +15,7 @@ public class EfeitoSairDaCadeia : IEfeitoJogador
         {
             jogador.SetPreso(false);
             Log.WriteLine($"{jogador.Nome} está livre da prisão!");
+            jogador.Partida.AdicionarRegistro($"{jogador.Nome} está livre da prisão!");
         }
     }
 }

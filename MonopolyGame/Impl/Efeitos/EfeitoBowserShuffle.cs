@@ -35,6 +35,11 @@ public class EfeitoBowserShuffle : IEfeitoJogador
         Log.WriteLine($"Média de dinheiro por jogador: ${mediaPorJogador}");
         Log.WriteLine("==============================================\n");
 
+        jogador.Partida.AdicionarRegistro($"!!! BOWSER SHUFFLE ATIVADO por {jogador.Nome} !!!");
+        jogador.Partida.AdicionarRegistro($"Dinheiro total na partida: ${dinheiroTotal}");
+        jogador.Partida.AdicionarRegistro($"Média de dinheiro por jogador: ${mediaPorJogador}");
+
+
         // 4. Redistribuir o dinheiro para a média
         foreach (Jogador j in jogadoresAtivos)
         {

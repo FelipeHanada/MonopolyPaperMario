@@ -12,6 +12,7 @@ class EfeitoReverterDesconto : IEfeitoJogador
     {
         if (jogador == null) return;
         Log.WriteLine($"O efeito de desconto acabou. Descontos de {jogador.Nome} resetados.");
+        jogador.Partida.AdicionarRegistro($"O efeito de desconto acabou. Descontos de {jogador.Nome} resetados.");
         
         // REVERSÃO: Define o desconto de volta para 0%
         jogador.Desconto = 0; 

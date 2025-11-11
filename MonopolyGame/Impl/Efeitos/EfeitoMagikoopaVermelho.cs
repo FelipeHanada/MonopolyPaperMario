@@ -13,6 +13,7 @@ public class EfeitoMagikoopaVermelho : IEfeitoJogador
     public void Aplicar(Jogador jogador)
     {
         Log.WriteLine($"--- Efeito Magikoopa Vermelho ativado para {jogador.Nome} ---");
+        jogador.Partida.AdicionarRegistro($"--- Efeito Magikoopa Vermelho ativado para {jogador.Nome} ---");
         if (jogador.Multiplicador == 0)
         {
             jogador.Multiplicador = 2;

@@ -11,6 +11,7 @@ internal class EfeitoReverterDirecaoJogador : IEfeitoJogador
     {
         Log.WriteLine("Revertendo direção do jogador");
         jogador.Reverso = !jogador.Reverso;
+        jogador.Partida.AdicionarRegistro($"Invertendo direção de {jogador.Nome}");
         Log.WriteLine(jogador.Reverso);
     }
 }
