@@ -95,7 +95,7 @@ public class Partida
 
             new PisoCadeia("Cadeia"),
             new PisoCompravel("Boo's Mansion", new Imovel("Boo's Mansion", 140, 70, PropriedadeCor.Rosa, [10, 50, 150, 450, 625, 750], 100, 50)),
-            new PisoCompravel("Big Lantern Ghost", new Companhia("Big Lantern Ghost")),
+            new PisoCompravel("Big Lantern Ghost' Co.", new Companhia("Big Lantern Ghost' Co.")),
             new PisoCompravel("Gusty Gulch", new Imovel("Gusty Gulch", 140, 70, PropriedadeCor.Rosa, [10, 50, 150, 450, 625, 750], 100, 50)),
             new PisoCompravel("Tubba Blubba's Castle", new Imovel("Tubba Blubba's Castle", 160, 80, PropriedadeCor.Rosa, [12, 60, 180, 500, 700, 900], 100, 50)),
             new PisoCompravel("Mt.Rugged Station", new LinhaTrem("Mt.Rugged Station")),
@@ -112,7 +112,7 @@ public class Partida
             new PisoCompravel("Toy Box Station", new LinhaTrem("Toy Box Station")),
             new PisoCompravel("Flower Fields", new Imovel("Flower Fields", 260, 130, PropriedadeCor.Amarelo, [22, 110, 330, 800, 975, 1150], 150, 75)),
             new PisoCompravel("Sun Tower", new Imovel("Sun Tower", 260, 130, PropriedadeCor.Amarelo, [22, 110, 330, 800, 975, 1150], 150, 75)),
-            new PisoCompravel("Paper Mario Whale", new Companhia("Paper Mario Whale")),
+            new PisoCompravel("Dorrie's Whales Co.", new Companhia("Dorrie's Whales Co.")),
             new PisoCompravel("Cloudy Climb", new Imovel("Cloudy Climb", 280, 140, PropriedadeCor.Amarelo, [24, 120, 360, 850, 1025, 1200], 150, 75)),
 
             new Piso("Vá para a cadeia", new EfeitoIrParaCadeia()),
